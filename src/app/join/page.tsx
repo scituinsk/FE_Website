@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, Code2, Lightbulb, Target, CheckCircle, ArrowRight, Calendar, Clock, MapPin, Mail, Phone, User } from "lucide-react";
+import { Users, Code2, Lightbulb, Target, CheckCircle, ArrowRight, Calendar, Mail, Phone } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -227,7 +227,7 @@ const JoinPage = () => {
                 </CardHeader>
                 <CardContent className="space-y-6">
                   <div>
-                    <h4 className="font-semibold text-slate-900 mb-3">What you'll learn:</h4>
+                    <h4 className="font-semibold text-slate-900 mb-3">What you&apos;ll learn:</h4>
                     <ul className="space-y-2">
                       {track.features.map((feature, featureIndex) => (
                         <li

@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram, Twitter, Github, Mail, Phone, MapPin, ExternalLink } from "lucide-react";
+import { Facebook, Instagram, Twitter, Github, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   return (

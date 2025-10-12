@@ -179,7 +179,7 @@ const ContactPage = () => {
               <Card className="p-8">
                 <CardHeader className="px-0 pt-0">
                   <CardTitle className="text-2xl mb-2">Send us a Message</CardTitle>
-                  <CardDescription>Fill out the form below and we'll get back to you as soon as possible.</CardDescription>
+                  <CardDescription>Fill out the form below and we&apos;ll get back to you as soon as possible.</CardDescription>
                 </CardHeader>
                 <CardContent className="px-0 pb-0">
                   <form className="space-y-6">

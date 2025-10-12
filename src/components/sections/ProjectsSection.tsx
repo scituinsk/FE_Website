@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink, Github, Globe, Users, Calendar, Star } from "lucide-react";
+import { ArrowRight, ExternalLink, Github, Users, Calendar, Star } from "lucide-react";
 
 const ProjectsSection = () => {
   const featuredProjects = [

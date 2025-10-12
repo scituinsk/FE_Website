@@ -161,18 +161,6 @@ const ProjectsPage = () => {
     "Religious App",
   ];
 
-  const [selectedCategory, setSelectedCategory] = React.useState("All Projects");
-  const [searchTerm, setSearchTerm] = React.useState("");
-
-  const filteredProjects = allProjects.filter((project) => {
-    const matchesCategory = selectedCategory === "All Projects" || project.category === selectedCategory;
-    const matchesSearch =
-      project.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.tech.some((tech) => tech.toLowerCase().includes(searchTerm.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
-
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -220,8 +208,6 @@ const ProjectsPage = () => {
                   type="text"
                   placeholder="Search projects, technologies..."
                   className="w-full pl-10 pr-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
             </div>
@@ -233,15 +219,7 @@ const ProjectsPage = () => {
             </div>
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedCategory === category ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-                  }`}
-                >
-                  {category}
-                </button>
+                <button key={category}>{category}</button>
               ))}
             </div>
           </div>
@@ -252,7 +230,7 @@ const ProjectsPage = () => {
       <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            {filteredProjects.length === 0 ? (
+            {allProjects.length === 0 ? (
               <div className="text-center py-16">
                 <div className="text-6xl mb-4">🔍</div>
                 <h3 className="text-2xl font-bold text-slate-900 mb-2">No projects found</h3>
@@ -260,7 +238,7 @@ const ProjectsPage = () => {
               </div>
             ) : (
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {filteredProjects.map((project, index) => (
+                {allProjects.map((project, index) => (
                   <Card
                     key={index}
                     className="group hover:shadow-xl transition-all duration-300 overflow-hidden"
@@ -369,7 +347,7 @@ const ProjectsPage = () => {
                       {/* Testimonial */}
                       {project.testimonial && (
                         <div className="border-t pt-4">
-                          <blockquote className="text-sm italic text-slate-600">"{project.testimonial}"</blockquote>
+                          <blockquote className="text-sm italic text-slate-600">&quot;{project.testimonial}&quot;</blockquote>
                         </div>
                       )}
                     </CardContent>
