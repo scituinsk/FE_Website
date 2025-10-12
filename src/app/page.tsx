@@ -1,13 +1,19 @@
-import { trpc } from "@/trpc/server";
-import { HydrateClient } from "@/trpc/server";
-import { ClientGreeting } from "./client-greeting";
-export default async function Home() {
-  void trpc.hello.prefetch({
-    text: "from the server",
-  });
+import HeroSection from "@/components/sections/HeroSection";
+import FeaturesSection from "@/components/sections/FeaturesSection";
+import ProjectsSection from "@/components/sections/ProjectsSection";
+import AboutSection from "@/components/sections/AboutSection";
+import BlogSection from "@/components/sections/BlogSection";
+import CTASection from "@/components/sections/CTASection";
+
+export default function HomePage() {
   return (
-    <HydrateClient>
-      <ClientGreeting />
-    </HydrateClient>
+    <main className="min-h-screen">
+      <HeroSection />
+      <AboutSection />
+      <FeaturesSection />
+      <ProjectsSection />
+      <BlogSection />
+      <CTASection />
+    </main>
   );
 }
