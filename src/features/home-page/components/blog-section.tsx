@@ -1,10 +1,20 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, ArrowRight, Tag, TrendingUp } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const BlogSection = () => {
+  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
+  const { ref: featuredRef, controls: featuredControls } = useScrollAnimation();
+  const { ref: postsRef, controls: postsControls } = useScrollAnimation();
+  const { ref: sidebarRef, controls: sidebarControls } = useScrollAnimation();
+  const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
+
   const featuredPosts = [
     {
       title: "Mengenal Artificial Intelligence dalam Perspektif Islam",
@@ -81,15 +91,27 @@ export const BlogSection = () => {
     <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerControls}
+          variants={fadeInUp}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Latest from Our Blog</h2>
           <p className="text-lg text-slate-600 leading-relaxed">
             Artikel terbaru seputar teknologi, tutorial, dan insights dari komunitas SCIT UIN Suka untuk berbagi pengetahuan dengan sesama developer
           </p>
-        </div>
+        </motion.div>
 
         {/* Featured post */}
-        <div className="mb-12">
+        <motion.div
+          ref={featuredRef}
+          initial="hidden"
+          animate={featuredControls}
+          variants={fadeInUp}
+          className="mb-12"
+        >
           <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 lg:flex lg:h-96">
             <div className="lg:w-1/2 h-64 lg:h-full bg-gradient-to-br from-blue-100 to-blue-200 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
@@ -131,60 +153,77 @@ export const BlogSection = () => {
               </div>
             </div>
           </Card>
-        </div>
+        </motion.div>
 
         {/* Recent posts grid */}
         <div className="grid lg:grid-cols-3 gap-8 mb-12">
-          <div className="lg:col-span-2">
+          <motion.div
+            ref={postsRef}
+            initial="hidden"
+            animate={postsControls}
+            variants={fadeInLeft}
+            className="lg:col-span-2"
+          >
             <h3 className="text-2xl font-bold text-slate-900 mb-6">Recent Posts</h3>
-            <div className="grid md:grid-cols-2 gap-6">
+            <motion.div
+              variants={staggerContainer}
+              className="grid md:grid-cols-2 gap-6"
+            >
               {featuredPosts.slice(1, 5).map((post, index) => (
-                <Card
+                <motion.div
                   key={index}
-                  className="group hover:shadow-lg transition-all duration-300"
+                  variants={staggerItem}
                 >
-                  <div className="h-48 bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-500/20 to-slate-700/30" />
-                    <div className="absolute bottom-4 left-4">
-                      <span className="px-2 py-1 bg-white text-slate-700 text-xs font-medium rounded-lg">{post.category}</span>
-                    </div>
-                  </div>
-                  <CardHeader>
-                    <div className="flex items-center gap-4 text-xs text-slate-500 mb-2">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(post.date).toLocaleDateString("id-ID")}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {post.readTime}
+                  <Card className="group hover:shadow-lg transition-all duration-300">
+                    <div className="h-48 bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-500/20 to-slate-700/30" />
+                      <div className="absolute bottom-4 left-4">
+                        <span className="px-2 py-1 bg-white text-slate-700 text-xs font-medium rounded-lg">{post.category}</span>
                       </div>
                     </div>
-                    <CardTitle className="text-lg group-hover:text-blue-600 transition-colors line-clamp-2">{post.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="line-clamp-3 mb-4">{post.excerpt}</CardDescription>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <User className="h-3 w-3 text-slate-500" />
-                        <span className="text-xs text-slate-600">{post.author}</span>
+                    <CardHeader>
+                      <div className="flex items-center gap-4 text-xs text-slate-500 mb-2">
+                        <div className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(post.date).toLocaleDateString("id-ID")}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {post.readTime}
+                        </div>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        asChild
-                      >
-                        <Link href={`/blog/${post.title.toLowerCase().replace(/\s+/g, "-")}`}>Read More</Link>
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                      <CardTitle className="text-lg group-hover:text-blue-600 transition-colors line-clamp-2">{post.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="line-clamp-3 mb-4">{post.excerpt}</CardDescription>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <User className="h-3 w-3 text-slate-500" />
+                          <span className="text-xs text-slate-600">{post.author}</span>
+                        </div>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          asChild
+                        >
+                          <Link href={`/blog/${post.title.toLowerCase().replace(/\s+/g, "-")}`}>Read More</Link>
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Sidebar */}
-          <div className="space-y-8">
+          <motion.div
+            ref={sidebarRef}
+            initial="hidden"
+            animate={sidebarControls}
+            variants={fadeInRight}
+            className="space-y-8"
+          >
             {/* Categories */}
             <Card>
               <CardHeader>
@@ -241,11 +280,17 @@ export const BlogSection = () => {
                 ))}
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
 
         {/* CTA section */}
-        <div className="text-center bg-white rounded-3xl p-8 md:p-12">
+        <motion.div
+          ref={ctaRef}
+          initial="hidden"
+          animate={ctaControls}
+          variants={fadeInUp}
+          className="text-center bg-white rounded-3xl p-8 md:p-12"
+        >
           <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Want to Share Your Knowledge?</h3>
           <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
             Bergabunglah sebagai kontributor blog SCIT dan bagikan pengalaman, tutorial, atau insights teknologi Anda kepada komunitas
@@ -268,7 +313,7 @@ export const BlogSection = () => {
               <Link href="/contribute">Become a Contributor</Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

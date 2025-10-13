@@ -1,8 +1,16 @@
+"use client";
+
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code2, Smartphone, Palette, Database, Shield, Globe, Brain, Cpu } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const FeaturesSection = () => {
+  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
+  const { ref: featuresRef, controls: featuresControls } = useScrollAnimation();
+  const { ref: skillsRef, controls: skillsControls } = useScrollAnimation();
+
   const features = [
     {
       icon: Code2,
@@ -58,38 +66,58 @@ export const FeaturesSection = () => {
     <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerControls}
+          variants={fadeInUp}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Expertise Areas</h2>
           <p className="text-lg text-slate-600 leading-relaxed">
             SCIT UIN Suka mengembangkan berbagai bidang teknologi informasi untuk mempersiapkan mahasiswa menghadapi tantangan industri 4.0 dan era
             digital
           </p>
-        </div>
+        </motion.div>
 
         {/* Features grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <motion.div
+          ref={featuresRef}
+          initial="hidden"
+          animate={featuresControls}
+          variants={staggerContainer}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {features.map((feature, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white"
+              variants={staggerItem}
             >
-              <CardHeader className="pb-4">
-                <div
-                  className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
-                >
-                  <feature.icon className="h-7 w-7 text-white" />
-                </div>
-                <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-slate-600 leading-relaxed">{feature.description}</CardDescription>
-              </CardContent>
-            </Card>
+              <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white">
+                <CardHeader className="pb-4">
+                  <div
+                    className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <feature.icon className="h-7 w-7 text-white" />
+                  </div>
+                  <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{feature.title}</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-slate-600 leading-relaxed">{feature.description}</CardDescription>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Skills development section */}
-        <div className="mt-20">
+        <motion.div
+          ref={skillsRef}
+          initial="hidden"
+          animate={skillsControls}
+          variants={fadeInUp}
+          className="mt-20"
+        >
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
             <div className="text-center mb-12">
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Skill Development Program</h3>
@@ -98,39 +126,51 @@ export const FeaturesSection = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              variants={staggerContainer}
+              className="grid md:grid-cols-3 gap-8"
+            >
               {/* Beginner Track */}
-              <div className="text-center p-6 rounded-2xl bg-blue-50 group hover:bg-blue-100 transition-colors">
+              <motion.div
+                variants={staggerItem}
+                className="text-center p-6 rounded-2xl bg-blue-50 group hover:bg-blue-100 transition-colors"
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-white font-bold text-xl">B</span>
                 </div>
                 <h4 className="text-xl font-semibold text-slate-900 mb-3">Beginner Track</h4>
                 <p className="text-slate-600 mb-4">Fundamental programming, basic web development, dan introduction to tech stack</p>
                 <div className="text-sm text-blue-600 font-medium">3-6 Months Program</div>
-              </div>
+              </motion.div>
 
               {/* Intermediate Track */}
-              <div className="text-center p-6 rounded-2xl bg-green-50 group hover:bg-green-100 transition-colors">
+              <motion.div
+                variants={staggerItem}
+                className="text-center p-6 rounded-2xl bg-green-50 group hover:bg-green-100 transition-colors"
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-white font-bold text-xl">I</span>
                 </div>
                 <h4 className="text-xl font-semibold text-slate-900 mb-3">Intermediate Track</h4>
                 <p className="text-slate-600 mb-4">Advanced development, project management, dan specialization in chosen field</p>
                 <div className="text-sm text-green-600 font-medium">6-12 Months Program</div>
-              </div>
+              </motion.div>
 
               {/* Expert Track */}
-              <div className="text-center p-6 rounded-2xl bg-purple-50 group hover:bg-purple-100 transition-colors">
+              <motion.div
+                variants={staggerItem}
+                className="text-center p-6 rounded-2xl bg-purple-50 group hover:bg-purple-100 transition-colors"
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
                   <span className="text-white font-bold text-xl">E</span>
                 </div>
                 <h4 className="text-xl font-semibold text-slate-900 mb-3">Expert Track</h4>
                 <p className="text-slate-600 mb-4">Leadership development, mentoring others, dan contribution to open source projects</p>
                 <div className="text-sm text-purple-600 font-medium">12+ Months Program</div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

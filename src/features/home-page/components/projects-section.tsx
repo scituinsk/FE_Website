@@ -1,10 +1,19 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink, Github, Users, Calendar, Star } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const ProjectsSection = () => {
+  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
+  const { ref: projectsRef, controls: projectsControls } = useScrollAnimation();
+  const { ref: categoriesRef, controls: categoriesControls } = useScrollAnimation();
+  const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
+
   const featuredProjects = [
     {
       title: "Smart Campus System",
@@ -79,126 +88,156 @@ export const ProjectsSection = () => {
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
         {/* Section header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerControls}
+          variants={fadeInUp}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Featured Projects</h2>
           <p className="text-lg text-slate-600 leading-relaxed">
             Showcase proyek-proyek unggulan yang telah dikembangkan oleh tim SCIT UIN Suka sebagai bentuk kontribusi nyata dalam dunia teknologi
           </p>
-        </div>
+        </motion.div>
 
         {/* Featured projects */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+        <motion.div
+          ref={projectsRef}
+          initial="hidden"
+          animate={projectsControls}
+          variants={staggerContainer}
+          className="grid lg:grid-cols-3 gap-8 mb-16"
+        >
           {featuredProjects.map((project, index) => (
-            <Card
+            <motion.div
               key={index}
-              className="group hover:shadow-xl transition-all duration-300 overflow-hidden"
+              variants={staggerItem}
             >
-              {/* Project image placeholder */}
-              <div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
-                <div className="absolute bottom-4 left-4">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      project.status === "Production"
-                        ? "bg-green-100 text-green-700"
-                        : project.status === "Beta Testing"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-blue-100 text-blue-700"
-                    }`}
-                  >
-                    {project.status}
-                  </span>
-                </div>
-              </div>
-
-              <CardHeader>
-                <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">{project.title}</CardTitle>
-                <CardDescription className="leading-relaxed">{project.description}</CardDescription>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                {/* Tech stack */}
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech, techIndex) => (
+              <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+                {/* Project image placeholder */}
+                <div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
+                  <div className="absolute bottom-4 left-4">
                     <span
-                      key={techIndex}
-                      className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-lg"
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        project.status === "Production"
+                          ? "bg-green-100 text-green-700"
+                          : project.status === "Beta Testing"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
                     >
-                      {tech}
+                      {project.status}
                     </span>
-                  ))}
-                </div>
-
-                {/* Project stats */}
-                <div className="grid grid-cols-2 gap-4 text-sm text-slate-600">
-                  <div className="flex items-center gap-2">
-                    <Users className="h-4 w-4" />
-                    {project.teamSize} members
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    {project.duration}
                   </div>
                 </div>
 
-                {/* Action buttons */}
-                <div className="flex gap-2 pt-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex-1"
-                    asChild
-                  >
-                    <Link
-                      href={project.github}
-                      target="_blank"
+                <CardHeader>
+                  <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">{project.title}</CardTitle>
+                  <CardDescription className="leading-relaxed">{project.description}</CardDescription>
+                </CardHeader>
+
+                <CardContent className="space-y-4">
+                  {/* Tech stack */}
+                  <div className="flex flex-wrap gap-2">
+                    {project.tech.map((tech, techIndex) => (
+                      <span
+                        key={techIndex}
+                        className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-lg"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Project stats */}
+                  <div className="grid grid-cols-2 gap-4 text-sm text-slate-600">
+                    <div className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      {project.teamSize} members
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      {project.duration}
+                    </div>
+                  </div>
+
+                  {/* Action buttons */}
+                  <div className="flex gap-2 pt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="flex-1"
+                      asChild
                     >
-                      <Github className="h-4 w-4 mr-2" />
-                      Code
-                    </Link>
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="flex-1"
-                    asChild
-                  >
-                    <Link
-                      href={project.demo}
-                      target="_blank"
+                      <Link
+                        href={project.github}
+                        target="_blank"
+                      >
+                        <Github className="h-4 w-4 mr-2" />
+                        Code
+                      </Link>
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="flex-1"
+                      asChild
                     >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Demo
-                    </Link>
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                      <Link
+                        href={project.demo}
+                        target="_blank"
+                      >
+                        <ExternalLink className="h-4 w-4 mr-2" />
+                        Demo
+                      </Link>
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* Project categories */}
-        <div className="bg-slate-50 rounded-3xl p-8 md:p-12 mb-12">
+        <motion.div
+          ref={categoriesRef}
+          initial="hidden"
+          animate={categoriesControls}
+          variants={fadeInUp}
+          className="bg-slate-50 rounded-3xl p-8 md:p-12 mb-12"
+        >
           <div className="text-center mb-12">
             <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Project Categories</h3>
             <p className="text-slate-600">Berbagai kategori proyek yang telah dikembangkan oleh SCIT</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            variants={staggerContainer}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {projectCategories.map((category, index) => (
-              <div
+              <motion.div
                 key={index}
+                variants={staggerItem}
                 className="bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group"
               >
                 <div className="text-3xl font-bold text-blue-600 mb-2 group-hover:scale-110 transition-transform">{category.count}</div>
                 <div className="text-lg font-semibold text-slate-900 mb-2">{category.category}</div>
                 <div className="text-sm text-slate-600">{category.description}</div>
-              </div>
+              </motion.div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* CTA section */}
-        <div className="text-center">
+        <motion.div
+          ref={ctaRef}
+          initial="hidden"
+          animate={ctaControls}
+          variants={fadeInUp}
+          className="text-center"
+        >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
             <Star className="h-4 w-4" />
             Explore More Projects
@@ -225,7 +264,7 @@ export const ProjectsSection = () => {
               <Link href="/join">Join Our Team</Link>
             </Button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

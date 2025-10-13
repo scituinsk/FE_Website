@@ -1,9 +1,16 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Sparkles, Zap, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
+import { useScrollAnimation, fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const CTASection = () => {
+  const { ref: leftRef, controls: leftControls } = useScrollAnimation();
+  const { ref: rightRef, controls: rightControls } = useScrollAnimation();
+
   const benefits = [
     "Access to latest technology training and workshops",
     "Networking with industry professionals and alumni",
@@ -28,7 +35,13 @@ export const CTASection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left content */}
-          <div className="text-white">
+          <motion.div
+            ref={leftRef}
+            initial="hidden"
+            animate={leftControls}
+            variants={fadeInLeft}
+            className="text-white"
+          >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 text-white text-sm font-medium mb-6">
               <Sparkles className="h-4 w-4" />
               Join SCIT Community
@@ -45,33 +58,49 @@ export const CTASection = () => {
             </p>
 
             {/* Benefits list */}
-            <div className="space-y-3 mb-8">
+            <motion.div
+              variants={staggerContainer}
+              className="space-y-3 mb-8"
+            >
               {benefits.map((benefit, index) => (
-                <div
+                <motion.div
                   key={index}
+                  variants={staggerItem}
                   className="flex items-start gap-3"
                 >
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                   <span className="text-blue-100">{benefit}</span>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mb-8">
-              <div className="text-center">
+            <motion.div
+              variants={staggerContainer}
+              className="grid grid-cols-3 gap-6 mb-8"
+            >
+              <motion.div
+                variants={staggerItem}
+                className="text-center"
+              >
                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">150+</div>
                 <div className="text-blue-200 text-sm">Active Members</div>
-              </div>
-              <div className="text-center">
+              </motion.div>
+              <motion.div
+                variants={staggerItem}
+                className="text-center"
+              >
                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">50+</div>
                 <div className="text-blue-200 text-sm">Projects</div>
-              </div>
-              <div className="text-center">
+              </motion.div>
+              <motion.div
+                variants={staggerItem}
+                className="text-center"
+              >
                 <div className="text-2xl md:text-3xl font-bold text-white mb-1">95%</div>
                 <div className="text-blue-200 text-sm">Job Placement</div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -88,18 +117,23 @@ export const CTASection = () => {
               </Button>
 
               <Button
-                variant="outline"
+                variant="secondary"
                 size="lg"
-                className="border-white/30 text-white hover:bg-white/10 hover:border-white/50"
                 asChild
               >
                 <Link href="/contact">Learn More</Link>
               </Button>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right content - Interactive card */}
-          <div className="lg:flex lg:justify-end">
+          <motion.div
+            ref={rightRef}
+            initial="hidden"
+            animate={rightControls}
+            variants={fadeInRight}
+            className="lg:flex lg:justify-end"
+          >
             <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 max-w-md w-full border border-white/20">
               <div className="text-center mb-6">
                 <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
@@ -109,8 +143,14 @@ export const CTASection = () => {
                 <p className="text-blue-100">Simple steps to become part of SCIT community</p>
               </div>
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
+              <motion.div
+                variants={staggerContainer}
+                className="space-y-4"
+              >
+                <motion.div
+                  variants={staggerItem}
+                  className="flex items-start gap-4"
+                >
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-sm">1</span>
                   </div>
@@ -118,9 +158,12 @@ export const CTASection = () => {
                     <h4 className="font-semibold text-white mb-1">Register Online</h4>
                     <p className="text-blue-100 text-sm">Fill out our simple registration form</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start gap-4">
+                <motion.div
+                  variants={staggerItem}
+                  className="flex items-start gap-4"
+                >
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-sm">2</span>
                   </div>
@@ -128,9 +171,12 @@ export const CTASection = () => {
                     <h4 className="font-semibold text-white mb-1">Attend Orientation</h4>
                     <p className="text-blue-100 text-sm">Join our welcome session and meet the team</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start gap-4">
+                <motion.div
+                  variants={staggerItem}
+                  className="flex items-start gap-4"
+                >
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
                     <span className="text-white font-bold text-sm">3</span>
                   </div>
@@ -138,9 +184,12 @@ export const CTASection = () => {
                     <h4 className="font-semibold text-white mb-1">Choose Your Track</h4>
                     <p className="text-blue-100 text-sm">Select specialization based on your interest</p>
                   </div>
-                </div>
+                </motion.div>
 
-                <div className="flex items-start gap-4">
+                <motion.div
+                  variants={staggerItem}
+                  className="flex items-start gap-4"
+                >
                   <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
@@ -148,8 +197,8 @@ export const CTASection = () => {
                     <h4 className="font-semibold text-white mb-1">Start Learning!</h4>
                     <p className="text-blue-100 text-sm">Begin your tech journey with us</p>
                   </div>
-                </div>
-              </div>
+                </motion.div>
+              </motion.div>
 
               <div className="mt-6 pt-6 border-t border-white/20">
                 <Button
@@ -164,7 +213,7 @@ export const CTASection = () => {
                 </Button>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

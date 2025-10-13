@@ -44,6 +44,7 @@
 
 body {
   font-family: Rubik, system-ui, sans-serif;
+  min-width: 320px;
 }
 
 /* Custom scrollbar */

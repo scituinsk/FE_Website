@@ -7,6 +7,7 @@ import Header from "@/features/common/header";
 import Footer from "@/features/common/footer";
 
 import "./globals.css";
+import { ScrollToTopButton } from "@/components/scroll-on-top";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <ScrollToTopButton />
         </TRPCProvider>
       </body>
     </html>
