@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Code2, Lightbulb, Target, BookOpen, Award, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useScrollAnimation, fadeInUp, fadeInLeft, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const AboutSection = () => {
   const { ref: headerRef, controls: headerControls } = useScrollAnimation();

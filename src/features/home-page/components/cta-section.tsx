@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Sparkles, Zap, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useScrollAnimation, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const CTASection = () => {
   const { ref: leftRef, controls: leftControls } = useScrollAnimation();
