@@ -39,7 +39,7 @@ export const ScrollToTopButton = () => {
       {isVisible && (
         <motion.button
           // Styling dengan Tailwind CSS
-          className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg transition-colors hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
+          className="cursor-pointer fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-slate-900 text-white shadow-lg transition-colors hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
           onClick={scrollToTop}
           // Animasi Framer Motion
           initial={{ opacity: 0, scale: 0.8 }}

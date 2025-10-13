@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 import { ApplicationLogo } from "@/components/logo";
 
-const Header = () => {
+export const LandingPageHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   return (
@@ -197,5 +197,3 @@ const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWit
   );
 });
 ListItem.displayName = "ListItem";
-
-export default Header;
