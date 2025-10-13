@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Code2, Lightbulb, Target } from "lucide-react";
 
-const HeroSection = () => {
+export const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background gradient */}
@@ -25,7 +25,7 @@ const HeroSection = () => {
           <div className="space-y-6 mb-8">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
               <Users className="h-4 w-4" />
-              Student Community of Information Technology
+              Study Club Informatika UIN Sunan Kalijaga
             </div>
 
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-900 leading-tight">
@@ -68,7 +68,7 @@ const HeroSection = () => {
                 <Users className="h-8 w-8 text-blue-600" />
               </div>
               <div className="text-3xl font-bold text-slate-900 mb-2">150+</div>
-              <div className="text-slate-600">Active Members</div>
+              <div className="text-slate-600">Member Aktif</div>
             </div>
 
             <div className="text-center">
@@ -76,7 +76,7 @@ const HeroSection = () => {
                 <Code2 className="h-8 w-8 text-blue-600" />
               </div>
               <div className="text-3xl font-bold text-slate-900 mb-2">50+</div>
-              <div className="text-slate-600">Projects Done</div>
+              <div className="text-slate-600">Proyek</div>
             </div>
 
             <div className="text-center">
@@ -84,15 +84,15 @@ const HeroSection = () => {
                 <Lightbulb className="h-8 w-8 text-blue-600" />
               </div>
               <div className="text-3xl font-bold text-slate-900 mb-2">25+</div>
-              <div className="text-slate-600">Innovations</div>
+              <div className="text-slate-600">Inovasi</div>
             </div>
 
             <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-blue-100 rounded-2xl mx-auto mb-4">
                 <Target className="h-8 w-8 text-blue-600" />
               </div>
-              <div className="text-3xl font-bold text-slate-900 mb-2">10+</div>
-              <div className="text-slate-600">Events/Year</div>
+              <div className="text-3xl font-bold text-slate-900 mb-2">3</div>
+              <div className="text-slate-600">Divisi</div>
             </div>
           </div>
         </div>
@@ -105,5 +105,3 @@ const HeroSection = () => {
     </section>
   );
 };
-
-export default HeroSection;

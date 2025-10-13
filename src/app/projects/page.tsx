@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, Users, Calendar, Star, Filter, Search } from "lucide-react";
 
 export const metadata = {
-  title: "Our Projects - SCIT UIN Suka",
+  title: "Our Projects",
   description: "Explore the innovative projects and solutions developed by SCIT UIN Sunan Kalijaga members.",
 };
 

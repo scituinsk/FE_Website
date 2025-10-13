@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ExternalLink, Github, Users, Calendar, Star } from "lucide-react";
 
-const ProjectsSection = () => {
+export const ProjectsSection = () => {
   const featuredProjects = [
     {
       title: "Smart Campus System",
@@ -230,5 +230,3 @@ const ProjectsSection = () => {
     </section>
   );
 };
-
-export default ProjectsSection;

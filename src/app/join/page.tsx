@@ -5,7 +5,7 @@ import { Users, Code2, Lightbulb, Target, CheckCircle, ArrowRight, Calendar, Mai
 import Link from "next/link";
 
 export const metadata = {
-  title: "Join SCIT - SCIT UIN Suka",
+  title: "Join SCIT",
   description: "Join the Student Community of Information Technology at UIN Sunan Kalijaga and be part of the tech innovation movement.",
 };
 

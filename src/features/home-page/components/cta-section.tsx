@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Users, Sparkles, Zap, CheckCircle } from "lucide-react";
 
-const CTASection = () => {
+export const CTASection = () => {
   const benefits = [
     "Access to latest technology training and workshops",
     "Networking with industry professionals and alumni",
@@ -170,5 +170,3 @@ const CTASection = () => {
     </section>
   );
 };
-
-export default CTASection;

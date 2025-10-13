@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Code2, Smartphone, Palette, Database, Shield, Globe, Brain, Cpu } from "lucide-react";
 
-const FeaturesSection = () => {
+export const FeaturesSection = () => {
   const features = [
     {
       icon: Code2,
@@ -135,5 +135,3 @@ const FeaturesSection = () => {
     </section>
   );
 };
-
-export default FeaturesSection;

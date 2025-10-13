@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Instagram, Twitter, Github, Mail, Phone, MapPin } from "lucide-react";
 
+import { ApplicationLogo } from "@/components/logo";
+
 const Footer = () => {
   return (
     <footer className="bg-slate-50 border-t border-slate-200">
@@ -12,15 +14,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About SCIT */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-blue-700 text-white font-bold text-lg">
-                S
-              </div>
-              <div>
-                <span className="text-xl font-bold text-slate-900">SCIT</span>
-                <span className="ml-1 text-sm text-blue-600">UIN Suka</span>
-              </div>
-            </div>
+            <ApplicationLogo responsive={false} />
             <p className="text-sm text-slate-600 leading-relaxed">
               Student Community of Information Technology - Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta yang berfokus pada
               pengembangan skill dan inovasi teknologi.
@@ -231,10 +225,8 @@ const Footer = () => {
               </Link>
             </div>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-slate-600">
-            <span>Built with</span>
-            <span className="text-red-500">♥</span>
-            <span>by SCIT Team</span>
+          <div className="text-sm text-slate-600">
+            <span>Dipelihara oleh Divisi RPL SCIT</span>
           </div>
         </div>
       </div>

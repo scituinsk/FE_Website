@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Users, Code2, Lightbulb, Target, BookOpen, Award, ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-const AboutSection = () => {
+export const AboutSection = () => {
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -149,5 +149,3 @@ const AboutSection = () => {
     </section>
   );
 };
-
-export default AboutSection;

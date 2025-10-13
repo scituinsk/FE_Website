@@ -5,7 +5,7 @@ import { Mail, Phone, MapPin, Clock, MessageCircle, Send, Instagram, Twitter, Gi
 import Link from "next/link";
 
 export const metadata = {
-  title: "Contact Us - SCIT UIN Suka",
+  title: "Contact Us",
   description: "Get in touch with SCIT UIN Sunan Kalijaga for partnerships, collaborations, or any inquiries about our community.",
 };
 

@@ -1,19 +1,11 @@
-import HeroSection from "@/components/sections/HeroSection";
-import FeaturesSection from "@/components/sections/FeaturesSection";
-import ProjectsSection from "@/components/sections/ProjectsSection";
-import AboutSection from "@/components/sections/AboutSection";
-import BlogSection from "@/components/sections/BlogSection";
-import CTASection from "@/components/sections/CTASection";
+import { HomePage } from "@/features/home-page/pages/home-page";
+import { Metadata } from "next";
 
-export default function HomePage() {
-  return (
-    <main className="min-h-screen">
-      <HeroSection />
-      <AboutSection />
-      <FeaturesSection />
-      <ProjectsSection />
-      <BlogSection />
-      <CTASection />
-    </main>
-  );
+export const metadata: Metadata = {
+  title: "SCIT UIN Sunan Kalijaga",
+  description: "Welcome to SCIT UIN Sunan Kalijaga, the Student Community of Information Technology at UIN Sunan Kalijaga Yogyakarta.",
+};
+
+export default function Page() {
+  return <HomePage />;
 }

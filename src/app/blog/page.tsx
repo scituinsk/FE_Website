@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, ArrowRight, Tag, TrendingUp, Search, Eye } from "lucide-react";
 
 export const metadata = {
-  title: "Blog - SCIT UIN Suka",
+  title: "Blog",
   description: "Latest articles, tutorials, and insights from SCIT UIN Sunan Kalijaga community about technology, programming, and innovation.",
 };
 

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, User, ArrowRight, Tag, TrendingUp } from "lucide-react";
 
-const BlogSection = () => {
+export const BlogSection = () => {
   const featuredPosts = [
     {
       title: "Mengenal Artificial Intelligence dalam Perspektif Islam",
@@ -273,5 +273,3 @@ const BlogSection = () => {
     </section>
   );
 };
-
-export default BlogSection;

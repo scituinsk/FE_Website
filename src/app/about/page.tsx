@@ -5,7 +5,7 @@ import { Users, Target, Eye, Heart, Award, Calendar, MapPin, Mail, User } from "
 import Link from "next/link";
 
 export const metadata = {
-  title: "About Us - SCIT UIN Suka",
+  title: "About Us",
   description: "Learn more about SCIT UIN Sunan Kalijaga, our mission, vision, and the team behind the community.",
 };
 
