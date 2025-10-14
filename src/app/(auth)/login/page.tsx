@@ -2,22 +2,38 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ApplicationLogo } from "@/components/logo";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, Shield } from "lucide-react";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle login logic here
     console.log("Login attempt:", { email, password });
+    await authClient.signIn.email(
+      {
+        email,
+        password,
+      },
+      {
+        onError(context) {
+          toast.error(context.error.message);
+        },
+        onSuccess() {
+          toast.success("Login successful!");
+        },
+      }
+    );
   };
 
   return (
