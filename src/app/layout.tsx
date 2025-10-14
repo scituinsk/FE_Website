@@ -5,6 +5,7 @@ import NextTopLoader from "nextjs-toploader";
 import { TRPCProvider } from "@/trpc/client";
 
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -47,6 +48,7 @@ export default function RootLayout({
           height={4}
         />
         <TRPCProvider>
+          <Toaster />
           <main>{children}</main>
         </TRPCProvider>
       </body>

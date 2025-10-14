@@ -6,6 +6,4 @@ export const metadata: Metadata = {
   description: "Welcome to SCIT UIN Sunan Kalijaga, the Student Community of Information Technology at UIN Sunan Kalijaga Yogyakarta.",
 };
 
-export default function Page() {
-  return <HomePage />;
-}
+export default HomePage;
