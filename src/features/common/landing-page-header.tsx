@@ -1,8 +1,12 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Menu, X } from "lucide-react";
+import { forwardRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+
+import { cn } from "@/lib/utils";
+
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,12 +16,11 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
 
 export const LandingPageHeader = () => {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-white/80 backdrop-blur-md">
@@ -116,10 +119,23 @@ export const LandingPageHeader = () => {
         <Button
           variant="ghost"
           size="icon"
-          className="lg:hidden"
+          className="lg:hidden [&_svg]:size-7 cursor-pointer transition-all duration-200"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
-          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          <AnimatePresence
+            mode="wait"
+            initial={false}
+          >
+            <motion.div
+              key={isMenuOpen ? "x" : "menu"}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </motion.div>
+          </AnimatePresence>
         </Button>
       </div>
 
@@ -177,7 +193,7 @@ export const LandingPageHeader = () => {
   );
 };
 
-const ListItem = React.forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
+const ListItem = forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
   return (
     <li>
       <NavigationMenuLink asChild>

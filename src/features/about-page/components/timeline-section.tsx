@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 import { Card } from "@/components/ui/card";
 
 const milestones = [
@@ -29,23 +33,39 @@ const milestones = [
 ];
 
 export const TimelineSection = () => {
+  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
+  const { ref: timelineRef, controls: timelineControls } = useScrollAnimation();
+
   return (
     <section className="py-24 bg-slate-50">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          ref={headerRef}
+          initial="hidden"
+          animate={headerControls}
+          variants={fadeInUp}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Journey</h2>
           <p className="text-lg text-slate-600">Perjalanan SCIT UIN Suka dari awal terbentuk hingga menjadi komunitas teknologi terdepan di kampus</p>
-        </div>
+        </motion.div>
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
             {/* Timeline line */}
             <div className="absolute left-8 md:left-1/2 transform md:-translate-x-0.5 w-0.5 h-full bg-blue-200"></div>
 
-            <div className="space-y-12">
+            <motion.div
+              ref={timelineRef}
+              initial="hidden"
+              animate={timelineControls}
+              variants={staggerContainer}
+              className="space-y-12"
+            >
               {milestones.map((milestone, index) => (
-                <div
+                <motion.div
                   key={index}
+                  variants={staggerItem}
                   className={`relative flex items-center ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
                 >
                   {/* Timeline dot */}
@@ -61,9 +81,9 @@ export const TimelineSection = () => {
                       <p className="text-slate-600">{milestone.description}</p>
                     </Card>
                   </div>
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

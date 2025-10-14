@@ -27,10 +27,10 @@ export const useScrollAnimation = (threshold = 0.1) => {
   };
 };
 
-const smoothTransition = {
-  duration: 0.8,
-  ease: "linear", // Linear easing untuk menghindari percepatan
-} as const;
+// const smoothTransition = {
+//   duration: 0.8,
+//   ease: "linear", // Linear easing untuk menghindari percepatan
+// } as const;
 
 export const fadeInUp: Variants = {
   hidden: {

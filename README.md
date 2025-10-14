@@ -1,36 +1,149 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 SCIT Blog — Next.js Website
 
-## Getting Started
+Website blog modern yang dibuat menggunakan **Next.js 14 (App Router)**, menampilkan artikel teknologi, kategori, dan fitur animasi interaktif dengan **Framer Motion**.  
+Didesain dengan gaya bersih, responsif, dan mudah dikembangkan.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+| Teknologi                                       | Deskripsi                                                |
+| ----------------------------------------------- | -------------------------------------------------------- |
+| [Next.js 14](https://nextjs.org/)               | Framework React modern untuk SSR dan SSG                 |
+| [React](https://react.dev/)                     | Library UI berbasis komponen                             |
+| [Tailwind CSS](https://tailwindcss.com/)        | Utility-first CSS untuk styling responsif                |
+| [shadcn/ui](https://ui.shadcn.com/)             | Komponen UI siap pakai berbasis Radix                    |
+| [Framer Motion](https://www.framer.com/motion/) | Animasi halus dan interaktif                             |
+| [Lucide React](https://lucide.dev/)             | Ikon open-source modern                                  |
+| [TypeScript](https://www.typescriptlang.org/)   | Menambah tipe pada JavaScript untuk kode yang lebih aman |
+
+<!-- ---
+
+## 📁 Struktur Folder
+
+```bash
+src/
+├── app/
+│   ├── layout.tsx            # Root layout
+│   ├── page.tsx              # Halaman utama
+│   └── blog/
+│       ├── page.tsx          # Halaman daftar blog
+│       └── [slug]/page.tsx   # Halaman detail artikel
+│
+├── components/
+│   ├── ui/                   # Komponen dari shadcn/ui
+│   ├── hero-section.tsx      # Hero banner
+│   ├── blog/
+│   │   ├── featured-post-section.tsx
+│   │   ├── latest-articles.tsx
+│   │   ├── blog-sidebar.tsx
+│   │   └── contribute-cta.tsx
+│
+├── constants/
+│   └── blogs.ts              # Data dummy artikel, kategori, tag
+│
+├── lib/
+│   └── hooks/
+│       └── use-scroll-animation.ts  # Custom hook Framer Motion
+│
+└── styles/
+    └── globals.css           # Global Tailwind CSS
+```
+
+--- -->
+
+## 🧩 Fitur Utama
+
+- ✨ **Hero Section** — tampilan pembuka dengan judul dan tagline
+- 📰 **Featured Article** — artikel unggulan dengan animasi saat scroll
+- 🗞️ **Latest Articles** — daftar artikel terbaru dengan pagination
+- 🧭 **Sidebar Dinamis** — kategori, tag populer, dan postingan terpopuler
+- 💌 **Newsletter Signup** — form berlangganan dengan desain menarik
+- ⚡ **Framer Motion** — animasi masuk yang halus saat komponen tampil
+- 🌙 **UI Reusable** — memanfaatkan komponen dari shadcn/ui
+- 📱 **Responsive Design** — tampil optimal di semua perangkat
+
+---
+
+## 🧠 Instalasi
+
+### 1️⃣ Clone repository
+
+```bash
+git clone https://github.com/username/nama-proyek.git
+cd nama-proyek
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+# atau
+pnpm install
+# atau
+yarn install
+```
+
+### 3️⃣ Jalankan development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Lalu buka [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧰 Script NPM
 
-## Learn More
+| Perintah        | Deskripsi                                      |
+| --------------- | ---------------------------------------------- |
+| `npm run dev`   | Jalankan server development                    |
+| `npm run build` | Build proyek untuk production                  |
+| `npm run start` | Jalankan hasil build                           |
+| `npm run lint`  | Jalankan ESLint untuk memastikan kualitas kode |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧮 Custom Hooks
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### `useScrollAnimation`
 
-## Deploy on Vercel
+Hook ini mengontrol animasi Framer Motion ketika elemen muncul di viewport.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```ts
+const { ref, controls } = useScrollAnimation();
+<motion.div
+  ref={ref}
+  animate={controls}
+  variants={fadeInUp}
+>
+  ...
+</motion.div>;
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+<!-- ## 🧑‍💻 Kontributor
+
+| Nama                | Peran              |
+| ------------------- | ------------------ |
+| Ahmad Zidni Hidayat | Frontend Developer |
+| SCIT Developer Team | UI/UX & Content    |
+
+--- -->
+
+<!-- ## 📄 Lisensi
+
+Proyek ini dilisensikan di bawah **MIT License** — silakan digunakan dan dimodifikasi dengan bebas.
+
+--- -->
+
+### 🌟 Preview
+
+![Preview](public/preview.png)
+
+---
+
+> Dibuat dengan ❤️ menggunakan Next.js & Tailwind CSS
+> © 2025 SCIT Developer Blog

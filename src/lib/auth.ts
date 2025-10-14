@@ -8,6 +8,7 @@ export const auth = betterAuth({
     provider: "postgresql",
   }),
   plugins: [nextCookies()],
+  trustedOrigins: ["http://localhost:3000", "https://demo-web-scit.ahmadzidni.my.id"],
   emailAndPassword: {
     enabled: true,
   },
