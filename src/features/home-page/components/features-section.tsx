@@ -1,8 +1,9 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Code2, Smartphone, Palette, Database, Shield, Globe, Brain, Cpu } from "lucide-react";
 import { motion } from "framer-motion";
+import { Code2, Smartphone, Palette, Database, Shield, Globe, Brain, Cpu } from "lucide-react";
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
 export const FeaturesSection = () => {
@@ -62,7 +63,7 @@ export const FeaturesSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <motion.div
@@ -72,7 +73,7 @@ export const FeaturesSection = () => {
           variants={fadeInUp}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Expertise Areas</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Expertise Areas</h2>
           <p className="text-lg text-slate-600 leading-relaxed">
             SCIT UIN Suka mengembangkan berbagai bidang teknologi informasi untuk mempersiapkan mahasiswa menghadapi tantangan industri 4.0 dan era
             digital
@@ -92,17 +93,17 @@ export const FeaturesSection = () => {
               key={index}
               variants={staggerItem}
             >
-              <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 bg-white">
+              <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 bg-surface">
                 <CardHeader className="pb-4">
                   <div
                     className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
                   >
-                    <feature.icon className="h-7 w-7 text-white" />
+                    <feature.icon className="h-7 w-7 text-surface" />
                   </div>
-                  <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{feature.title}</CardTitle>
+                  <CardTitle className="text-lg group-hover:text-primary transition-colors">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-slate-600 leading-relaxed">{feature.description}</CardDescription>
+                  <CardDescription className="text-muted-foreground leading-relaxed">{feature.description}</CardDescription>
                 </CardContent>
               </Card>
             </motion.div>
@@ -117,10 +118,10 @@ export const FeaturesSection = () => {
           variants={fadeInUp}
           className="mt-20"
         >
-          <div className="bg-white rounded-3xl p-8 md:p-12 shadow-sm">
+          <div className="bg-surface rounded-3xl p-8 md:p-12 shadow-sm">
             <div className="text-center mb-12">
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Skill Development Program</h3>
-              <p className="text-slate-600 max-w-2xl mx-auto">
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Skill Development Program</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
                 Program pengembangan kompetensi yang terstruktur untuk meningkatkan kemampuan teknis dan soft skills anggota SCIT
               </p>
             </div>
@@ -132,39 +133,39 @@ export const FeaturesSection = () => {
               {/* Beginner Track */}
               <motion.div
                 variants={staggerItem}
-                className="text-center p-6 rounded-2xl bg-blue-50 group hover:bg-blue-100 transition-colors"
+                className="text-center p-6 rounded-2xl bg-primary/5 group hover:bg-primary/10 transition-colors"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-white font-bold text-xl">B</span>
+                <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <span className="text-surface font-bold text-xl">B</span>
                 </div>
-                <h4 className="text-xl font-semibold text-slate-900 mb-3">Beginner Track</h4>
-                <p className="text-slate-600 mb-4">Fundamental programming, basic web development, dan introduction to tech stack</p>
-                <div className="text-sm text-blue-600 font-medium">3-6 Months Program</div>
+                <h4 className="text-xl font-semibold text-foreground mb-3">Beginner Track</h4>
+                <p className="text-muted-foreground mb-4">Fundamental programming, basic web development, dan introduction to tech stack</p>
+                <div className="text-sm text-primary font-medium">3-6 Months Program</div>
               </motion.div>
 
               {/* Intermediate Track */}
               <motion.div
                 variants={staggerItem}
-                className="text-center p-6 rounded-2xl bg-green-50 group hover:bg-green-100 transition-colors"
+                className="text-center p-6 rounded-2xl bg-green-50 group hover:bg-green-100 transition-colors dark:bg-green-900/10 dark:hover:bg-green-900/20"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-white font-bold text-xl">I</span>
+                  <span className="text-surface font-bold text-xl">I</span>
                 </div>
-                <h4 className="text-xl font-semibold text-slate-900 mb-3">Intermediate Track</h4>
-                <p className="text-slate-600 mb-4">Advanced development, project management, dan specialization in chosen field</p>
+                <h4 className="text-xl font-semibold text-foreground mb-3">Intermediate Track</h4>
+                <p className="text-muted-foreground mb-4">Advanced development, project management, dan specialization in chosen field</p>
                 <div className="text-sm text-green-600 font-medium">6-12 Months Program</div>
               </motion.div>
 
               {/* Expert Track */}
               <motion.div
                 variants={staggerItem}
-                className="text-center p-6 rounded-2xl bg-purple-50 group hover:bg-purple-100 transition-colors"
+                className="text-center p-6 rounded-2xl bg-purple-50 group hover:bg-purple-100 transition-colors dark:bg-purple-900/10 dark:hover:bg-purple-900/20"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <span className="text-white font-bold text-xl">E</span>
+                  <span className="text-surface font-bold text-xl">E</span>
                 </div>
-                <h4 className="text-xl font-semibold text-slate-900 mb-3">Expert Track</h4>
-                <p className="text-slate-600 mb-4">Leadership development, mentoring others, dan contribution to open source projects</p>
+                <h4 className="text-xl font-semibold text-foreground mb-3">Expert Track</h4>
+                <p className="text-muted-foreground mb-4">Leadership development, mentoring others, dan contribution to open source projects</p>
                 <div className="text-sm text-purple-600 font-medium">12+ Months Program</div>
               </motion.div>
             </motion.div>

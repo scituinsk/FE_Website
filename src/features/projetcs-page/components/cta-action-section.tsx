@@ -12,7 +12,7 @@ export const CTAActionSection = () => {
   const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ctaRef}
@@ -23,20 +23,20 @@ export const CTAActionSection = () => {
         >
           <motion.div
             variants={staggerItem}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
           >
             <Star className="h-4 w-4" />
             Join Our Development Team
           </motion.div>
           <motion.h2
             variants={staggerItem}
-            className="text-3xl md:text-4xl font-bold text-slate-900 mb-6"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-6"
           >
             Have an Innovative Project Idea?
           </motion.h2>
           <motion.p
             variants={staggerItem}
-            className="text-lg text-slate-600 mb-8"
+            className="text-lg text-muted-foreground mb-8"
           >
             Bergabunglah dengan SCIT dan wujudkan ide teknologi Anda menjadi solusi nyata yang berdampak bagi masyarakat. Tim kami siap mendukung
             perjalanan development Anda dari ide hingga implementasi.

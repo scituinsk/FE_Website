@@ -12,7 +12,7 @@ export const CTASection = () => {
   const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-white border-t">
+    <section className="py-24 bg-surface border-t border-border">
       <div className="container mx-auto px-4">
         <motion.div
           ref={ctaRef}
@@ -23,13 +23,13 @@ export const CTASection = () => {
         >
           <motion.h2
             variants={staggerItem}
-            className="text-3xl md:text-4xl font-bold text-slate-900 mb-6"
+            className="text-3xl md:text-4xl font-bold text-foreground mb-6"
           >
             Want to Share Your Knowledge?
           </motion.h2>
           <motion.p
             variants={staggerItem}
-            className="text-lg text-slate-600 mb-8"
+            className="text-lg text-muted-foreground mb-8"
           >
             Bergabunglah sebagai kontributor blog SCIT dan bagikan pengalaman, tutorial, atau insights teknologi Anda kepada komunitas developer
             Indonesia.

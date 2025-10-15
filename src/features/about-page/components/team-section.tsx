@@ -50,7 +50,7 @@ export const TeamSection = () => {
   const { ref: teamRef, controls: teamControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         <motion.div
           ref={headerRef}
@@ -59,8 +59,8 @@ export const TeamSection = () => {
           variants={fadeInUp}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Meet Our Team</h2>
-          <p className="text-lg text-slate-600">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Meet Our Team</h2>
+          <p className="text-lg text-muted-foreground">
             Tim pengurus SCIT yang berdedikasi untuk memajukan komunitas dan mengembangkan potensi setiap anggota
           </p>
         </motion.div>
@@ -78,25 +78,25 @@ export const TeamSection = () => {
               variants={staggerItem}
             >
               <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-                <div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 relative">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
+                <div className="h-48 bg-gradient-to-br from-primary/10 to-primary/20 relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/30" />
                   <div className="absolute bottom-4 left-4">
-                    <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
-                      <User className="h-6 w-6 text-blue-600" />
+                    <div className="w-12 h-12 bg-background rounded-full flex items-center justify-center">
+                      <User className="h-6 w-6 text-primary" />
                     </div>
                   </div>
                 </div>
                 <CardHeader>
                   <CardTitle className="text-xl">{member.name}</CardTitle>
-                  <CardDescription className="text-blue-600 font-medium">{member.role}</CardDescription>
+                  <CardDescription className="text-primary font-medium">{member.role}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-slate-600 mb-4">{member.description}</p>
+                  <p className="text-muted-foreground mb-4">{member.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {member.expertise.map((skill, skillIndex) => (
                       <span
                         key={skillIndex}
-                        className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-lg"
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-lg"
                       >
                         {skill}
                       </span>

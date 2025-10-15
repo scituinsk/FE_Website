@@ -1,12 +1,19 @@
 "use client";
 
-import React from "react";
-import { Search, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
+import { Users } from "lucide-react";
+
+const stats = [
+  { number: "200+", label: "Active Members" },
+  { number: "50+", label: "Projects Completed" },
+  { number: "15+", label: "Partner Companies" },
+  { number: "3", label: "Learning Tracks" },
+];
 
 export const HeroSection = () => {
   const { ref: heroRef, controls: heroControls } = useScrollAnimation();
+  const { ref: statsRef, controls: statsControls } = useScrollAnimation();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -30,46 +37,51 @@ export const HeroSection = () => {
             initial="hidden"
             animate={heroControls}
             variants={staggerContainer}
-            className="space-y-6 mb-8"
+            className="space-y-6"
           >
             <motion.div
               variants={fadeInDown}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
             >
-              <BookOpen className="h-4 w-4" />
-              Tech Knowledge Hub
+              <Users className="h-4 w-4" />
+              Join Our Community
             </motion.div>
 
             <motion.h1
               variants={fadeInUp}
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
-              SCIT Tech
-              <span className="block text-primary-gradient">Blog</span>
+              Be Part of
+              <span className="block text-primary-gradient">SCIT UIN Suka</span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
               className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             >
-              Artikel terbaru seputar teknologi, tutorial programming, dan insights dari komunitas SCIT UIN Suka untuk berbagi pengetahuan dengan
-              developer Indonesia.
+              Bergabunglah dengan komunitas mahasiswa teknologi terdepan di UIN Sunan Kalijaga. Kembangkan skill, bangun network, dan wujudkan inovasi
+              bersama kami.
             </motion.p>
-          </motion.div>
 
-          {/* Search */}
-          <motion.div
-            initial="hidden"
-            animate={heroControls}
-            variants={fadeInUp}
-            className="relative max-w-md mx-auto"
-          >
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search articles, topics..."
-              className="w-full pl-10 pr-4 py-3 border border-border rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
+            {/* Stats */}
+            <motion.div
+              ref={statsRef}
+              initial="hidden"
+              animate={statsControls}
+              variants={staggerContainer}
+              className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 max-w-2xl mx-auto"
+            >
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeInUp}
+                  className="text-center"
+                >
+                  <div className="text-2xl md:text-3xl font-bold text-primary mb-2">{stat.number}</div>
+                  <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </motion.div>
+              ))}
+            </motion.div>
           </motion.div>
         </div>
       </div>

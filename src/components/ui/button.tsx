@@ -5,16 +5,16 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg hover:from-blue-700 hover:to-blue-800 hover:shadow-xl",
-        destructive: "bg-red-500 text-slate-50 shadow-sm hover:bg-red-500/90",
-        outline: "border-2 border-blue-200 bg-white text-blue-700 shadow-sm hover:bg-blue-50 hover:text-blue-800",
-        secondary: "bg-slate-100 text-slate-900 shadow-sm hover:bg-slate-200",
-        ghost: "hover:bg-blue-50 hover:text-blue-700",
-        link: "text-blue-600 underline-offset-4 hover:underline",
+        default: "bg-primary-gradient text-white shadow-lg hover:bg-primary-gradient hover:shadow-xl",
+        destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        outline: "border-2 border-primary/20 bg-background text-primary shadow-sm hover:bg-primary/5 hover:text-primary",
+        secondary: "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
+        ghost: "hover:bg-primary/5 hover:text-primary",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         default: "h-11 px-6 py-2",

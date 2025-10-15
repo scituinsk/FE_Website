@@ -1,36 +1,67 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useScrollAnimation, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
+import { Users } from "lucide-react";
 
 export const HeroSection = () => {
   const { ref: heroRef, controls: heroControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          ref={heroRef}
-          initial="hidden"
-          animate={heroControls}
-          variants={staggerContainer}
-          className="text-center max-w-4xl mx-auto"
-        >
-          <motion.h1
-            variants={staggerItem}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
-          >
-            About SCIT UIN Suka
-          </motion.h1>
-          <motion.p
-            variants={staggerItem}
-            className="text-xl md:text-2xl text-slate-600 leading-relaxed"
-          >
-            Student Community of Information Technology UIN Sunan Kalijaga adalah organisasi mahasiswa yang berdedikasi untuk mengembangkan ekosistem
-            teknologi informasi di kampus dan berkontribusi bagi masyarakat.
-          </motion.p>
-        </motion.div>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
       </div>
+
+      <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="text-center max-w-5xl mx-auto">
+          <motion.div
+            ref={heroRef}
+            initial="hidden"
+            animate={heroControls}
+            variants={staggerContainer}
+            className="space-y-6"
+          >
+            <motion.div
+              variants={fadeInDown}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+            >
+              <Users className="h-4 w-4" />
+              About Our Community
+            </motion.div>
+
+            <motion.h1
+              variants={fadeInUp}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
+            >
+              Meet SCIT
+              <span className="block text-primary-gradient">UIN Suka</span>
+            </motion.h1>
+
+            <motion.p
+              variants={fadeInUp}
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            >
+              Student Community of Information Technology UIN Sunan Kalijaga adalah organisasi mahasiswa yang berdedikasi untuk mengembangkan
+              ekosistem teknologi informasi di kampus dan berkontribusi bagi masyarakat.
+            </motion.p>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Floating elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-primary/15 rounded-full blur-xl" />
+      <div className="absolute top-1/2 right-20 w-16 h-16 bg-primary/25 rounded-full blur-xl" />
     </section>
   );
 };

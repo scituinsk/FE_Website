@@ -1,9 +1,8 @@
 "use client";
 
-import React from "react";
-import { Search, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
+import { MessageCircle } from "lucide-react";
 
 export const HeroSection = () => {
   const { ref: heroRef, controls: heroControls } = useScrollAnimation();
@@ -30,46 +29,30 @@ export const HeroSection = () => {
             initial="hidden"
             animate={heroControls}
             variants={staggerContainer}
-            className="space-y-6 mb-8"
+            className="space-y-6"
           >
             <motion.div
               variants={fadeInDown}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
             >
-              <BookOpen className="h-4 w-4" />
-              Tech Knowledge Hub
+              <MessageCircle className="h-4 w-4" />
+              Let&#39;s Connect
             </motion.div>
 
             <motion.h1
               variants={fadeInUp}
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
-              SCIT Tech
-              <span className="block text-primary-gradient">Blog</span>
+              Get in
+              <span className="block text-primary-gradient">Touch</span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
               className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             >
-              Artikel terbaru seputar teknologi, tutorial programming, dan insights dari komunitas SCIT UIN Suka untuk berbagi pengetahuan dengan
-              developer Indonesia.
+              Kami senang mendengar dari Anda! Hubungi tim SCIT UIN Suka untuk pertanyaan, kerjasama, atau sekadar ingin berbagi ide teknologi.
             </motion.p>
-          </motion.div>
-
-          {/* Search */}
-          <motion.div
-            initial="hidden"
-            animate={heroControls}
-            variants={fadeInUp}
-            className="relative max-w-md mx-auto"
-          >
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search articles, topics..."
-              className="w-full pl-10 pr-4 py-3 border border-border rounded-xl bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
           </motion.div>
         </div>
       </div>

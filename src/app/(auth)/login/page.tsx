@@ -39,7 +39,7 @@ const LoginPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient - matching homepage style */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -52,9 +52,9 @@ const LoginPage = () => {
       </div>
 
       {/* Floating background elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-blue-200/30 rounded-full blur-xl" />
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-blue-300/20 rounded-full blur-xl" />
-      <div className="absolute top-1/2 right-20 w-16 h-16 bg-blue-400/25 rounded-full blur-xl" />
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-primary/15 rounded-full blur-xl" />
+      <div className="absolute top-1/2 right-20 w-16 h-16 bg-primary/25 rounded-full blur-xl" />
 
       <div className="container mx-auto px-4 relative z-10">
         <motion.div
@@ -64,7 +64,7 @@ const LoginPage = () => {
           className="max-w-md mx-auto"
         >
           {/* Login Card */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
+          <div className="bg-card/80 backdrop-blur-sm rounded-2xl shadow-xl border border-border/20 p-8">
             {/* Header */}
             <div className="text-center mb-8">
               <motion.div

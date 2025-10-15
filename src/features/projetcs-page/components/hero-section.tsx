@@ -2,36 +2,63 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useScrollAnimation, staggerContainer, staggerItem, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
 import { allProjects } from "@/constants/projects";
+import { Rocket, Code2, Lightbulb, Target } from "lucide-react";
 
 export const HeroSection = () => {
   const { ref: heroRef, controls: heroControls } = useScrollAnimation();
   const { ref: statsRef, controls: statsControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-blue-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          ref={heroRef}
-          initial="hidden"
-          animate={heroControls}
-          variants={staggerContainer}
-          className="text-center max-w-4xl mx-auto"
-        >
-          <motion.h1
-            variants={staggerItem}
-            className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-6"
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+
+      {/* Background pattern */}
+      <div className="absolute inset-0 opacity-[0.02]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}
+        />
+      </div>
+
+      <div className="container mx-auto px-4 py-20 relative z-10">
+        <div className="text-center max-w-5xl mx-auto">
+          {/* Main headline */}
+          <motion.div
+            ref={heroRef}
+            initial="hidden"
+            animate={heroControls}
+            variants={staggerContainer}
+            className="space-y-6 mb-8"
           >
-            Our Projects Portfolio
-          </motion.h1>
-          <motion.p
-            variants={staggerItem}
-            className="text-xl md:text-2xl text-slate-600 leading-relaxed mb-8"
-          >
-            Showcase proyek-proyek inovatif yang telah dikembangkan oleh tim SCIT UIN Suka sebagai kontribusi nyata dalam dunia teknologi dan
-            masyarakat.
-          </motion.p>
+            <motion.div
+              variants={fadeInDown}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+            >
+              <Rocket className="h-4 w-4" />
+              Innovation Showcase
+            </motion.div>
+
+            <motion.h1
+              variants={fadeInUp}
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
+            >
+              Our Projects
+              <span className="block text-primary-gradient">Portfolio</span>
+            </motion.h1>
+
+            <motion.p
+              variants={fadeInUp}
+              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            >
+              Showcase proyek-proyek inovatif yang telah dikembangkan oleh tim SCIT UIN Suka sebagai kontribusi nyata dalam dunia teknologi dan
+              masyarakat.
+            </motion.p>
+          </motion.div>
 
           {/* Stats */}
           <motion.div
@@ -39,39 +66,59 @@ export const HeroSection = () => {
             initial="hidden"
             animate={statsControls}
             variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-2xl mx-auto"
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
           >
             <motion.div
               variants={staggerItem}
               className="text-center"
             >
-              <div className="text-3xl font-bold text-blue-600 mb-2">{allProjects.length}+</div>
-              <div className="text-slate-600">Total Projects</div>
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
+                <Code2 className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">{allProjects.length}+</div>
+              <div className="text-muted-foreground">Total Projects</div>
             </motion.div>
+
             <motion.div
               variants={staggerItem}
               className="text-center"
             >
-              <div className="text-3xl font-bold text-green-600 mb-2">{allProjects.filter((p) => p.status === "Production").length}</div>
-              <div className="text-slate-600">Live Projects</div>
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
+                <Target className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">{allProjects.filter((p) => p.status === "Production").length}</div>
+              <div className="text-muted-foreground">Live Projects</div>
             </motion.div>
+
             <motion.div
               variants={staggerItem}
               className="text-center"
             >
-              <div className="text-3xl font-bold text-orange-600 mb-2">50+</div>
-              <div className="text-slate-600">Contributors</div>
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
+                <Lightbulb className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">50+</div>
+              <div className="text-muted-foreground">Contributors</div>
             </motion.div>
+
             <motion.div
               variants={staggerItem}
               className="text-center"
             >
-              <div className="text-3xl font-bold text-purple-600 mb-2">15+</div>
-              <div className="text-slate-600">Technologies</div>
+              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
+                <Rocket className="h-8 w-8 text-primary" />
+              </div>
+              <div className="text-3xl font-bold text-foreground mb-2">15+</div>
+              <div className="text-muted-foreground">Technologies</div>
             </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
+
+      {/* Floating elements */}
+      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
+      <div className="absolute bottom-20 right-10 w-32 h-32 bg-primary/15 rounded-full blur-xl" />
+      <div className="absolute top-1/2 right-20 w-16 h-16 bg-primary/25 rounded-full blur-xl" />
     </section>
   );
 };

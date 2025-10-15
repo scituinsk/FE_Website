@@ -14,7 +14,7 @@ export const ContactInfoSection = () => {
   const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         <motion.div
           ref={headerRef}
@@ -23,8 +23,10 @@ export const ContactInfoSection = () => {
           variants={fadeInUp}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Get in Touch</h2>
-          <p className="text-lg text-slate-600">Ingin tahu lebih lanjut tentang SCIT atau tertarik bergabung? Jangan ragu untuk menghubungi kami!</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Get in Touch</h2>
+          <p className="text-lg text-muted-foreground">
+            Ingin tahu lebih lanjut tentang SCIT atau tertarik bergabung? Jangan ragu untuk menghubungi kami!
+          </p>
         </motion.div>
 
         <motion.div
@@ -36,8 +38,8 @@ export const ContactInfoSection = () => {
         >
           <motion.div variants={staggerItem}>
             <Card className="text-center p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <MapPin className="h-8 w-8 text-blue-600" />
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <MapPin className="h-8 w-8 text-primary" />
               </div>
               <CardTitle className="text-xl mb-4">Visit Us</CardTitle>
               <CardDescription>
@@ -53,8 +55,8 @@ export const ContactInfoSection = () => {
 
           <motion.div variants={staggerItem}>
             <Card className="text-center p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Mail className="h-8 w-8 text-blue-600" />
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Mail className="h-8 w-8 text-primary" />
               </div>
               <CardTitle className="text-xl mb-4">Email Us</CardTitle>
               <CardDescription>
@@ -69,8 +71,8 @@ export const ContactInfoSection = () => {
 
           <motion.div variants={staggerItem}>
             <Card className="text-center p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Calendar className="h-8 w-8 text-blue-600" />
+              <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <Calendar className="h-8 w-8 text-primary" />
               </div>
               <CardTitle className="text-xl mb-4">Join Events</CardTitle>
               <CardDescription>

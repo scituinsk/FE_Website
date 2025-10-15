@@ -1,215 +1,222 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { forwardRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-import { cn } from "@/lib/utils";
 
 import {
   NavigationMenu,
-  NavigationMenuContent,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { cn } from "@/lib/utils";
+
+// Navigation items configuration
+const navigationItems = [
+  {
+    label: "Home",
+    href: "/",
+    exact: true, // Only match exact path for home
+  },
+  {
+    label: "About Us",
+    href: "/about",
+    exact: false, // Match /about and /about/*
+  },
+  {
+    label: "Projects",
+    href: "/projects",
+    exact: false, // Match /projects and /projects/*
+  },
+  {
+    label: "Blog",
+    href: "/blog",
+    exact: false, // Match /blog and /blog/*
+  },
+] as const;
+
+// CTA buttons configuration
+const ctaButtons = [
+  {
+    label: "Contact Us",
+    href: "/contact",
+    variant: "outline" as const,
+  },
+  {
+    label: "Join SCIT",
+    href: "/join",
+    variant: "default" as const,
+  },
+] as const;
 
 export const LandingPageHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
+
+  // Prevent hydration mismatch by only rendering active states after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Close mobile menu when pathname changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [pathname]);
+
+  // Check if a navigation item is active
+  const isActiveRoute = (href: string, exact: boolean) => {
+    if (!mounted) return false; // Prevent hydration mismatch
+
+    if (exact) {
+      return pathname === href;
+    }
+
+    // For non-exact matches, check if pathname starts with href
+    // But avoid matching root "/" with other paths
+    if (href === "/") return pathname === "/";
+    return pathname.startsWith(href);
+  };
+
+  // Get navigation link classes with active state
+  const getNavLinkClasses = (href: string, exact: boolean) => {
+    const isActive = isActiveRoute(href, exact);
+    return cn(navigationMenuTriggerStyle(), isActive && mounted && "bg-primary/10 text-primary font-medium");
+  };
+
+  // Get mobile link classes with active state
+  const getMobileLinkClasses = (href: string, exact: boolean) => {
+    const isActive = isActiveRoute(href, exact);
+    return cn(
+      "block py-2 transition-colors rounded-md px-2",
+      isActive && mounted ? "text-primary bg-primary/5 font-medium" : "text-muted-foreground hover:text-primary hover:bg-muted"
+    );
+  };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-blue-100 bg-white/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-surface/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <ApplicationLogo />
+
         {/* Desktop Navigation */}
         <NavigationMenu className="hidden lg:flex">
           <NavigationMenuList>
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link href="/">Home</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link href="/about">About Us</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Projects</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <Link
-                        href="/projects"
-                        className="flex h-full w-full select-none flex-col justify-end rounded-lg bg-gradient-to-b from-blue-500/20 to-blue-700/20 p-6 no-underline outline-none focus:shadow-md"
-                      >
-                        <div className="mb-2 mt-4 text-lg font-medium text-slate-900">Our Projects</div>
-                        <p className="text-sm leading-tight text-slate-600">
-                          Explore innovative technology solutions and research projects by SCIT UIN Suka.
-                        </p>
-                      </Link>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem
-                    href="/projects/web-development"
-                    title="Web Development"
-                  >
-                    Modern web applications and digital solutions.
-                  </ListItem>
-                  <ListItem
-                    href="/projects/mobile-apps"
-                    title="Mobile Apps"
-                  >
-                    Cross-platform mobile application development.
-                  </ListItem>
-                  <ListItem
-                    href="/projects/research"
-                    title="Research"
-                  >
-                    Academic research and innovation projects.
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                asChild
-                className={navigationMenuTriggerStyle()}
-              >
-                <Link href="/blog">Blog</Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
+            {navigationItems.map((item) => (
+              <NavigationMenuItem key={item.href}>
+                <NavigationMenuLink
+                  asChild
+                  className={getNavLinkClasses(item.href, item.exact)}
+                >
+                  <Link href={item.href}>{item.label}</Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
           </NavigationMenuList>
         </NavigationMenu>
 
-        {/* CTA Button */}
-        <div className="hidden lg:flex items-center space-x-4">
-          <Button
-            variant="outline"
-            size="sm"
-            asChild
-          >
-            <Link href="/contact">Contact Us</Link>
-          </Button>
-          <Button
-            size="sm"
-            asChild
-          >
-            <Link href="/join">Join SCIT</Link>
-          </Button>
+        {/* CTA Button & Theme Toggle */}
+        <div className="hidden lg:flex items-center space-x-2">
+          <ThemeToggle />
+          <div className="w-px h-6 bg-border" />
+          {ctaButtons.map((button) => (
+            <Button
+              key={button.href}
+              variant={button.variant}
+              size="sm"
+              asChild
+            >
+              <Link href={button.href}>{button.label}</Link>
+            </Button>
+          ))}
         </div>
 
-        {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="lg:hidden [&_svg]:size-7 cursor-pointer transition-all duration-200"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          <AnimatePresence
-            mode="wait"
-            initial={false}
+        {/* Mobile Right Section */}
+        <div className="lg:hidden flex items-center space-x-2">
+          <ThemeToggle />
+          {/* Mobile Menu Button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="[&_svg]:size-5 cursor-pointer transition-all duration-200"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <motion.div
-              key={isMenuOpen ? "x" : "menu"}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.2 }}
+            <AnimatePresence
+              mode="wait"
+              initial={false}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </motion.div>
-          </AnimatePresence>
-        </Button>
+              <motion.div
+                key={isMenuOpen ? "x" : "menu"}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+              >
+                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              </motion.div>
+            </AnimatePresence>
+          </Button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
-      {isMenuOpen && (
-        <div className="lg:hidden border-t border-blue-100 bg-white/95 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4 space-y-4">
-            <Link
-              href="/"
-              className="block py-2 text-slate-600 hover:text-blue-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
-            <Link
-              href="/about"
-              className="block py-2 text-slate-600 hover:text-blue-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About Us
-            </Link>
-            <Link
-              href="/projects"
-              className="block py-2 text-slate-600 hover:text-blue-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Projects
-            </Link>
-            <Link
-              href="/blog"
-              className="block py-2 text-slate-600 hover:text-blue-600 transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Blog
-            </Link>
-            <div className="pt-4 space-y-2">
-              <Button
-                variant="outline"
-                className="w-full"
-                asChild
-              >
-                <Link href="/contact">Contact Us</Link>
-              </Button>
-              <Button
-                className="w-full"
-                asChild
-              >
-                <Link href="/join">Join SCIT</Link>
-              </Button>
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="lg:hidden border-t border-primary/10 bg-surface/95 backdrop-blur-sm overflow-hidden"
+          >
+            <div className="container mx-auto px-4 py-4 space-y-2">
+              {/* Navigation Links */}
+              {navigationItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={getMobileLinkClasses(item.href, item.exact)}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {/* CTA Section */}
+              <div className="pt-4 space-y-3 border-t border-border">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground">Theme</span>
+                  <ThemeToggle />
+                </div>
+
+                {/* CTA Buttons */}
+                {ctaButtons.map((button) => (
+                  <Button
+                    key={button.href}
+                    variant={button.variant}
+                    className="w-full"
+                    asChild
+                  >
+                    <Link
+                      href={button.href}
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {button.label}
+                    </Link>
+                  </Button>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
-
-const ListItem = forwardRef<React.ElementRef<"a">, React.ComponentPropsWithoutRef<"a">>(({ className, title, children, ...props }, ref) => {
-  return (
-    <li>
-      <NavigationMenuLink asChild>
-        <a
-          ref={ref}
-          className={cn(
-            "block select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700",
-            className
-          )}
-          {...props}
-        >
-          <div className="text-sm font-medium leading-none">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-slate-500">{children}</p>
-        </a>
-      </NavigationMenuLink>
-    </li>
-  );
-});
-ListItem.displayName = "ListItem";

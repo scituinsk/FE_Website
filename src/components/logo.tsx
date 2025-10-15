@@ -13,7 +13,7 @@ export const ApplicationLogo = ({ responsive = true }: ApplicationLogoProps) => 
       className="flex items-center space-x-3 transition-opacity hover:opacity-80"
     >
       {/* Logo Image */}
-      <div className="relative h-10 w-10 flex-shrink-0">
+      <div className="relative h-10 w-10 flex-shrink-0 dark:bg-foreground dark:rounded-full">
         <Image
           src="/logo-scit.png"
           alt="SCIT Logo"
@@ -25,8 +25,8 @@ export const ApplicationLogo = ({ responsive = true }: ApplicationLogoProps) => 
 
       {/* Text Group */}
       <div className={cn("flex flex-col", responsive ? "hidden sm:flex" : "")}>
-        <span className="text-xl font-bold leading-tight text-slate-900">SCIT</span>
-        <span className="text-xs font-normal leading-tight text-slate-600">Study Club Informatika</span>
+        <span className="text-xl font-bold leading-tight text-foreground">SCIT</span>
+        <span className="text-xs font-normal leading-tight text-muted-foreground">Study Club Informatika</span>
       </div>
     </Link>
   );

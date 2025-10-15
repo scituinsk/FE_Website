@@ -87,7 +87,7 @@ export const BlogSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-24 bg-background">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <motion.div
@@ -97,8 +97,8 @@ export const BlogSection = () => {
           variants={fadeInUp}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Latest from Our Blog</h2>
-          <p className="text-lg text-slate-600 leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Latest from Our Blog</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Artikel terbaru seputar teknologi, tutorial, dan insights dari komunitas SCIT UIN Suka untuk berbagi pengetahuan dengan sesama developer
           </p>
         </motion.div>
@@ -115,12 +115,12 @@ export const BlogSection = () => {
             <div className="lg:w-1/2 h-64 lg:h-full bg-gradient-to-br from-blue-100 to-blue-200 relative">
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
               <div className="absolute top-4 left-4">
-                <span className="px-3 py-1 bg-white text-blue-700 text-sm font-medium rounded-full">Featured</span>
+                <span className="px-3 py-1 bg-surface text-primary text-sm font-medium rounded-full">Featured</span>
               </div>
             </div>
             <div className="lg:w-1/2 p-8 flex flex-col justify-center">
-              <div className="flex items-center gap-4 text-sm text-slate-600 mb-4">
-                <span className="px-2 py-1 bg-blue-100 text-blue-700 rounded-lg">{featuredPosts[0].category}</span>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
+                <span className="px-2 py-1 bg-primary/10 text-primary rounded-lg">{featuredPosts[0].category}</span>
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
                   {new Date(featuredPosts[0].date).toLocaleDateString("id-ID", {
@@ -134,14 +134,14 @@ export const BlogSection = () => {
                   {featuredPosts[0].readTime}
                 </div>
               </div>
-              <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4 group-hover:text-primary transition-colors">
                 {featuredPosts[0].title}
               </h3>
-              <p className="text-slate-600 mb-6 leading-relaxed">{featuredPosts[0].excerpt}</p>
+              <p className="text-muted-foreground mb-6 leading-relaxed">{featuredPosts[0].excerpt}</p>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <User className="h-4 w-4 text-slate-500" />
-                  <span className="text-sm text-slate-600">{featuredPosts[0].author}</span>
+                  <User className="h-4 w-4 text-muted-foreground" />
+                  <span className="text-sm text-muted-foreground">{featuredPosts[0].author}</span>
                 </div>
                 <Button asChild>
                   <Link href={`/blog/${featuredPosts[0].title.toLowerCase().replace(/\s+/g, "-")}`}>
@@ -163,7 +163,7 @@ export const BlogSection = () => {
             variants={fadeInLeft}
             className="lg:col-span-2"
           >
-            <h3 className="text-2xl font-bold text-slate-900 mb-6">Recent Posts</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-6">Recent Posts</h3>
             <motion.div
               variants={staggerContainer}
               className="grid md:grid-cols-2 gap-6"
@@ -174,14 +174,14 @@ export const BlogSection = () => {
                   variants={staggerItem}
                 >
                   <Card className="group hover:shadow-lg transition-all duration-300">
-                    <div className="h-48 bg-gradient-to-br from-slate-100 to-slate-200 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-slate-500/20 to-slate-700/30" />
+                    <div className="h-48 bg-gradient-to-br from-muted to-muted/80 relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-foreground/20 to-foreground/30" />
                       <div className="absolute bottom-4 left-4">
-                        <span className="px-2 py-1 bg-white text-slate-700 text-xs font-medium rounded-lg">{post.category}</span>
+                        <span className="px-2 py-1 bg-background text-foreground text-xs font-medium rounded-lg">{post.category}</span>
                       </div>
                     </div>
                     <CardHeader>
-                      <div className="flex items-center gap-4 text-xs text-slate-500 mb-2">
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
                         <div className="flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {new Date(post.date).toLocaleDateString("id-ID")}
@@ -191,14 +191,14 @@ export const BlogSection = () => {
                           {post.readTime}
                         </div>
                       </div>
-                      <CardTitle className="text-lg group-hover:text-blue-600 transition-colors line-clamp-2">{post.title}</CardTitle>
+                      <CardTitle className="text-lg group-hover:text-primary transition-colors line-clamp-2">{post.title}</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <CardDescription className="line-clamp-3 mb-4">{post.excerpt}</CardDescription>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <User className="h-3 w-3 text-slate-500" />
-                          <span className="text-xs text-slate-600">{post.author}</span>
+                          <User className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">{post.author}</span>
                         </div>
                         <Button
                           variant="ghost"
@@ -239,7 +239,7 @@ export const BlogSection = () => {
                   >
                     <Link
                       href={`/blog/category/${category.name.toLowerCase().replace(/\s+/g, "-")}`}
-                      className="text-sm text-slate-600 hover:text-blue-600 transition-colors"
+                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
                       {category.name}
                     </Link>
@@ -267,10 +267,10 @@ export const BlogSection = () => {
                       href={`/blog/${post.title.toLowerCase().replace(/\s+/g, "-")}`}
                       className="block"
                     >
-                      <h4 className="text-sm font-medium text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
+                      <h4 className="text-sm font-medium text-foreground group-hover:text-primary transition-colors line-clamp-2 mb-2">
                         {post.title}
                       </h4>
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="h-3 w-3" />
                         {new Date(post.date).toLocaleDateString("id-ID")}
                       </div>
@@ -288,10 +288,10 @@ export const BlogSection = () => {
           initial="hidden"
           animate={ctaControls}
           variants={fadeInUp}
-          className="text-center bg-white rounded-3xl p-8 md:p-12"
+          className="text-center bg-surface rounded-3xl p-8 md:p-12"
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Want to Share Your Knowledge?</h3>
-          <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Want to Share Your Knowledge?</h3>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Bergabunglah sebagai kontributor blog SCIT dan bagikan pengalaman, tutorial, atau insights teknologi Anda kepada komunitas
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

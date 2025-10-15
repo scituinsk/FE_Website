@@ -84,7 +84,7 @@ export const ProjectsSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-white">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <motion.div
@@ -94,8 +94,8 @@ export const ProjectsSection = () => {
           variants={fadeInUp}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">Our Featured Projects</h2>
-          <p className="text-lg text-slate-600 leading-relaxed">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Featured Projects</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
             Showcase proyek-proyek unggulan yang telah dikembangkan oleh tim SCIT UIN Suka sebagai bentuk kontribusi nyata dalam dunia teknologi
           </p>
         </motion.div>
@@ -121,10 +121,10 @@ export const ProjectsSection = () => {
                     <span
                       className={`px-3 py-1 rounded-full text-xs font-medium ${
                         project.status === "Production"
-                          ? "bg-green-100 text-green-700"
+                          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
                           : project.status === "Beta Testing"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-blue-100 text-blue-700"
+                          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
+                          : "bg-primary/10 text-primary"
                       }`}
                     >
                       {project.status}
@@ -133,7 +133,7 @@ export const ProjectsSection = () => {
                 </div>
 
                 <CardHeader>
-                  <CardTitle className="text-xl group-hover:text-blue-600 transition-colors">{project.title}</CardTitle>
+                  <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
                   <CardDescription className="leading-relaxed">{project.description}</CardDescription>
                 </CardHeader>
 
@@ -143,7 +143,7 @@ export const ProjectsSection = () => {
                     {project.tech.map((tech, techIndex) => (
                       <span
                         key={techIndex}
-                        className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-lg"
+                        className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-lg"
                       >
                         {tech}
                       </span>
@@ -151,7 +151,7 @@ export const ProjectsSection = () => {
                   </div>
 
                   {/* Project stats */}
-                  <div className="grid grid-cols-2 gap-4 text-sm text-slate-600">
+                  <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4" />
                       {project.teamSize} members
@@ -204,11 +204,11 @@ export const ProjectsSection = () => {
           initial="hidden"
           animate={categoriesControls}
           variants={fadeInUp}
-          className="bg-slate-50 rounded-3xl p-8 md:p-12 mb-12"
+          className="bg-surface rounded-3xl p-8 md:p-12 mb-12"
         >
           <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Project Categories</h3>
-            <p className="text-slate-600">Berbagai kategori proyek yang telah dikembangkan oleh SCIT</p>
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Project Categories</h3>
+            <p className="text-muted-foreground">Berbagai kategori proyek yang telah dikembangkan oleh SCIT</p>
           </div>
 
           <motion.div
@@ -219,11 +219,11 @@ export const ProjectsSection = () => {
               <motion.div
                 key={index}
                 variants={staggerItem}
-                className="bg-white rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group"
+                className="bg-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="text-3xl font-bold text-blue-600 mb-2 group-hover:scale-110 transition-transform">{category.count}</div>
-                <div className="text-lg font-semibold text-slate-900 mb-2">{category.category}</div>
-                <div className="text-sm text-slate-600">{category.description}</div>
+                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">{category.count}</div>
+                <div className="text-lg font-semibold text-foreground mb-2">{category.category}</div>
+                <div className="text-sm text-muted-foreground">{category.description}</div>
               </motion.div>
             ))}
           </motion.div>
@@ -237,12 +237,12 @@ export const ProjectsSection = () => {
           variants={fadeInUp}
           className="text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Star className="h-4 w-4" />
             Explore More Projects
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Ready to Build Something Amazing?</h3>
-          <p className="text-slate-600 mb-8 max-w-2xl mx-auto">
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Ready to Build Something Amazing?</h3>
+          <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
             Bergabunglah dengan SCIT dan wujudkan ide-ide inovatif Anda menjadi solusi teknologi yang berdampak nyata bagi masyarakat
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
