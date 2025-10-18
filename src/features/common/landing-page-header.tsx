@@ -17,44 +17,7 @@ import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-
-// Navigation items configuration
-const navigationItems = [
-  {
-    label: "Home",
-    href: "/",
-    exact: true, // Only match exact path for home
-  },
-  {
-    label: "About Us",
-    href: "/about",
-    exact: false, // Match /about and /about/*
-  },
-  {
-    label: "Projects",
-    href: "/projects",
-    exact: false, // Match /projects and /projects/*
-  },
-  {
-    label: "Blog",
-    href: "/blog",
-    exact: false, // Match /blog and /blog/*
-  },
-] as const;
-
-// CTA buttons configuration
-const ctaButtons = [
-  {
-    label: "Contact Us",
-    href: "/contact",
-    variant: "outline" as const,
-  },
-  {
-    label: "Join SCIT",
-    href: "/join",
-    variant: "default" as const,
-  },
-] as const;
+import { ctaButtons, navigationItems } from "@/constants/landing-page-navigation-config";
 
 export const LandingPageHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -125,7 +88,7 @@ export const LandingPageHeader = () => {
         {/* CTA Button & Theme Toggle */}
         <div className="hidden lg:flex items-center space-x-2">
           <ThemeToggle />
-          <div className="w-px h-6 bg-border" />
+
           {ctaButtons.map((button) => (
             <Button
               key={button.href}

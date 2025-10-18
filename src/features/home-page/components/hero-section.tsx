@@ -72,8 +72,8 @@ export const HeroSection = () => {
               className="text-lg px-8"
               asChild
             >
-              <Link href="/join">
-                Join Our Community
+              <Link href="/about">
+                About Us
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -88,7 +88,7 @@ export const HeroSection = () => {
           </motion.div>
 
           {/* Stats */}
-          <motion.div
+          {/* <motion.div
             ref={statsRef}
             initial="hidden"
             animate={statsControls}
@@ -138,7 +138,7 @@ export const HeroSection = () => {
               <div className="text-3xl font-bold text-foreground mb-2">3</div>
               <div className="text-muted-foreground">Divisi</div>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 

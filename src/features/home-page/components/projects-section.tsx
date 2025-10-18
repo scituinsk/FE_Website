@@ -241,9 +241,10 @@ export const ProjectsSection = () => {
             <Star className="h-4 w-4" />
             Explore More Projects
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Ready to Build Something Amazing?</h3>
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Driving Change Through Technology.</h3>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Bergabunglah dengan SCIT dan wujudkan ide-ide inovatif Anda menjadi solusi teknologi yang berdampak nyata bagi masyarakat
+            Di SCIT, kami percaya setiap baris kode dapat membawa perubahan. Kami adalah komunitas mahasiswa yang berfokus pada pengembangan
+            teknologi, kolaborasi, dan pembelajaran bersama untuk menciptakan inovasi yang bermanfaat dan berdampak luas.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -254,13 +255,6 @@ export const ProjectsSection = () => {
                 View All Projects
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-            >
-              <Link href="/join">Join Our Team</Link>
             </Button>
           </div>
         </motion.div>

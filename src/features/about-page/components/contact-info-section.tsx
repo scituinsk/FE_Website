@@ -94,14 +94,7 @@ export const ContactInfoSection = () => {
           animate={ctaControls}
           variants={fadeInUp}
           className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            asChild
-          >
-            <Link href="/join">Join SCIT Today</Link>
-          </Button>
-        </motion.div>
+        ></motion.div>
       </div>
     </section>
   );
