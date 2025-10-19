@@ -153,7 +153,6 @@ export const ProjectsSection = () => {
                     size="sm"
                     className="mb-4 flex-shrink-0"
                   />
-
                   {/* === Action Buttons === */}
                   <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
                     <Button
