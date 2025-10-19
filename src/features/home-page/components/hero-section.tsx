@@ -28,8 +28,8 @@ export const HeroSection = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="text-center max-w-5xl mx-auto">
+      <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 relative z-10">
+        <div className="text-center max-w-5xl mx-auto safe-container">
           {/* Main headline */}
           <motion.div
             ref={heroRef}
@@ -48,7 +48,7 @@ export const HeroSection = () => {
 
             <motion.h1
               variants={fadeInUp}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight safe-text"
             >
               Innovating the Future of
               <span className="block text-primary">Technology</span>
@@ -56,7 +56,7 @@ export const HeroSection = () => {
 
             <motion.p
               variants={fadeInUp}
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed safe-text"
             >
               SCIT UIN Sunan Kalijaga adalah komunitas mahasiswa yang berdedikasi untuk mengembangkan inovasi teknologi dan menciptakan solusi digital
               yang berdampak.
