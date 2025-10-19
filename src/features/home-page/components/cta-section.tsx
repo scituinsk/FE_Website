@@ -107,7 +107,7 @@ export const CTASection = () => {
           >
             <div className="bg-surface/10 backdrop-blur-sm rounded-3xl p-8 max-w-md w-full border border-surface/20">
               <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 ">
+                <div className="w-16 h-16 bg-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 ">
                   <Zap className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Start Your Journey Today</h3>
@@ -161,7 +161,7 @@ export const CTASection = () => {
                   variants={staggerItem}
                   className="flex items-start gap-4"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
@@ -174,8 +174,8 @@ export const CTASection = () => {
               <div className="mt-6 pt-6 border-t border-surface/20">
                 <Button
                   variant="ghost"
-                  className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white 
-             hover:from-yellow-500 hover:to-orange-600 shadow-lg hover:shadow-xl 
+                  className="w-full bg-orange-500 text-white 
+             hover:bg-orange-600 shadow-lg hover:shadow-xl 
              transition-all duration-300 hover:text-white"
                   size="lg"
                   asChild

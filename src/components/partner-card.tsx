@@ -34,7 +34,7 @@ export const PartnerCard = ({ partner, showBadge = true }: PartnerCardProps) => 
           <img
             src={partner.logo}
             alt={partner.name}
-            className="h-6 md:h-8 lg:h-10 w-auto opacity-90 group-hover:opacity-100 transition-all duration-300 group-hover:grayscale-0 "
+            className="h-8 md:h-10 lg:h-12 w-auto opacity-100 transition-all duration-300 group-hover:grayscale-0 "
             loading="lazy"
           />
 
