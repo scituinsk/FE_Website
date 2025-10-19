@@ -9,8 +9,8 @@ export const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+      {/* Background tint */}
+      <div className="absolute inset-0 bg-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -44,7 +44,7 @@ export const HeroSection = () => {
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
               Get in
-              <span className="block text-primary-gradient">Touch</span>
+              <span className="block text-primary">Touch</span>
             </motion.h1>
 
             <motion.p

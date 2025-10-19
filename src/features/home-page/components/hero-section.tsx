@@ -2,18 +2,21 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Code2, Lightbulb, Target } from "lucide-react";
+import { ArrowRight, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, fadeInDown, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useScrollAnimation, fadeInUp, fadeInDown, staggerContainer } from "@/lib/hooks/use-scroll-animation";
+import { getFeaturedPartners } from "@/constants/partners";
+import { PartnerCard } from "@/components/partner-card";
 
 export const HeroSection = () => {
   const { ref: heroRef, controls: heroControls } = useScrollAnimation();
-  const { ref: statsRef, controls: statsControls } = useScrollAnimation();
+  // const { ref: statsRef, controls: statsControls } = useScrollAnimation();
+  const featuredPartners = getFeaturedPartners();
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+      {/* Background tint */}
+      <div className="absolute inset-0 bg-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -48,7 +51,7 @@ export const HeroSection = () => {
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
               Innovating the Future of
-              <span className="block text-primary-gradient">Technology</span>
+              <span className="block text-primary">Technology</span>
             </motion.h1>
 
             <motion.p
@@ -72,8 +75,8 @@ export const HeroSection = () => {
               className="text-lg px-8"
               asChild
             >
-              <Link href="/join">
-                Join Our Community
+              <Link href="/about">
+                About Us
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -87,8 +90,38 @@ export const HeroSection = () => {
             </Button>
           </motion.div>
 
-          {/* Stats */}
+          {/* Partners & Collaborators */}
           <motion.div
+            initial="hidden"
+            animate={heroControls}
+            variants={fadeInUp}
+            className="max-w-4xl mx-auto"
+          >
+            <motion.h3
+              variants={fadeInUp}
+              className="text-lg md:text-xl text-muted-foreground text-center mb-8 font-medium"
+            >
+              Telah Dipercaya oleh
+            </motion.h3>
+
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate={heroControls}
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-center"
+            >
+              {featuredPartners.map((partner) => (
+                <PartnerCard
+                  key={partner.name}
+                  partner={partner}
+                  showBadge={true}
+                />
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Stats */}
+          {/* <motion.div
             ref={statsRef}
             initial="hidden"
             animate={statsControls}
@@ -138,7 +171,7 @@ export const HeroSection = () => {
               <div className="text-3xl font-bold text-foreground mb-2">3</div>
               <div className="text-muted-foreground">Divisi</div>
             </motion.div>
-          </motion.div>
+          </motion.div> */}
         </div>
       </div>
 

@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
 import { Home, ArrowLeft, MapPin } from "lucide-react";
 import Link from "next/link";
@@ -12,8 +11,8 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+      {/* Background tint */}
+      <div className="absolute inset-0 bg-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -37,7 +36,7 @@ export default function NotFound() {
             {/* 404 Number */}
             <motion.div
               variants={fadeInDown}
-              className="text-8xl md:text-9xl font-bold text-primary/20 leading-none"
+              className="text-8xl md:text-9xl font-bold text-primary leading-none"
             >
               404
             </motion.div>
@@ -57,7 +56,7 @@ export default function NotFound() {
               className="text-3xl md:text-5xl font-bold text-foreground leading-tight"
             >
               Oops! Halaman
-              <span className="block text-primary-gradient">Tidak Ditemukan</span>
+              <span className="block text-primary">Tidak Ditemukan</span>
             </motion.h1>
 
             {/* Description */}
@@ -91,49 +90,6 @@ export default function NotFound() {
                 <ArrowLeft className="mr-2 h-5 w-5" />
                 Halaman Sebelumnya
               </Button>
-            </motion.div>
-
-            {/* Helpful links */}
-            <motion.div
-              variants={fadeInUp}
-              className="pt-8"
-            >
-              <Card className="p-6">
-                <h3 className="text-lg font-semibold text-foreground mb-4">Halaman Populer</h3>
-                <div className="grid sm:grid-cols-2 gap-3">
-                  <Link
-                    href="/about"
-                    className="text-left p-3 rounded-lg hover:bg-muted transition-colors group"
-                  >
-                    <div className="font-medium text-foreground group-hover:text-primary">Tentang SCIT</div>
-                    <div className="text-sm text-muted-foreground">Pelajari lebih lanjut tentang kami</div>
-                  </Link>
-
-                  <Link
-                    href="/projects"
-                    className="text-left p-3 rounded-lg hover:bg-muted transition-colors group"
-                  >
-                    <div className="font-medium text-foreground group-hover:text-primary">Proyek</div>
-                    <div className="text-sm text-muted-foreground">Lihat proyek-proyek kami</div>
-                  </Link>
-
-                  <Link
-                    href="/blog"
-                    className="text-left p-3 rounded-lg hover:bg-muted transition-colors group"
-                  >
-                    <div className="font-medium text-foreground group-hover:text-primary">Blog</div>
-                    <div className="text-sm text-muted-foreground">Artikel dan tutorial</div>
-                  </Link>
-
-                  <Link
-                    href="/contact"
-                    className="text-left p-3 rounded-lg hover:bg-muted transition-colors group"
-                  >
-                    <div className="font-medium text-foreground group-hover:text-primary">Kontak</div>
-                    <div className="text-sm text-muted-foreground">Hubungi tim kami</div>
-                  </Link>
-                </div>
-              </Card>
             </motion.div>
           </motion.div>
         </div>

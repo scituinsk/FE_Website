@@ -4,20 +4,18 @@ import { Separator } from "@/components/ui/separator";
 import { Facebook, Instagram, Twitter, Github, Mail, Phone, MapPin } from "lucide-react";
 
 import { ApplicationLogo } from "@/components/logo";
+import { footerConfig } from "@/constants/footer-config";
 
 const Footer = () => {
   return (
-    <footer className="bg-background border-t border-background">
+    <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About SCIT */}
           <div className="space-y-4">
             <ApplicationLogo responsive={false} />
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Student Community of Information Technology - Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta yang berfokus pada
-              pengembangan skill dan inovasi teknologi.
-            </p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{footerConfig.description}</p>
             <div className="flex space-x-3">
               <Button
                 variant="ghost"
@@ -78,93 +76,34 @@ const Footer = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/about"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/projects"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Our Projects
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Blog & News
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/events"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Events
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/join"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Join SCIT
-                </Link>
-              </li>
+              {footerConfig.quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Programs */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Programs</h3>
+            <h3 className="text-lg font-semibold text-foreground">Division</h3>
+
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/programs/web-development"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Web Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/mobile-development"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Mobile Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/ui-ux-design"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  UI/UX Design
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/data-science"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Data Science
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/programs/cybersecurity"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  Cybersecurity
-                </Link>
-              </li>
+              {footerConfig.divisions.map((division) => (
+                <li key={division.link}>
+                  <Link
+                    href={division.link}
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    {division.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -174,12 +113,7 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-muted-foreground">
-                  <p>Fakultas Sains dan Teknologi</p>
-                  <p>UIN Sunan Kalijaga</p>
-                  <p>Jl. Marsda Adisucipto No 1</p>
-                  <p>Yogyakarta 55281</p>
-                </div>
+                <div className="text-sm text-muted-foreground">{footerConfig.contact.address}</div>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-primary flex-shrink-0" />
@@ -187,16 +121,16 @@ const Footer = () => {
                   href="mailto:scit@uin-suka.ac.id"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  scit@uin-suka.ac.id
+                  {footerConfig.contact.email}
                 </a>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                 <a
-                  href="tel:+62274540971"
+                  href="#"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
                 >
-                  +62 274 540 971
+                  {footerConfig.contact.phone}
                 </a>
               </div>
             </div>
@@ -208,7 +142,7 @@ const Footer = () => {
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-            <p className="text-sm text-muted-foreground">© 2024 SCIT UIN Sunan Kalijaga. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} SCIT UIN Sunan Kalijaga. All rights reserved.</p>
             <div className="flex items-center space-x-4">
               <Link
                 href="/privacy"
@@ -225,7 +159,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="text-sm text-muted-foreground">
-            <span>Dipelihara oleh Divisi RPL SCIT</span>
+            <span>Dikelola oleh SCIT UIN SUKA</span>
           </div>
         </div>
       </div>

@@ -1,8 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Sparkles, Zap, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Rocket, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
@@ -11,17 +10,17 @@ export const CTASection = () => {
   const { ref: rightRef, controls: rightControls } = useScrollAnimation();
 
   const benefits = [
-    "Access to latest technology training and workshops",
-    "Networking with industry professionals and alumni",
-    "Hands-on experience through real projects",
-    "Mentorship from senior developers",
-    "Certificate and portfolio development",
-    "Job placement assistance and career guidance",
+    "Akses ke workshop dan training teknologi terbaru",
+    "Networking dengan profesional industri dan alumni",
+    "Pengalaman hands-on melalui proyek nyata",
+    "Mentorship dari senior developer berpengalaman",
+    "Pengembangan sertifikat dan portfolio",
+    "Bantuan penempatan kerja dan guidance karir",
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br bg-blue-gradient relative overflow-hidden">
-      {/* Background elements */}
+    <section className="py-24 bg-primary relative overflow-hidden">
+      {/* Background Elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-surface/5"></div>
       </div>
@@ -43,17 +42,17 @@ export const CTASection = () => {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 text-white text-sm font-medium mb-6">
               <Sparkles className="h-4 w-4" />
-              Join SCIT Community
+              Explore SCIT Community
             </div>
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
-              Ready to Shape the Future of
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">Technology?</span>
+              Ready to Collaborate & Innovate in
+              <span className="block text-yellow-400">Technology?</span>
             </h2>
 
-            <p className="text-xl text-primary/10 mb-8 leading-relaxed">
-              Bergabunglah dengan SCIT UIN Sunan Kalijaga dan kembangkan potensi teknologi Anda bersama komunitas yang supportif dan inovatif. Mari
-              wujudkan impian menjadi tech professional yang berdampak!
+            <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+              Jelajahi dunia teknologi bersama SCIT UIN Sunan Kalijaga. Berkolaborasi dalam proyek inovatif, akses resources berkualitas, dan
+              kembangkan skill melalui komunitas yang supportif dan dinamis!
             </p>
 
             {/* Benefits list */}
@@ -73,45 +72,17 @@ export const CTASection = () => {
               ))}
             </motion.div>
 
-            {/* Stats */}
-            <motion.div
-              variants={staggerContainer}
-              className="grid grid-cols-3 gap-6 mb-8"
-            >
-              <motion.div
-                variants={staggerItem}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-white mb-1">150+</div>
-                <div className="text-white text-sm">Active Members</div>
-              </motion.div>
-              <motion.div
-                variants={staggerItem}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-white mb-1">50+</div>
-                <div className="text-white text-sm">Projects</div>
-              </motion.div>
-              <motion.div
-                variants={staggerItem}
-                className="text-center"
-              >
-                <div className="text-2xl md:text-3xl font-bold text-white mb-1">95%</div>
-                <div className="text-white text-sm">Job Placement</div>
-              </motion.div>
-            </motion.div>
-
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Button
                 size="lg"
                 variant="ghost"
-                className="bg-surface text-primary hover:bg-surface/50 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="bg-surface text-primary hover:bg-surface/90 shadow-lg hover:shadow-xl transition-all duration-300"
                 asChild
               >
-                <Link href="/join">
-                  <Users className="mr-2 h-5 w-5" />
-                  Join SCIT Now
+                <Link href="/projects">
+                  <Rocket className="mr-2 h-5 w-5" />
+                  Explore Projects
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -121,7 +92,7 @@ export const CTASection = () => {
                 size="lg"
                 asChild
               >
-                <Link href="/contact">Learn More</Link>
+                <Link href="/about">Learn More</Link>
               </Button>
             </div>
           </motion.div>
@@ -140,7 +111,7 @@ export const CTASection = () => {
                   <Zap className="h-8 w-8 text-white" />
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Start Your Journey Today</h3>
-                <p className="text-primary/10">Simple steps to become part of SCIT community</p>
+                <p className="text-primary/10">Simple steps to collaborate with SCIT community</p>
               </div>
 
               <motion.div
@@ -155,8 +126,8 @@ export const CTASection = () => {
                     <span className="text-white font-bold text-sm">1</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Register Online</h4>
-                    <p className="text-primary-foreground/80 text-sm">Fill out our simple registration form</p>
+                    <h4 className="font-semibold text-white mb-1">Explore Projects</h4>
+                    <p className="text-primary-foreground/80 text-sm">Browse our ongoing projects and activities</p>
                   </div>
                 </motion.div>
 
@@ -168,8 +139,8 @@ export const CTASection = () => {
                     <span className="text-white font-bold text-sm">2</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Attend Orientation</h4>
-                    <p className="text-blue-100 text-sm">Join our welcome session and meet the team</p>
+                    <h4 className="font-semibold text-white mb-1">Connect with Team</h4>
+                    <p className="text-blue-100 text-sm">Reach out and discuss collaboration opportunities</p>
                   </div>
                 </motion.div>
 
@@ -181,8 +152,8 @@ export const CTASection = () => {
                     <span className="text-white font-bold text-sm">3</span>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Choose Your Track</h4>
-                    <p className="text-blue-100 text-sm">Select specialization based on your interest</p>
+                    <h4 className="font-semibold text-white mb-1">Join Activities</h4>
+                    <p className="text-blue-100 text-sm">Participate in workshops, events, and projects</p>
                   </div>
                 </motion.div>
 
@@ -194,8 +165,8 @@ export const CTASection = () => {
                     <CheckCircle className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Start Learning!</h4>
-                    <p className="text-primary-foreground/80 text-sm">Begin your tech journey with us</p>
+                    <h4 className="font-semibold text-white mb-1">Start Contributing!</h4>
+                    <p className="text-primary-foreground/80 text-sm">Begin your collaborative journey with us</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -209,7 +180,7 @@ export const CTASection = () => {
                   size="lg"
                   asChild
                 >
-                  <Link href="/join">
+                  <Link href="/projects">
                     Get Started Today
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>

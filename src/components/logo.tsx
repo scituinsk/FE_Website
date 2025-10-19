@@ -18,13 +18,13 @@ export const ApplicationLogo = ({ responsive = true }: ApplicationLogoProps) => 
           src="/logo-scit.png"
           alt="SCIT Logo"
           fill
-          className="object-contain"
           priority
+          className="object-contain"
         />
       </div>
 
       {/* Text Group */}
-      <div className={cn("flex flex-col", responsive ? "hidden sm:flex" : "")}>
+      <div className={cn("flex flex-col", responsive ? "hidden min-[330px]:flex" : "")}>
         <span className="text-xl font-bold leading-tight text-foreground">SCIT</span>
         <span className="text-xs font-normal leading-tight text-muted-foreground">Study Club Informatika</span>
       </div>

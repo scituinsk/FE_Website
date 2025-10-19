@@ -1,17 +1,20 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Users, Code2, Lightbulb, Target, BookOpen, Award, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { Code2, Lightbulb, BookOpen, Award, ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useScrollAnimation, fadeInUp, fadeInLeft, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { SCIT_DIVISIONS } from "@/constants/division";
 
 export const AboutSection = () => {
   const { ref: headerRef, controls: headerControls } = useScrollAnimation();
   const { ref: contentRef, controls: contentControls } = useScrollAnimation();
   const { ref: cardsRef, controls: cardsControls } = useScrollAnimation();
-  const { ref: valuesRef, controls: valuesControls } = useScrollAnimation();
+
+  const { ref: divisonsRef, controls: divisionControls } = useScrollAnimation();
 
   return (
     <section className="py-24 bg-surface">
@@ -97,7 +100,7 @@ export const AboutSection = () => {
                   <CardTitle className="text-lg">Development</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>Web, mobile, dan desktop development dengan teknologi terkini</CardDescription>
+                  <CardDescription className="h-[60px]">Web, mobile, dan desktop development dengan teknologi terkini</CardDescription>
                 </CardContent>
               </Card>
             </motion.div>
@@ -111,7 +114,7 @@ export const AboutSection = () => {
                   <CardTitle className="text-lg">Innovation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>Penelitian dan pengembangan solusi teknologi inovatif</CardDescription>
+                  <CardDescription className="h-[60px]">Penelitian dan pengembangan solusi teknologi inovatif</CardDescription>
                 </CardContent>
               </Card>
             </motion.div>
@@ -125,7 +128,7 @@ export const AboutSection = () => {
                   <CardTitle className="text-lg">Education</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>Workshop, seminar, dan program pelatihan teknologi</CardDescription>
+                  <CardDescription className="h-[60px]">Workshop, seminar, dan program pelatihan teknologi</CardDescription>
                 </CardContent>
               </Card>
             </motion.div>
@@ -139,63 +142,57 @@ export const AboutSection = () => {
                   <CardTitle className="text-lg">Achievement</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription>Prestasi kompetisi dan penghargaan di bidang teknologi</CardDescription>
+                  <CardDescription className="h-[60px]">Prestasi kompetisi dan penghargaan di bidang teknologi</CardDescription>
                 </CardContent>
               </Card>
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Values section */}
+        {/* Divisions */}
         <motion.div
-          ref={valuesRef}
+          ref={divisonsRef}
           initial="hidden"
-          animate={valuesControls}
+          animate={divisionControls}
           variants={fadeInUp}
-          className="bg-background rounded-3xl p-8 md:p-12"
+          className="mt-20"
         >
           <div className="text-center mb-12">
-            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Our Core Values</h3>
-            <p className="text-muted-foreground">Nilai-nilai fundamental yang menjadi landasan setiap aktivitas SCIT</p>
+            <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Division</h3>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Setiap divisi berperan penting dalam mendukung pengembangan anggota dan keberlangsungan organisasi.
+            </p>
           </div>
 
-          <motion.div
-            variants={staggerContainer}
-            className="grid md:grid-cols-3 gap-8"
-          >
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="w-16 h-16  bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Users className="h-8 w-8 text-surface" />
-              </div>
-              <h4 className="text-xl font-semibold text-foreground mb-3">Collaboration</h4>
-              <p className="text-muted-foreground">Bekerja sama dalam tim untuk mencapai tujuan bersama dan saling mendukung</p>
-            </motion.div>
+          <div className="max-w-7xl mx-auto grid grid-cols-1 min-[1303px]:grid-cols-3 gap-6">
+            {SCIT_DIVISIONS.map((division) => (
+              <Link
+                key={division.link}
+                href={division.link}
+              >
+                <div className="relative h-80 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300  cursor-pointer group">
+                  {/* Background Image */}
+                  <img
+                    src={division.bannerContainer}
+                    alt={division.name}
+                    className="w-full h-full object-cover transition-transform duration-500"
+                  />
 
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Target className="h-8 w-8 text-surface" />
-              </div>
-              <h4 className="text-xl font-semibold text-foreground mb-3">Excellence</h4>
-              <p className="text-muted-foreground">Selalu berusaha memberikan yang terbaik dalam setiap karya dan prestasi</p>
-            </motion.div>
+                  {/* Overlay Gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/90 via-cyan-800/40 to-cyan-600/20 group-hover:from-cyan-900/95 group-hover:via-cyan-800/50 group-hover:to-cyan-600/30 transition-all duration-300" />
 
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mx-auto mb-6">
-                <Lightbulb className="h-8 w-8 text-surface" />
-              </div>
-              <h4 className="text-xl font-semibold text-foreground mb-3">Innovation</h4>
-              <p className="text-muted-foreground">Menciptakan solusi kreatif dan inovatif untuk tantangan masa depan</p>
-            </motion.div>
-          </motion.div>
+                  {/* Content */}
+                  <div className="absolute inset-0 flex items-center justify-center p-6">
+                    <h1 className="text-white text-2xl sm:text-3xl font-bold text-center leading-tight drop-shadow-lg group-hover:drop-shadow-xl transition-all duration-300">
+                      {division.name}
+                    </h1>
+                  </div>
+
+                  {/* Bottom Accent Bar */}
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-cyan-400 via-cyan-300 to-cyan-400 origin-left scale-x-0  transition-transform duration-500" />
+                </div>
+              </Link>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
