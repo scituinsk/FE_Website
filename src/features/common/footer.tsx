@@ -8,7 +8,7 @@ import { footerConfig } from "@/constants/footer-config";
 
 const Footer = () => {
   return (
-    <footer className="bg-background border-t border-background">
+    <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">

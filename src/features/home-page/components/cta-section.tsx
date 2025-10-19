@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, CheckCircle, Zap, Target, Rocket, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle, Zap, Rocket, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, fadeInLeft, fadeInRight, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
@@ -19,8 +19,8 @@ export const CTASection = () => {
   ];
 
   return (
-    <section className="py-24 bg-gradient-to-br bg-blue-gradient relative overflow-hidden">
-      {/* Background elements */}
+    <section className="py-24 bg-primary relative overflow-hidden">
+      {/* Background Elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-surface/5"></div>
       </div>
@@ -47,7 +47,7 @@ export const CTASection = () => {
 
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
               Ready to Collaborate & Innovate in
-              <span className="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">Technology?</span>
+              <span className="block text-yellow-400">Technology?</span>
             </h2>
 
             <p className="text-xl text-blue-100 mb-8 leading-relaxed">

@@ -11,8 +11,8 @@ export default function NotFound() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+      {/* Background tint */}
+      <div className="absolute inset-0 bg-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -56,7 +56,7 @@ export default function NotFound() {
               className="text-3xl md:text-5xl font-bold text-foreground leading-tight"
             >
               Oops! Halaman
-              <span className="block text-primary-gradient">Tidak Ditemukan</span>
+              <span className="block text-primary">Tidak Ditemukan</span>
             </motion.h1>
 
             {/* Description */}

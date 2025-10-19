@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, Rubik } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
 import { TRPCProvider } from "@/trpc/client";
@@ -19,6 +19,20 @@ export const metadata: Metadata = {
   title: {
     template: "%s | SCIT UIN Sunan Kalijaga",
     default: "SCIT UIN Sunan Kalijaga",
+  },
+  icons: {
+    icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        url: "/favicon/scit-light.png",
+        href: "/favicon/scit-light.png",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        url: "/favicon/scit.png",
+        href: "/favicon/scit-dark.png",
+      },
+    ],
   },
   description: "Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta yang berfokus pada pengembangan skill dan inovasi teknologi.",
   keywords: "SCIT, UIN Suka, teknologi informasi, programming, web development, mobile development",

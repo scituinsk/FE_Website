@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import { Calendar, Mail, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 
 export const ContactInfoSection = () => {

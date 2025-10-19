@@ -20,9 +20,9 @@ export const VisiMisiSection = () => {
           className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto"
         >
           <motion.div variants={staggerItem}>
-            <Card className="p-8 border-0 bg-gradient-to-br from-primary/5 to-primary/10">
+            <Card className="p-8 border-0 bg-primary/10">
               <CardHeader className="pb-6">
-                <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                   <Eye className="h-8 w-8 text-surface" />
                 </div>
                 <CardTitle className="text-2xl">Our Vision</CardTitle>
@@ -37,9 +37,9 @@ export const VisiMisiSection = () => {
           </motion.div>
 
           <motion.div variants={staggerItem}>
-            <Card className="p-8 border-0 bg-gradient-to-br from-primary/5 to-primary/10">
+            <Card className="p-8 border-0 bg-primary/10">
               <CardHeader className="pb-6">
-                <div className="w-16 h-16 bg-primary-gradient rounded-2xl flex items-center justify-center mb-4">
+                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
                   <Target className="h-8 w-8 text-surface" />
                 </div>
                 <CardTitle className="text-2xl">Our Mission</CardTitle>

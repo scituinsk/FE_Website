@@ -24,7 +24,7 @@ export const footerConfig = {
     },
     {
       name: "Galery",
-      href: "/contact",
+      href: "/galery",
     },
   ],
   divisions: SCIT_DIVISIONS,

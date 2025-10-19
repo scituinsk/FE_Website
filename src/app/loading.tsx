@@ -9,8 +9,8 @@ export default function Loading() {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-primary/5" />
+      {/* Background tint */}
+      <div className="absolute inset-0 bg-primary/5" />
 
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.02]">
@@ -51,10 +51,10 @@ export default function Loading() {
             {/* Main heading */}
             <motion.h1
               variants={fadeInUp}
-              className="text-2xl md:text-4xl font-bold text-foreground leading-tight"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
-              Sedang
-              <span className="block text-primary-gradient">Memuat</span>
+              Loading
+              <span className="block text-primary">Memuat</span>
             </motion.h1>
 
             {/* Description */}

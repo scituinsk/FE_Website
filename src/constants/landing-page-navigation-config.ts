@@ -25,6 +25,6 @@ export const ctaButtons = [
   {
     label: "Contact Us",
     href: "/contact",
-    variant: "outline" as const,
+    variant: "default" as const,
   },
 ] as const;
