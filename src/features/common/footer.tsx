@@ -9,18 +9,18 @@ import { footerConfig } from "@/constants/footer-config";
 const Footer = () => {
   return (
     <footer className="bg-surface border-t border-2 border-background">
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8 md:py-12 ">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           {/* About SCIT */}
           <div className="space-y-4">
             <ApplicationLogo responsive={false} />
             <p className="text-sm text-muted-foreground leading-relaxed">{footerConfig.description}</p>
-            <div className="flex space-x-3">
+            <div className="flex flex-wrap gap-2">
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-9 w-9 flex-shrink-0"
                 asChild
               >
                 <Link
@@ -33,7 +33,7 @@ const Footer = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-9 w-9 flex-shrink-0"
                 asChild
               >
                 <Link
@@ -46,7 +46,7 @@ const Footer = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-9 w-9 flex-shrink-0"
                 asChild
               >
                 <Link
@@ -59,7 +59,7 @@ const Footer = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9"
+                className="h-9 w-9 flex-shrink-0"
                 asChild
               >
                 <Link
@@ -140,10 +140,10 @@ const Footer = () => {
         <Separator className="my-8" />
 
         {/* Bottom Footer */}
-        <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} SCIT UIN Sunan Kalijaga. All rights reserved.</p>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center flex-wrap gap-2 sm:gap-4">
               <Link
                 href="/privacy"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"

@@ -56,11 +56,11 @@ export const TechStackList = ({ techNames, size = "md", className = "" }: TechSt
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden ${className}`}
+      className={`relative ${className}`}
     >
-      <div className="flex gap-2 items-center flex-nowrap overflow-x-auto scrollbar-hide">
+      <div className="flex gap-2 items-center flex-wrap">
         <AnimatePresence mode="wait">
-          {techNames.map((techName, index) => {
+          {techNames.slice(0, 8).map((techName, index) => {
             const techStack = getTechStack(techName);
 
             return (
@@ -112,6 +112,22 @@ export const TechStackList = ({ techNames, size = "md", className = "" }: TechSt
               </motion.div>
             );
           })}
+          {techNames.length > 8 && (
+            <motion.div
+              variants={staggerItem}
+              initial="hidden"
+              animate="visible"
+              className={`
+                flex shrink-0 items-center justify-center bg-muted/70 rounded-lg
+                ${sizeClasses[size]}
+              `}
+              title={`+${techNames.length - 8} more technologies`}
+            >
+              <span className={`text-muted-foreground font-medium ${size === "sm" ? "text-xs" : size === "md" ? "text-sm" : "text-base"}`}>
+                +{techNames.length - 8}
+              </span>
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </div>
@@ -122,10 +138,9 @@ export const TechStackList = ({ techNames, size = "md", className = "" }: TechSt
 interface TechStackItemProps {
   techName: string;
   size?: "sm" | "md" | "lg";
-  showTooltip?: boolean;
 }
 
-export const TechStackItem = ({ techName, size = "md", showTooltip = true }: TechStackItemProps) => {
+export const TechStackItem = ({ techName, size = "md" }: TechStackItemProps) => {
   const [mounted, setMounted] = useState(false);
   const { theme, systemTheme } = useTheme();
 
@@ -168,7 +183,7 @@ export const TechStackItem = ({ techName, size = "md", showTooltip = true }: Tec
         transition-all duration-300 hover:shadow-md hover:scale-105 hover:bg-secondary
         ${sizeClasses[size]}
       `}
-        title={techName} // Tooltip untuk nama tech stack
+        title={techName}
       >
         {techStack ? (
           <div className="relative">
@@ -200,17 +215,6 @@ export const TechStackItem = ({ techName, size = "md", showTooltip = true }: Tec
           </div>
         )}
       </div>
-
-      {/* Tooltip */}
-      {showTooltip && techStack && (
-        <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10">
-          <div className="bg-popover text-popover-foreground px-3 py-2 rounded-lg shadow-lg text-sm text-center border">
-            <p className="font-medium">{techStack.name}</p>
-            <p className="text-xs text-muted-foreground capitalize">{techStack.category.replace("-", " ")}</p>
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-popover"></div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

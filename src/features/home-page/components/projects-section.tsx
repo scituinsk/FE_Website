@@ -118,16 +118,15 @@ export const ProjectsSection = () => {
           initial="hidden"
           animate={projectsControls}
           variants={staggerContainer}
-          className="grid lg:grid-cols-3 gap-8 mb-16"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
         >
           {featuredProjects.map((project, index) => (
             <motion.div
               key={index}
               variants={staggerItem}
             >
-              <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-                {/* === Responsive Project Image === */}
-                <div className="relative w-full aspect-video">
+              <Card className="group hover:shadow-xl w-full h-full transition-all duration-300 overflow-hidden flex flex-col">
+                <div className="relative w-full aspect-video flex-shrink-0">
                   <Image
                     src={"https://placehold.co/600x400"}
                     alt={project.title}
@@ -147,39 +146,39 @@ export const ProjectsSection = () => {
                   </div>
                 </CardHeader>
 
-                <CardContent className="space-y-4">
+                <CardContent className="space-y-4 flex-1 flex flex-col">
                   {/* === Tech Stack === */}
                   <TechStackList
                     techNames={project.tech}
                     size="sm"
-                    className="mb-4"
+                    className="mb-4 flex-shrink-0"
                   />
 
                   {/* === Action Buttons === */}
-                  <div className="flex gap-2 pt-2">
+                  <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-1"
+                      className="flex-1 min-w-0 py-2"
                       asChild
                     >
                       <Link
                         href={project.demo}
                         target="_blank"
                       >
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Demo
+                        <ExternalLink className="h-4 w-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">Demo</span>
                       </Link>
                     </Button>
                     <Button
                       size="sm"
-                      className="flex-1"
+                      className="flex-1 min-w-0 py-2"
                       variant="default"
                       asChild
                     >
                       <Link href={project.href}>
-                        Lihat Selengkapnya
-                        <ArrowRight className="h-4 w-4 mr-2" />
+                        <span className="truncate">Lihat Selengkapnya</span>
+                        <ArrowRight className="h-4 w-4 ml-2 flex-shrink-0" />
                       </Link>
                     </Button>
                   </div>
