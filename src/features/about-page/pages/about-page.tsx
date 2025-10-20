@@ -3,7 +3,6 @@ import { TeamSection } from "../components/team-section";
 import { ValuesSection } from "../components/values-section";
 import { TimelineSection } from "../components/timeline-section";
 import { VisiMisiSection } from "../components/visi-misi-section";
-import { ContactInfoSection } from "../components/contact-info-section";
 
 export const AboutPage = () => {
   return (
@@ -13,7 +12,6 @@ export const AboutPage = () => {
       <TimelineSection />
       <TeamSection />
       <ValuesSection />
-      <ContactInfoSection />
     </div>
   );
 };

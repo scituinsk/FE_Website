@@ -1,19 +1,17 @@
-"use client";
+import Link from "next/link";
+import * as motion from "framer-motion/client";
 
-import { motion } from "framer-motion";
-import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
-import { Users } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
 export const HeroSection = () => {
-  const { ref: heroRef, controls: heroControls } = useScrollAnimation();
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[56vh] md:min-h-[64vh] flex items-center overflow-hidden">
       {/* Background tint */}
-      <div className="absolute inset-0 bg-primary/5" />
+      <div className="absolute inset-0 bg-primary/6" />
 
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
+      {/* Subtle tiled pattern */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
         <div
           className="absolute inset-0"
           style={{
@@ -22,46 +20,58 @@ export const HeroSection = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="text-center max-w-5xl mx-auto">
-          <motion.div
-            ref={heroRef}
-            initial="hidden"
-            animate={heroControls}
-            variants={staggerContainer}
-            className="space-y-6"
-          >
+      <div className="container mx-auto px-4 py-10 relative z-10">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
             <motion.div
-              variants={fadeInDown}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
+              variants={staggerContainer}
+              className="space-y-4 md:space-y-6"
+              {...animationConfig}
             >
-              <Users className="h-4 w-4" />
-              About Our Community
+              <motion.h1
+                variants={fadeIn}
+                className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-foreground leading-tight"
+              >
+                Komunitas & Proyek Teknologi
+              </motion.h1>
+
+              <motion.p
+                variants={fadeIn}
+                className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed"
+              >
+                Student Community of Information Technology UIN Sunan Kalijaga adalah wadah kolaborasi mahasiswa untuk mengerjakan proyek nyata,
+                workshop, dan membangun portofolio teknologi.
+              </motion.p>
+
+              <motion.div variants={fadeIn}>
+                <Button asChild>
+                  <Link href="/projects">Jelajahi Proyek Kami</Link>
+                </Button>
+              </motion.div>
             </motion.div>
 
-            <motion.h1
-              variants={fadeInUp}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
+            <motion.div
+              variants={fadeIn}
+              className="relative flex justify-center md:justify-end"
             >
-              Tentang SCIT
-              <span className="block text-primary">UIN Suka</span>
-            </motion.h1>
+              {/* Illustration / image on the right. Replace src with your asset or external URL */}
+              <img
+                src="/assets/colaboration-ilustration.png"
+                alt="Ilustrasi kolaborasi dan proyek"
+                className="w-full max-w-md rounded-2xl shadow-lg object-cover"
+              />
 
-            <motion.p
-              variants={fadeInUp}
-              className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
-            >
-              Student Community of Information Technology UIN Sunan Kalijaga adalah organisasi mahasiswa yang berdedikasi untuk mengembangkan
-              ekosistem teknologi informasi di kampus dan berkontribusi bagi masyarakat.
-            </motion.p>
-          </motion.div>
+              {/* decorative orbs */}
+              <div className="absolute -top-6 -right-6 w-14 h-14 bg-primary/18 rounded-full blur-lg" />
+              <div className="absolute bottom-[-18px] left-6 w-8 h-8 bg-primary/12 rounded-full blur-md" />
+            </motion.div>
+          </div>
         </div>
       </div>
 
-      {/* Floating elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-primary/20 rounded-full blur-xl" />
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-primary/15 rounded-full blur-xl" />
-      <div className="absolute top-1/2 right-20 w-16 h-16 bg-primary/25 rounded-full blur-xl" />
+      {/* Floating accents */}
+      <div className="absolute top-12 left-6 w-14 h-14 bg-primary/18 rounded-full blur-xl" />
+      <div className="absolute bottom-12 right-8 w-24 h-24 bg-primary/12 rounded-full blur-xl" />
     </section>
   );
 };

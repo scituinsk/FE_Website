@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Facebook, Instagram, Twitter, Github, Mail, Phone, MapPin } from "lucide-react";
+import { Instagram, Github, Mail, MapPin, Linkedin } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
+import { Separator } from "@/components/ui/separator";
 import { footerConfig } from "@/constants/footer-config";
 
 const Footer = () => {
@@ -24,7 +24,7 @@ const Footer = () => {
                 asChild
               >
                 <Link
-                  href="https://instagram.com/scit_uinsuka"
+                  href={footerConfig.socialMedia.instagram}
                   target="_blank"
                 >
                   <Instagram className="h-4 w-4" />
@@ -37,20 +37,7 @@ const Footer = () => {
                 asChild
               >
                 <Link
-                  href="https://twitter.com/scit_uinsuka"
-                  target="_blank"
-                >
-                  <Twitter className="h-4 w-4" />
-                </Link>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="h-9 w-9 flex-shrink-0"
-                asChild
-              >
-                <Link
-                  href="https://github.com/scit-uinsuka"
+                  href={footerConfig.socialMedia.github}
                   target="_blank"
                 >
                   <Github className="h-4 w-4" />
@@ -63,10 +50,10 @@ const Footer = () => {
                 asChild
               >
                 <Link
-                  href="https://facebook.com/scit.uinsuka"
+                  href={footerConfig.socialMedia.linkedin}
                   target="_blank"
                 >
-                  <Facebook className="h-4 w-4" />
+                  <Linkedin className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -124,7 +111,7 @@ const Footer = () => {
                   {footerConfig.contact.email}
                 </a>
               </div>
-              <div className="flex items-center space-x-3">
+              {/* <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-primary flex-shrink-0" />
                 <a
                   href="#"
@@ -132,7 +119,7 @@ const Footer = () => {
                 >
                   {footerConfig.contact.phone}
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
