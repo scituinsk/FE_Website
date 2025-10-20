@@ -17,44 +17,7 @@ import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
-
-// Navigation items configuration
-const navigationItems = [
-  {
-    label: "Home",
-    href: "/",
-    exact: true, // Only match exact path for home
-  },
-  {
-    label: "About Us",
-    href: "/about",
-    exact: false, // Match /about and /about/*
-  },
-  {
-    label: "Projects",
-    href: "/projects",
-    exact: false, // Match /projects and /projects/*
-  },
-  {
-    label: "Blog",
-    href: "/blog",
-    exact: false, // Match /blog and /blog/*
-  },
-] as const;
-
-// CTA buttons configuration
-const ctaButtons = [
-  {
-    label: "Contact Us",
-    href: "/contact",
-    variant: "outline" as const,
-  },
-  {
-    label: "Join SCIT",
-    href: "/join",
-    variant: "default" as const,
-  },
-] as const;
+import { ctaButtons, navigationItems } from "@/constants/landing-page-navigation-config";
 
 export const LandingPageHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -101,7 +64,7 @@ export const LandingPageHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-surface/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-surface backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <ApplicationLogo />
@@ -125,7 +88,7 @@ export const LandingPageHeader = () => {
         {/* CTA Button & Theme Toggle */}
         <div className="hidden lg:flex items-center space-x-2">
           <ThemeToggle />
-          <div className="w-px h-6 bg-border" />
+
           {ctaButtons.map((button) => (
             <Button
               key={button.href}
@@ -189,13 +152,7 @@ export const LandingPageHeader = () => {
                 </Link>
               ))}
 
-              {/* CTA Section */}
               <div className="pt-4 space-y-3 border-t border-border">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium text-foreground">Theme</span>
-                  <ThemeToggle />
-                </div>
-
                 {/* CTA Buttons */}
                 {ctaButtons.map((button) => (
                   <Button

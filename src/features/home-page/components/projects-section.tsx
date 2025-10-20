@@ -3,9 +3,11 @@
 import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink, Github, Users, Calendar, Star } from "lucide-react";
+import { ArrowRight, ExternalLink, Star } from "lucide-react";
 import { motion } from "framer-motion";
 import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { TechStackList } from "@/components/tech-stack-list";
+import Image from "next/image";
 
 export const ProjectsSection = () => {
   const { ref: headerRef, controls: headerControls } = useScrollAnimation();
@@ -19,34 +21,44 @@ export const ProjectsSection = () => {
       description:
         "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics.",
       image: "/projects/smart-campus.jpg",
-      tech: ["React", "Node.js", "PostgreSQL", "IoT"],
-      status: "Production",
-      teamSize: 8,
-      duration: "6 months",
-      github: "https://github.com/scit-uinsuka/smart-campus",
+      tech: ["React", "Node.js", "PostgreSQL", "IoT", "Docker", "TypeScript"],
       demo: "https://smartcampus.uin-suka.ac.id",
+      href: "/projects/smart-campus-sistem",
     },
     {
       title: "Mental Health Tracker",
       description: "Aplikasi mobile untuk monitoring kesehatan mental mahasiswa dengan fitur mood tracking, konseling online, dan community support.",
       image: "/projects/mental-health.jpg",
-      tech: ["React Native", "Firebase", "Python", "AI/ML"],
-      status: "Beta Testing",
-      teamSize: 6,
-      duration: "4 months",
-      github: "https://github.com/scit-uinsuka/mental-health-tracker",
+      tech: ["React Native", "Firebase", "Python", "AI/ML", "Figma", "TypeScript"],
       demo: "https://mentalhealth.scit-uinsuka.id",
+      href: "/projects/smart-campus-sistem",
     },
     {
       title: "Islamic Finance API",
       description: "RESTful API untuk sistem keuangan syariah dengan fitur perhitungan zakat, investasi halal, dan compliance monitoring.",
       image: "/projects/islamic-finance.jpg",
-      tech: ["Node.js", "Express", "MongoDB", "Docker"],
-      status: "Development",
-      teamSize: 5,
-      duration: "8 months",
-      github: "https://github.com/scit-uinsuka/islamic-finance-api",
+      tech: [
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Docker",
+        "JWT",
+        "Stripe API",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Docker",
+        "JWT",
+        "Stripe API",
+        "Node.js",
+        "Express",
+        "MongoDB",
+        "Docker",
+        "JWT",
+        "Stripe API",
+      ],
       demo: "https://api.islamicfinance.id",
+      href: "/projects/smart-campus-sistem",
     },
   ];
 
@@ -106,89 +118,66 @@ export const ProjectsSection = () => {
           initial="hidden"
           animate={projectsControls}
           variants={staggerContainer}
-          className="grid lg:grid-cols-3 gap-8 mb-16"
+          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
         >
           {featuredProjects.map((project, index) => (
             <motion.div
               key={index}
               variants={staggerItem}
             >
-              <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-                {/* Project image placeholder */}
-                <div className="h-48 bg-gradient-to-br from-blue-100 to-blue-200 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-700/30" />
-                  <div className="absolute bottom-4 left-4">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        project.status === "Production"
-                          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
-                          : project.status === "Beta Testing"
-                          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400"
-                          : "bg-primary/10 text-primary"
-                      }`}
-                    >
-                      {project.status}
-                    </span>
-                  </div>
+              <Card className="group hover:shadow-xl w-full h-full transition-all duration-300 overflow-hidden flex flex-col">
+                <div className="relative w-full aspect-video flex-shrink-0">
+                  <Image
+                    src={"https://placehold.co/600x400"}
+                    alt={project.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    priority
+                  />
                 </div>
 
                 <CardHeader>
-                  <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
-                  <CardDescription className="leading-relaxed">{project.description}</CardDescription>
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex-1">
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors line-clamp-1">{project.title}</CardTitle>
+                      <CardDescription className="leading-relaxed line-clamp-2 mt-2">{project.description}</CardDescription>
+                    </div>
+                  </div>
                 </CardHeader>
 
-                <CardContent className="space-y-4">
-                  {/* Tech stack */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tech.map((tech, techIndex) => (
-                      <span
-                        key={techIndex}
-                        className="px-2 py-1 bg-secondary text-secondary-foreground text-xs rounded-lg"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Project stats */}
-                  <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Users className="h-4 w-4" />
-                      {project.teamSize} members
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      {project.duration}
-                    </div>
-                  </div>
-
-                  {/* Action buttons */}
-                  <div className="flex gap-2 pt-2">
+                <CardContent className="space-y-4 flex-1 flex flex-col">
+                  {/* === Tech Stack === */}
+                  <TechStackList
+                    techNames={project.tech}
+                    size="sm"
+                    className="mb-4 flex-shrink-0"
+                  />
+                  {/* === Action Buttons === */}
+                  <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
                     <Button
                       variant="outline"
                       size="sm"
-                      className="flex-1"
-                      asChild
-                    >
-                      <Link
-                        href={project.github}
-                        target="_blank"
-                      >
-                        <Github className="h-4 w-4 mr-2" />
-                        Code
-                      </Link>
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="flex-1"
+                      className="flex-1 min-w-0 py-2"
                       asChild
                     >
                       <Link
                         href={project.demo}
                         target="_blank"
                       >
-                        <ExternalLink className="h-4 w-4 mr-2" />
-                        Demo
+                        <ExternalLink className="h-4 w-4 mr-2 flex-shrink-0" />
+                        <span className="truncate">Demo</span>
+                      </Link>
+                    </Button>
+                    <Button
+                      size="sm"
+                      className="flex-1 min-w-0 py-2"
+                      variant="default"
+                      asChild
+                    >
+                      <Link href={project.href}>
+                        <span className="truncate">Lihat Selengkapnya</span>
+                        <ArrowRight className="h-4 w-4 ml-2 flex-shrink-0" />
                       </Link>
                     </Button>
                   </div>
@@ -241,9 +230,10 @@ export const ProjectsSection = () => {
             <Star className="h-4 w-4" />
             Explore More Projects
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Ready to Build Something Amazing?</h3>
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Driving Change Through Technology.</h3>
           <p className="text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Bergabunglah dengan SCIT dan wujudkan ide-ide inovatif Anda menjadi solusi teknologi yang berdampak nyata bagi masyarakat
+            Di SCIT, kami percaya setiap baris kode dapat membawa perubahan. Kami adalah komunitas mahasiswa yang berfokus pada pengembangan
+            teknologi, kolaborasi, dan pembelajaran bersama untuk menciptakan inovasi yang bermanfaat dan berdampak luas.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -254,13 +244,6 @@ export const ProjectsSection = () => {
                 View All Projects
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              asChild
-            >
-              <Link href="/join">Join Our Team</Link>
             </Button>
           </div>
         </motion.div>
