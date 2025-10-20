@@ -31,13 +31,13 @@ export const PartnerCard = ({ partner, showBadge = true }: PartnerCardProps) => 
           ${partner.website ? "cursor-pointer" : "cursor-default"}
         `}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={partner.logo}
             alt={partner.name}
             className="h-8 md:h-10 lg:h-12 w-auto opacity-100 transition-all duration-300 group-hover:grayscale-0 "
             loading="lazy"
           />
-
           {/* Partnership type badge */}
           {showBadge && (
             <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

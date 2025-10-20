@@ -156,6 +156,7 @@ export const AboutSection = () => {
               >
                 <div className="relative h-80 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300  cursor-pointer group">
                   {/* Background Image */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={division.bannerContainer}
                     alt={division.name}
