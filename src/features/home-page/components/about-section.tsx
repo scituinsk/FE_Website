@@ -1,31 +1,22 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "framer-motion";
+import * as motion from "framer-motion/client";
 import { Code2, Lightbulb, BookOpen, Award, ArrowRight } from "lucide-react";
+
+import { SCIT_DIVISIONS } from "@/constants/division";
+import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useScrollAnimation, fadeInUp, fadeInLeft, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
-import { SCIT_DIVISIONS } from "@/constants/division";
 
 export const AboutSection = () => {
-  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
-  const { ref: contentRef, controls: contentControls } = useScrollAnimation();
-  const { ref: cardsRef, controls: cardsControls } = useScrollAnimation();
-
-  const { ref: divisonsRef, controls: divisionControls } = useScrollAnimation();
-
   return (
     <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <motion.div
-          ref={headerRef}
-          initial="hidden"
-          animate={headerControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="text-center max-w-3xl mx-auto mb-16"
+          {...animationConfig}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">About SCIT UIN Suka</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -38,11 +29,9 @@ export const AboutSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
           {/* Left content */}
           <motion.div
-            ref={contentRef}
-            initial="hidden"
-            animate={contentControls}
-            variants={fadeInLeft}
+            variants={fadeIn}
             className="space-y-6"
+            {...animationConfig}
           >
             <div className="space-y-4">
               <h3 className="text-2xl font-bold text-foreground">Membangun Masa Depan Digital Indonesia</h3>
@@ -85,11 +74,9 @@ export const AboutSection = () => {
 
           {/* Right content - Feature cards */}
           <motion.div
-            ref={cardsRef}
-            initial="hidden"
-            animate={cardsControls}
             variants={staggerContainer}
             className="grid sm:grid-cols-2 gap-6"
+            {...animationConfig}
           >
             <motion.div variants={staggerItem}>
               <Card className="group hover:shadow-lg transition-all duration-300">
@@ -150,11 +137,9 @@ export const AboutSection = () => {
         </div>
         {/* Divisions */}
         <motion.div
-          ref={divisonsRef}
-          initial="hidden"
-          animate={divisionControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="mt-20"
+          {...animationConfig}
         >
           <div className="text-center mb-12">
             <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Division</h3>
@@ -171,6 +156,7 @@ export const AboutSection = () => {
               >
                 <div className="relative h-80 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300  cursor-pointer group">
                   {/* Background Image */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={division.bannerContainer}
                     alt={division.name}

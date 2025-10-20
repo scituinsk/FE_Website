@@ -148,3 +148,107 @@ export const categories = [
   "Social App",
   "Religious App",
 ];
+
+export const PROJECTS = [
+  {
+    title: "Smart Campus System",
+    description:
+      "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics.",
+    image: "/projects/smart-campus.jpg",
+    tech: ["React", "Node.js", "PostgreSQL", "IoT", "Docker", "TypeScript"],
+    demo: "https://smartcampus.uin-suka.ac.id",
+    href: "/projects/smart-campus-system",
+  },
+  {
+    title: "Mental Health Tracker",
+    description: "Aplikasi mobile untuk monitoring kesehatan mental mahasiswa dengan fitur mood tracking, konseling online, dan community support.",
+    image: "/projects/mental-health.jpg",
+    tech: ["React Native", "Firebase", "Python", "AI/ML", "Figma", "TypeScript"],
+    demo: "https://mentalhealth.scit-uinsuka.id",
+    href: "/projects/mental-health-tracker",
+  },
+  {
+    title: "Islamic Finance API",
+    description: "RESTful API untuk sistem keuangan syariah dengan fitur perhitungan zakat, investasi halal, dan compliance monitoring.",
+    image: "/projects/islamic-finance.jpg",
+    tech: ["Node.js", "Express", "MongoDB", "Docker", "JWT", "Stripe API"],
+    demo: "https://api.islamicfinance.id",
+    href: "/projects/islamic-finance-api",
+  },
+  {
+    title: "EcoTrack - Environmental Monitor",
+    description:
+      "IoT-based environmental monitoring system untuk kampus hijau dengan sensor kualitas udara, monitoring energi, dan dashboard sustainability.",
+    image: "/projects/ecotrack.jpg",
+    tech: ["Arduino", "Raspberry Pi", "React", "InfluxDB", "Grafana"],
+    demo: "https://ecotrack.uin-suka.ac.id",
+    href: "/projects/ecotrack-environmental-monitor",
+  },
+  {
+    title: "Al-Quran Digital Learning",
+    description:
+      "Platform pembelajaran Al-Quran digital dengan fitur tajwid recognition, hafalan tracking, dan gamifikasi untuk meningkatkan engagement.",
+    image: "/projects/quran-learning.jpg",
+    tech: ["Flutter", "Python", "TensorFlow", "Firebase", "Audio Processing"],
+    demo: "https://quranlearn.uin-suka.ac.id",
+    href: "/projects/al-quran-digital-learning",
+  },
+  {
+    title: "Campus Marketplace",
+    description:
+      "Platform e-commerce khusus komunitas kampus untuk jual-beli barang bekas, jasa mahasiswa, dan UMKM sekitar kampus dengan system rating terpercaya.",
+    image: "/projects/marketplace.jpg",
+    tech: ["Next.js", "PostgreSQL", "Stripe", "Redis", "Docker"],
+    demo: "https://marketplace.uin-suka.ac.id",
+    href: "/projects/campus-marketplace",
+  },
+  {
+    title: "Study Buddy Matcher",
+    description: "Aplikasi AI-powered untuk mencocokkan study partner berdasarkan mata kuliah, gaya belajar, jadwal, dan preferensi lokasi.",
+    image: "/projects/study-buddy.jpg",
+    tech: ["React Native", "Python", "Scikit-learn", "MongoDB", "Socket.io"],
+    demo: "https://studybuddy.scit-uinsuka.id",
+    href: "/projects/study-buddy-matcher",
+  },
+  {
+    title: "Islamic Calendar & Prayer Times",
+    description: "Aplikasi kalender Islam lengkap dengan waktu sholat akurat, pengingat dzikir, tracking ibadah, dan fitur komunitas.",
+    image: "/projects/islamic-calendar.jpg",
+    tech: ["Flutter", "Dart", "SQLite", "Firebase", "GPS"],
+    demo: "https://play.google.com/store/apps/islamic-calendar-uinsuka",
+    href: "/projects/islamic-calendar-prayer-times",
+  },
+];
+
+export const PROJECT_CATEGORIES = [
+  {
+    category: "Web Applications",
+    count: 15,
+    description: "Full-stack web applications dengan teknologi modern",
+  },
+  {
+    category: "Mobile Apps",
+    count: 12,
+    description: "Cross-platform mobile applications",
+  },
+  {
+    category: "AI/ML Projects",
+    count: 8,
+    description: "Machine learning dan artificial intelligence solutions",
+  },
+  {
+    category: "IoT Solutions",
+    count: 6,
+    description: "Internet of Things dan embedded systems",
+  },
+  {
+    category: "Open Source",
+    count: 20,
+    description: "Kontribusi ke open source community",
+  },
+  {
+    category: "Research",
+    count: 10,
+    description: "Penelitian dan pengembangan teknologi",
+  },
+];

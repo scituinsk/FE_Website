@@ -1,18 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { ArrowRight, Users } from "lucide-react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, fadeInDown, staggerContainer } from "@/lib/hooks/use-scroll-animation";
-import { getFeaturedPartners } from "@/constants/partners";
+import * as motion from "framer-motion/client";
+
+import { PARTNERS } from "@/constants/partners";
+import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
+
+import { Button } from "@/components/ui/button";
 import { PartnerCard } from "@/components/partner-card";
 
 export const HeroSection = () => {
-  const { ref: heroRef, controls: heroControls } = useScrollAnimation();
-  // const { ref: statsRef, controls: statsControls } = useScrollAnimation();
-  const featuredPartners = getFeaturedPartners();
-
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background tint */}
@@ -32,14 +28,12 @@ export const HeroSection = () => {
         <div className="text-center max-w-5xl mx-auto safe-container">
           {/* Main headline */}
           <motion.div
-            ref={heroRef}
-            initial="hidden"
-            animate={heroControls}
             variants={staggerContainer}
             className="space-y-6 mb-8"
+            {...animationConfig}
           >
             <motion.div
-              variants={fadeInDown}
+              variants={fadeIn}
               className="invisible inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
             >
               <Users className="h-4 w-4" />
@@ -47,7 +41,7 @@ export const HeroSection = () => {
             </motion.div>
 
             <motion.h1
-              variants={fadeInUp}
+              variants={fadeIn}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight safe-text"
             >
               Innovating the Future of
@@ -55,7 +49,7 @@ export const HeroSection = () => {
             </motion.h1>
 
             <motion.p
-              variants={fadeInUp}
+              variants={fadeIn}
               className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed safe-text"
             >
               SCIT UIN Sunan Kalijaga adalah komunitas mahasiswa yang berdedikasi untuk mengembangkan inovasi teknologi dan menciptakan solusi digital
@@ -65,10 +59,9 @@ export const HeroSection = () => {
 
           {/* CTA buttons */}
           <motion.div
-            initial="hidden"
-            animate={heroControls}
-            variants={fadeInUp}
+            variants={fadeIn}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
+            {...animationConfig}
           >
             <Button
               size="lg"
@@ -92,13 +85,12 @@ export const HeroSection = () => {
 
           {/* Partners & Collaborators */}
           <motion.div
-            initial="hidden"
-            animate={heroControls}
-            variants={fadeInUp}
+            variants={fadeIn}
             className="max-w-4xl mx-auto"
+            {...animationConfig}
           >
             <motion.h3
-              variants={fadeInUp}
+              variants={fadeIn}
               className="text-lg md:text-xl text-muted-foreground text-center mb-8 font-medium"
             >
               Telah dipercaya oleh
@@ -106,11 +98,10 @@ export const HeroSection = () => {
 
             <motion.div
               variants={staggerContainer}
-              initial="hidden"
-              animate={heroControls}
               className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-center"
+              {...animationConfig}
             >
-              {featuredPartners.map((partner) => (
+              {PARTNERS.map((partner) => (
                 <PartnerCard
                   key={partner.name}
                   partner={partner}
@@ -119,59 +110,6 @@ export const HeroSection = () => {
               ))}
             </motion.div>
           </motion.div>
-
-          {/* Stats */}
-          {/* <motion.div
-            ref={statsRef}
-            initial="hidden"
-            animate={statsControls}
-            variants={staggerContainer}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
-          >
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Users className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">150+</div>
-              <div className="text-muted-foreground">Member Aktif</div>
-            </motion.div>
-
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Code2 className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">50+</div>
-              <div className="text-muted-foreground">Proyek</div>
-            </motion.div>
-
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Lightbulb className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">25+</div>
-              <div className="text-muted-foreground">Inovasi</div>
-            </motion.div>
-
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Target className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">3</div>
-              <div className="text-muted-foreground">Divisi</div>
-            </motion.div>
-          </motion.div> */}
         </div>
       </div>
 

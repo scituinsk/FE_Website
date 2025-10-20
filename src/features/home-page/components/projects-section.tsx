@@ -1,110 +1,25 @@
-"use client";
-
 import Link from "next/link";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, ExternalLink, Star } from "lucide-react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
-import { TechStackList } from "@/components/tech-stack-list";
 import Image from "next/image";
+import * as motion from "framer-motion/client";
+import { ArrowRight, ExternalLink, Star } from "lucide-react";
+
+import { PROJECT_CATEGORIES, PROJECTS } from "@/constants/projects";
+import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
+
+import { Button } from "@/components/ui/button";
+import { TechStackList } from "@/components/tech-stack-list";
+import { AnimatedNumber } from "@/components/animated-number";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const ProjectsSection = () => {
-  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
-  const { ref: projectsRef, controls: projectsControls } = useScrollAnimation();
-  const { ref: categoriesRef, controls: categoriesControls } = useScrollAnimation();
-  const { ref: ctaRef, controls: ctaControls } = useScrollAnimation();
-
-  const featuredProjects = [
-    {
-      title: "Smart Campus System",
-      description:
-        "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics.",
-      image: "/projects/smart-campus.jpg",
-      tech: ["React", "Node.js", "PostgreSQL", "IoT", "Docker", "TypeScript"],
-      demo: "https://smartcampus.uin-suka.ac.id",
-      href: "/projects/smart-campus-sistem",
-    },
-    {
-      title: "Mental Health Tracker",
-      description: "Aplikasi mobile untuk monitoring kesehatan mental mahasiswa dengan fitur mood tracking, konseling online, dan community support.",
-      image: "/projects/mental-health.jpg",
-      tech: ["React Native", "Firebase", "Python", "AI/ML", "Figma", "TypeScript"],
-      demo: "https://mentalhealth.scit-uinsuka.id",
-      href: "/projects/smart-campus-sistem",
-    },
-    {
-      title: "Islamic Finance API",
-      description: "RESTful API untuk sistem keuangan syariah dengan fitur perhitungan zakat, investasi halal, dan compliance monitoring.",
-      image: "/projects/islamic-finance.jpg",
-      tech: [
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Docker",
-        "JWT",
-        "Stripe API",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Docker",
-        "JWT",
-        "Stripe API",
-        "Node.js",
-        "Express",
-        "MongoDB",
-        "Docker",
-        "JWT",
-        "Stripe API",
-      ],
-      demo: "https://api.islamicfinance.id",
-      href: "/projects/smart-campus-sistem",
-    },
-  ];
-
-  const projectCategories = [
-    {
-      category: "Web Applications",
-      count: 15,
-      description: "Full-stack web applications dengan teknologi modern",
-    },
-    {
-      category: "Mobile Apps",
-      count: 12,
-      description: "Cross-platform mobile applications",
-    },
-    {
-      category: "AI/ML Projects",
-      count: 8,
-      description: "Machine learning dan artificial intelligence solutions",
-    },
-    {
-      category: "IoT Solutions",
-      count: 6,
-      description: "Internet of Things dan embedded systems",
-    },
-    {
-      category: "Open Source",
-      count: 20,
-      description: "Kontribusi ke open source community",
-    },
-    {
-      category: "Research",
-      count: 10,
-      description: "Penelitian dan pengembangan teknologi",
-    },
-  ];
-
   return (
     <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         {/* Section header */}
         <motion.div
-          ref={headerRef}
-          initial="hidden"
-          animate={headerControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="text-center max-w-3xl mx-auto mb-16"
+          {...animationConfig}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Featured Projects</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
@@ -114,13 +29,11 @@ export const ProjectsSection = () => {
 
         {/* Featured projects */}
         <motion.div
-          ref={projectsRef}
-          initial="hidden"
-          animate={projectsControls}
           variants={staggerContainer}
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
+          {...animationConfig}
         >
-          {featuredProjects.map((project, index) => (
+          {PROJECTS.slice(-3).map((project, index) => (
             <motion.div
               key={index}
               variants={staggerItem}
@@ -189,11 +102,9 @@ export const ProjectsSection = () => {
 
         {/* Project categories */}
         <motion.div
-          ref={categoriesRef}
-          initial="hidden"
-          animate={categoriesControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="bg-surface rounded-3xl p-8 md:p-12 mb-12"
+          {...animationConfig}
         >
           <div className="text-center mb-12">
             <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Project Categories</h3>
@@ -204,13 +115,18 @@ export const ProjectsSection = () => {
             variants={staggerContainer}
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
-            {projectCategories.map((category, index) => (
+            {PROJECT_CATEGORIES.map((category, index) => (
               <motion.div
                 key={index}
                 variants={staggerItem}
                 className="bg-card rounded-2xl p-6 text-center hover:shadow-lg transition-all duration-300 group"
               >
-                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">{category.count}</div>
+                <div className="text-3xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform">
+                  <AnimatedNumber
+                    value={category.count}
+                    duration={1}
+                  />
+                </div>
                 <div className="text-lg font-semibold text-foreground mb-2">{category.category}</div>
                 <div className="text-sm text-muted-foreground">{category.description}</div>
               </motion.div>
@@ -220,11 +136,9 @@ export const ProjectsSection = () => {
 
         {/* CTA section */}
         <motion.div
-          ref={ctaRef}
-          initial="hidden"
-          animate={ctaControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="text-center"
+          {...animationConfig}
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
             <Star className="h-4 w-4" />

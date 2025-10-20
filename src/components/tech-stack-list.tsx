@@ -80,6 +80,7 @@ export const TechStackList = ({ techNames, size = "md", className = "" }: TechSt
               >
                 {techStack ? (
                   <div className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={isDark ? techStack.logo.dark : techStack.logo.light}
                       alt={techStack.name}
@@ -187,6 +188,7 @@ export const TechStackItem = ({ techName, size = "md" }: TechStackItemProps) => 
       >
         {techStack ? (
           <div className="relative">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={isDark ? techStack.logo.dark : techStack.logo.light}
               alt={techStack.name}
