@@ -5,7 +5,7 @@ export interface Partner {
   website: string;
 }
 
-export const partners: Partner[] = [
+export const PARTNERS: Partner[] = [
   {
     name: "Google Cloud Platform",
     description: "Cloud computing services dan machine learning platform",
@@ -31,9 +31,3 @@ export const partners: Partner[] = [
     website: "https://aws.amazon.com",
   },
 ] as const;
-
-const LIMIT_VIEW_PARTNER = 4;
-
-export const getFeaturedPartners = () => {
-  return partners.slice(0, LIMIT_VIEW_PARTNER);
-};
