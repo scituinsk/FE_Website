@@ -38,7 +38,7 @@ export const ScrollToTopButton = () => {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          className="cursor-pointer fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-foreground text-background shadow-lg transition-colors hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+          className="cursor-pointer fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-colors hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
           onClick={scrollToTop}
           // Animasi Framer Motion
           initial={{ opacity: 0, scale: 0.8 }}

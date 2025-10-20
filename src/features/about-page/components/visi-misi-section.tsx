@@ -1,34 +1,28 @@
-"use client";
+import * as motion from "framer-motion/client";
 
-import { Eye, Target } from "lucide-react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { animationConfig, staggerContainer, staggerItem } from "@/utils/animations";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const VisiMisiSection = () => {
-  const { ref: visiMisiRef, controls: visiMisiControls } = useScrollAnimation();
-
   return (
     <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         <motion.div
-          ref={visiMisiRef}
-          initial="hidden"
-          animate={visiMisiControls}
           variants={staggerContainer}
-          className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto"
+          className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto items-stretch"
+          {...animationConfig}
         >
-          <motion.div variants={staggerItem}>
-            <Card className="p-8 border-0 bg-primary/10">
+          <motion.div
+            variants={staggerItem}
+            className="h-full"
+          >
+            <Card className="p-8 border-0 bg-primary/10 h-full">
               <CardHeader className="pb-6">
-                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
-                  <Eye className="h-8 w-8 text-surface" />
-                </div>
-                <CardTitle className="text-2xl">Our Vision</CardTitle>
+                <CardTitle className="text-2xl">Visi Kami</CardTitle>
               </CardHeader>
               <CardContent>
-                <CardDescription className="text-lg leading-relaxed text-muted-foreground">
+                <CardDescription className="text-base leading-relaxed text-muted-foreground">
                   Menjadi komunitas teknologi informasi terdepan yang mengintegrasikan nilai-nilai Islam dalam pengembangan inovasi teknologi untuk
                   kemajuan umat dan bangsa.
                 </CardDescription>
@@ -36,13 +30,13 @@ export const VisiMisiSection = () => {
             </Card>
           </motion.div>
 
-          <motion.div variants={staggerItem}>
-            <Card className="p-8 border-0 bg-primary/10">
+          <motion.div
+            variants={staggerItem}
+            className="h-full"
+          >
+            <Card className="p-8 border-0 bg-primary/10 h-full">
               <CardHeader className="pb-6">
-                <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4">
-                  <Target className="h-8 w-8 text-surface" />
-                </div>
-                <CardTitle className="text-2xl">Our Mission</CardTitle>
+                <CardTitle className="text-2xl">Misi Kami</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3 text-muted-foreground">

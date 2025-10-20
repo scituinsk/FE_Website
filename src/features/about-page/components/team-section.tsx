@@ -1,10 +1,8 @@
-"use client";
-
 import { User } from "lucide-react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, fadeInUp, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import * as motion from "framer-motion/client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
 
 const team = [
   {
@@ -46,18 +44,13 @@ const team = [
 ];
 
 export const TeamSection = () => {
-  const { ref: headerRef, controls: headerControls } = useScrollAnimation();
-  const { ref: teamRef, controls: teamControls } = useScrollAnimation();
-
   return (
     <section className="py-24 bg-surface">
       <div className="container mx-auto px-4">
         <motion.div
-          ref={headerRef}
-          initial="hidden"
-          animate={headerControls}
-          variants={fadeInUp}
+          variants={fadeIn}
           className="text-center max-w-3xl mx-auto mb-16"
+          {...animationConfig}
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Meet Our Team</h2>
           <p className="text-lg text-muted-foreground">
@@ -66,18 +59,17 @@ export const TeamSection = () => {
         </motion.div>
 
         <motion.div
-          ref={teamRef}
-          initial="hidden"
-          animate={teamControls}
           variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch"
+          {...animationConfig}
         >
           {team.map((member, index) => (
             <motion.div
               key={index}
               variants={staggerItem}
+              className="h-full"
             >
-              <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+              <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden h-full">
                 <div className="h-48 bg-gradient-to-br from-primary/10 to-primary/20 relative">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/30" />
                   <div className="absolute bottom-4 left-4">

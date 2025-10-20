@@ -4,10 +4,9 @@ export const footerConfig = {
   description:
     "Student Community of Information Technology - Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta yang berfokus pada pengembangan skill dan inovasi teknologi.",
   socialMedia: {
-    instagram: "https://www.instagram.com/scit.uinsuka/",
-    twitter: "https://twitter.com/scit_uinsuka",
-    github: "",
-    facebook: "https://www.facebook.com/scit.uinsuka",
+    instagram: "https://www.instagram.com/scituinsuka",
+    linkedin: "https://www.linkedin.com/company/study-club-informatika-uin-sunan-kalijaga",
+    github: "https://github.com/scituinsk",
   },
   quickLinks: [
     {
@@ -23,8 +22,8 @@ export const footerConfig = {
       href: "/projects",
     },
     {
-      name: "Galery",
-      href: "/galery",
+      name: "Gallery",
+      href: "/gallery",
     },
   ],
   divisions: SCIT_DIVISIONS,

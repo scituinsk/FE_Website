@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 
 import {
   NavigationMenu,
@@ -13,6 +12,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -104,76 +104,66 @@ export const LandingPageHeader = () => {
         {/* Mobile Right Section */}
         <div className="lg:hidden flex items-center space-x-2">
           <ThemeToggle />
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="[&_svg]:size-5 cursor-pointer transition-all duration-200"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          {/* Mobile Menu Sheet */}
+          <Sheet
+            open={isMenuOpen}
+            onOpenChange={setIsMenuOpen}
           >
-            <AnimatePresence
-              mode="wait"
-              initial={false}
-            >
-              <motion.div
-                key={isMenuOpen ? "x" : "menu"}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.2 }}
+            <SheetTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="[&_svg]:size-5 cursor-pointer"
               >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </motion.div>
-            </AnimatePresence>
-          </Button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="lg:hidden border-t border-primary/10 bg-surface/95 backdrop-blur-sm overflow-hidden"
-          >
-            <div className="container mx-auto px-4 py-4 space-y-2">
-              {/* Navigation Links */}
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={getMobileLinkClasses(item.href, item.exact)}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-
-              <div className="pt-4 space-y-3 border-t border-border">
-                {/* CTA Buttons */}
-                {ctaButtons.map((button) => (
-                  <Button
-                    key={button.href}
-                    variant={button.variant}
-                    className="w-full"
-                    asChild
-                  >
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="right"
+              className="w-[300px] sm:w-[400px]"
+            >
+              <SheetHeader>
+                <SheetTitle>Menu</SheetTitle>
+              </SheetHeader>
+              <div className="flex flex-col space-y-4 mt-6 px-5">
+                {/* Navigation Links */}
+                <div className="space-y-2">
+                  {navigationItems.map((item) => (
                     <Link
-                      href={button.href}
+                      key={item.href}
+                      href={item.href}
+                      className={getMobileLinkClasses(item.href, item.exact)}
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      {button.label}
+                      {item.label}
                     </Link>
-                  </Button>
-                ))}
+                  ))}
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="pt-4 space-y-3 border-t border-border">
+                  {ctaButtons.map((button) => (
+                    <Button
+                      key={button.href}
+                      variant={button.variant}
+                      className="w-full"
+                      asChild
+                    >
+                      <Link
+                        href={button.href}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {button.label}
+                      </Link>
+                    </Button>
+                  ))}
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
     </header>
   );
 };

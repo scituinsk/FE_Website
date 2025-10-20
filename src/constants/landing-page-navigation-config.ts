@@ -15,8 +15,8 @@ export const navigationItems = [
     exact: false, // Match /projects and /projects/*
   },
   {
-    label: "Galery",
-    href: "/galery",
+    label: "Gallery",
+    href: "/gallery",
     exact: false, // Match /galery and /galery/*
   },
 ] as const;
