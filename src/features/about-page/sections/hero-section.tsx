@@ -55,6 +55,7 @@ export const HeroSection = () => {
               className="relative flex justify-center md:justify-end"
             >
               {/* Illustration / image on the right. Replace src with your asset or external URL */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/assets/colaboration-ilustration.png"
                 alt="Ilustrasi kolaborasi dan proyek"

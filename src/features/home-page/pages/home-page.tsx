@@ -1,7 +1,7 @@
-import { HeroSection } from "../components/hero-section";
-import { AboutSection } from "../components/about-section";
-import { FeaturesSection } from "../components/features-section";
-import { ProjectsSection } from "../components/projects-section";
+import { HeroSection } from "../sections/hero-section";
+import { AboutSection } from "../sections/about-section";
+import { FeaturesSection } from "../sections/features-section";
+import { ProjectsSection } from "../sections/projects-section";
 
 export const HomePage = () => {
   return (

@@ -1,8 +1,8 @@
-import { HeroSection } from "../components/hero-section";
-import { TeamSection } from "../components/team-section";
-import { ValuesSection } from "../components/values-section";
-import { TimelineSection } from "../components/timeline-section";
-import { VisiMisiSection } from "../components/visi-misi-section";
+import { HeroSection } from "../sections/hero-section";
+import { TeamSection } from "../sections/team-section";
+import { ValuesSection } from "../sections/values-section";
+import { TimelineSection } from "../sections/timeline-section";
+import { VisiMisiSection } from "../sections/visi-misi-section";
 
 export const AboutPage = () => {
   return (

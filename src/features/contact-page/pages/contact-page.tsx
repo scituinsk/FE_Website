@@ -1,8 +1,8 @@
-import { HeroSection } from "../components/hero-section";
-import { ContactMethodsSection } from "../components/contact-methods-section";
-import { ContactFormSection } from "../components/contact-form-section";
-import { LocationSection } from "../components/location-section";
-import { FaqSection } from "../components/faq-section";
+import { HeroSection } from "../sections/hero-section";
+import { ContactMethodsSection } from "../sections/contact-methods-section";
+import { ContactFormSection } from "../sections/contact-form-section";
+import { LocationSection } from "../sections/location-section";
+import { FaqSection } from "../sections/faq-section";
 
 export const ContactPage = () => {
   return (
