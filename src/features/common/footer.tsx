@@ -132,13 +132,13 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} SCIT UIN Sunan Kalijaga. All rights reserved.</p>
             <div className="flex items-center flex-wrap gap-2 sm:gap-4">
               <Link
-                href="/privacy"
+                href="/privacy-policy"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Privacy Policy
               </Link>
               <Link
-                href="/terms"
+                href="/terms-of-service"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
                 Terms of Service
