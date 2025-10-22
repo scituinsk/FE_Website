@@ -1,6 +1,7 @@
 "use client";
+import { useRef } from "react";
+import { useScroll } from "framer-motion";
 import * as motion from "framer-motion/client";
-import { useEffect, useRef, useState } from "react";
 
 import { animationConfig, fadeIn } from "@/utils/animations";
 
@@ -36,29 +37,10 @@ const milestones = [
 
 export const TimelineSection = () => {
   const timelineRef = useRef<HTMLDivElement>(null);
-  const [fillHeight, setFillHeight] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineRef.current) return;
-
-      const timelineElement = timelineRef.current;
-      const rect = timelineElement.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
-
-      // Calculate how much of the timeline is visible
-      const visibleTop = Math.max(0, windowHeight - rect.top);
-      const visibleHeight = Math.min(visibleTop, rect.height);
-      const percentage = Math.max(0, Math.min(1, visibleHeight / rect.height));
-
-      setFillHeight(percentage * 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial call
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start end", "end center"],
+  });
 
   return (
     <section className="py-24 bg-muted/50">
@@ -84,44 +66,22 @@ export const TimelineSection = () => {
 
             {/* Timeline filled line with animation - centered */}
             <motion.div
-              className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-1 bg-gradient-to-b from-primary via-primary/90 to-primary/70 rounded-full origin-top"
-              style={{ height: `${fillHeight}%` }}
-              initial={{ height: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 30 }}
+              style={{ scaleY: scrollYProgress, height: "100%" }}
+              className="absolute left-8 md:left-1/2 transform md:-translate-x-1/2 w-1 bg-primary rounded-full origin-top"
             />
 
             <div className="space-y-16">
               {milestones.map((milestone, index) => (
                 <motion.div
                   key={index}
-                  variants={{
-                    hidden: {
-                      opacity: 0,
-                      x: index % 2 === 0 ? -50 : 50,
-                      scale: 0.9,
-                    },
-                    visible: {
-                      opacity: 1,
-                      x: 0,
-                      scale: 1,
-                      transition: {
-                        duration: 0.6,
-                        delay: index * 0.2,
-                        ease: [0.25, 0.1, 0.25, 1],
-                      },
-                    },
-                  }}
                   className={`relative flex items-center ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
-                  {...animationConfig}
+                  initial={{ y: 50 }}
+                  whileInView={{ y: 0 }}
+                  transition={{ duration: 0.5, type: "spring" }}
+                  viewport={{ once: true }}
                 >
                   {/* Timeline dot with glow effect */}
-                  <motion.div
-                    className="absolute left-8 md:left-1/2 transform -translate-x-1/2 z-10"
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    transition={{ delay: index * 0.2 + 0.3, type: "spring", stiffness: 200 }}
-                    viewport={{ once: true }}
-                  >
+                  <motion.div className="absolute left-8 md:left-1/2 transform -translate-x-1/2 z-10">
                     <div className="relative">
                       <div className="w-6 h-6 bg-primary rounded-full border-4 border-background shadow-lg"></div>
                       <div className="absolute inset-0 w-6 h-6 bg-primary/30 rounded-full animate-pulse"></div>
@@ -131,10 +91,7 @@ export const TimelineSection = () => {
 
                   {/* Content */}
                   <div className={`w-full md:w-5/12 ml-20 md:ml-0 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
-                    <motion.div
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                    >
+                    <div>
                       <Card className="p-6 hover:shadow-xl transition-all duration-300 border-l-4 border-l-primary/50 hover:border-l-primary bg-gradient-to-br from-background to-muted/30">
                         <div className="flex items-center mb-4">
                           <div>
@@ -144,7 +101,7 @@ export const TimelineSection = () => {
                         </div>
                         <p className="text-muted-foreground leading-relaxed">{milestone.description}</p>
                       </Card>
-                    </motion.div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
