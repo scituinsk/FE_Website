@@ -52,19 +52,6 @@ src/
 
 --- -->
 
-## 🧩 Fitur Utama
-
-- ✨ **Hero Section** — tampilan pembuka dengan judul dan tagline
-- 📰 **Featured Article** — artikel unggulan dengan animasi saat scroll
-- 🗞️ **Latest Articles** — daftar artikel terbaru dengan pagination
-- 🧭 **Sidebar Dinamis** — kategori, tag populer, dan postingan terpopuler
-- 💌 **Newsletter Signup** — form berlangganan dengan desain menarik
-- ⚡ **Framer Motion** — animasi masuk yang halus saat komponen tampil
-- 🌙 **UI Reusable** — memanfaatkan komponen dari shadcn/ui
-- 📱 **Responsive Design** — tampil optimal di semua perangkat
-
----
-
 ## 🧠 Instalasi
 
 ### 1️⃣ Clone repository
@@ -139,11 +126,5 @@ Proyek ini dilisensikan di bawah **MIT License** — silakan digunakan dan dimod
 
 --- -->
 
-### 🌟 Preview
-
-![Preview](public/preview.png)
-
----
-
 > Dibuat dengan ❤️ menggunakan Next.js & Tailwind CSS
-> © 2025 SCIT Developer Blog
+> © 2025 Team RPL/SI SCIT

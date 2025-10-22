@@ -94,7 +94,7 @@ export const ProjectFilters = ({ search, setSearch, tech, setTech, totalResults,
                 variant="secondary"
                 className="flex items-center gap-1"
               >
-                Search: "{search}"
+                Search: &quot;{search}&quot;
                 <X
                   className="h-3 w-3 cursor-pointer hover:text-destructive"
                   onClick={() => setSearch("")}
