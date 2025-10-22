@@ -22,9 +22,9 @@ export default function TermsOfServicePage() {
             <section>
               <h2 className="text-2xl font-semibold mb-4">1. Acceptance of Terms</h2>
               <p className="text-muted-foreground leading-relaxed">
-                Welcome to Science and Information Technology Community (SCIT) UIN Sunan Kalijaga. These Terms of Service ("Terms") govern your use of
-                our website scituinsk.com and all related services provided by SCIT. By accessing or using our website, you agree to be bound by these
-                Terms. If you do not agree to these Terms, please do not use our services.
+                Welcome to Science and Information Technology Community (SCIT) UIN Sunan Kalijaga. These Terms of Service (&quot;Terms&quot;) govern
+                your use of our website scituinsk.com and all related services provided by SCIT. By accessing or using our website, you agree to be
+                bound by these Terms. If you do not agree to these Terms, please do not use our services.
               </p>
             </section>
 
@@ -59,8 +59,8 @@ export default function TermsOfServicePage() {
 
               <h3 className="text-xl font-medium mb-3">3.2 Eligibility</h3>
               <p className="text-muted-foreground leading-relaxed">
-                You must be at least 13 years old to use our services. If you are under 18, you represent that you have your parent's or guardian's
-                permission to use our services.
+                You must be at least 13 years old to use our services. If you are under 18, you represent that you have your parent&apos;s or
+                guardian&apos;s permission to use our services.
               </p>
             </section>
 
@@ -153,8 +153,8 @@ export default function TermsOfServicePage() {
 
               <h3 className="text-xl font-medium mb-3">8.2 Disclaimer of Warranties</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Our services are provided "as is" and "as available" without warranties of any kind, either express or implied, including but not
-                limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
+                Our services are provided &quot;as is&quot; and &quot;as available&quot; without warranties of any kind, either express or implied,
+                including but not limited to warranties of merchantability, fitness for a particular purpose, or non-infringement.
               </p>
 
               <h3 className="text-xl font-medium mb-3">8.3 Limitation of Liability</h3>
@@ -203,8 +203,8 @@ export default function TermsOfServicePage() {
               <h2 className="text-2xl font-semibold mb-4">12. Changes to These Terms</h2>
               <p className="text-muted-foreground leading-relaxed">
                 We reserve the right to modify these Terms at any time. We will notify users of significant changes by posting the updated Terms on
-                our website and updating the "Last updated" date. Your continued use of our services after changes become effective constitutes
-                acceptance of the new Terms.
+                our website and updating the &quot;Last updated&quot; date. Your continued use of our services after changes become effective
+                constitutes acceptance of the new Terms.
               </p>
             </section>
 
