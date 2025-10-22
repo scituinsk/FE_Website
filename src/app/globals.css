@@ -143,8 +143,22 @@ body {
 }
 
 * {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform, opacity;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); /* smooth ease-out */
   transition-duration: 300ms;
+}
+
+[data-radix-popper-content-wrapper],
+select,
+input[type="checkbox"],
+input[type="radio"],
+dialog {
+  transition: none !important;
+}
+
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]) {
+  cursor: pointer;
 }
 
 .responsive-flex {

@@ -24,7 +24,7 @@ export const navigationItems = [
 export const ctaButtons = [
   {
     label: "Contact Us",
-    href: "/contact",
+    href: "/#contact",
     variant: "default" as const,
   },
 ] as const;

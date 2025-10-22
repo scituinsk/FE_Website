@@ -132,7 +132,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
                     size="sm"
                     asChild
                   >
-                    <Link href="/contact">Hubungi Support</Link>
+                    <Link href="/#contact">Hubungi Support</Link>
                   </Button>
                 </div>
               </Card>

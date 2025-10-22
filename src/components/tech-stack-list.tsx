@@ -59,7 +59,7 @@ export const TechStackList = ({ techNames, size = "md", className = "" }: TechSt
       className={`relative ${className}`}
     >
       <div className="flex gap-2 items-center flex-wrap">
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="sync">
           {techNames.slice(0, 8).map((techName, index) => {
             const techStack = getTechStack(techName);
 

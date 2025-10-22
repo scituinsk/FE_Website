@@ -26,6 +26,16 @@ export const footerConfig = {
       href: "/gallery",
     },
   ],
+  legalLinks: [
+    {
+      name: "Privacy Policy",
+      href: "/privacy-policy",
+    },
+    {
+      name: "Terms of Service",
+      href: "/terms-of-service",
+    },
+  ],
   divisions: SCIT_DIVISIONS,
   contact: {
     address: "Fakultas Sains dan Teknologi UIN Sunan Kalijaga Jl. Marsda Adisucipto No 1 Yogyakarta 55281",

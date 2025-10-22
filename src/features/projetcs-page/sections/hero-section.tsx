@@ -1,15 +1,14 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, staggerContainer, staggerItem, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
-import { allProjects } from "@/constants/projects";
+import * as motion from "framer-motion/client";
 import { Rocket, Code2, Lightbulb, Target } from "lucide-react";
 
-export const HeroSection = () => {
-  const { ref: heroRef, controls: heroControls } = useScrollAnimation();
-  const { ref: statsRef, controls: statsControls } = useScrollAnimation();
+import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
+import { AnimatedNumber } from "@/components/animated-number";
+
+export const HeroSection = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background tint */}
@@ -29,14 +28,12 @@ export const HeroSection = () => {
         <div className="text-center max-w-5xl mx-auto">
           {/* Main headline */}
           <motion.div
-            ref={heroRef}
-            initial="hidden"
-            animate={heroControls}
             variants={staggerContainer}
             className="space-y-6 mb-8"
+            {...animationConfig}
           >
             <motion.div
-              variants={fadeInDown}
+              variants={fadeIn}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
             >
               <Rocket className="h-4 w-4" />
@@ -44,7 +41,7 @@ export const HeroSection = () => {
             </motion.div>
 
             <motion.h1
-              variants={fadeInUp}
+              variants={fadeIn}
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
             >
               Our Projects
@@ -52,65 +49,73 @@ export const HeroSection = () => {
             </motion.h1>
 
             <motion.p
-              variants={fadeInUp}
+              variants={fadeIn}
               className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
             >
-              Showcase proyek-proyek inovatif yang telah dikembangkan oleh tim SCIT UIN Suka sebagai kontribusi nyata dalam dunia teknologi dan
-              masyarakat.
+              Showcase proyek-proyek inovatif yang telah dikembangkan oleh tim kami sebagai kontribusi nyata dalam dunia teknologi dan masyarakat.
             </motion.p>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            ref={statsRef}
-            initial="hidden"
-            animate={statsControls}
-            variants={staggerContainer}
+            variants={fadeIn}
             className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            {...animationConfig}
           >
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
                 <Code2 className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{allProjects.length}+</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                <AnimatedNumber
+                  duration={2}
+                  value={100}
+                />
+                +
+              </div>
               <div className="text-muted-foreground">Total Projects</div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
                 <Target className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">{allProjects.filter((p) => p.status === "Production").length}</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                <AnimatedNumber
+                  duration={2}
+                  value={90}
+                />
+              </div>
               <div className="text-muted-foreground">Live Projects</div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
                 <Lightbulb className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">50+</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                <AnimatedNumber
+                  duration={2}
+                  value={50}
+                />
+                +
+              </div>
               <div className="text-muted-foreground">Contributors</div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              variants={staggerItem}
-              className="text-center"
-            >
+            <div className="text-center">
               <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
                 <Rocket className="h-8 w-8 text-primary" />
               </div>
-              <div className="text-3xl font-bold text-foreground mb-2">15+</div>
+              <div className="text-3xl font-bold text-foreground mb-2">
+                <AnimatedNumber
+                  duration={2}
+                  value={15}
+                />
+                +
+              </div>
               <div className="text-muted-foreground">Technologies</div>
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
