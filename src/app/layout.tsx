@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
+import { Plus_Jakarta_Sans } from "next/font/google";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { TRPCProvider } from "@/trpc/client";
 
@@ -58,22 +59,24 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={`${plusJakartaSans.className} font-sans antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <NextTopLoader
-            showSpinner={false}
-            color="#2563EB"
-            height={4}
-          />
-          <TRPCProvider>
-            <Toaster />
-            <main>{children}</main>
-          </TRPCProvider>
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <NextTopLoader
+              showSpinner={false}
+              color="#2563EB"
+              height={4}
+            />
+            <TRPCProvider>
+              <Toaster />
+              <main>{children}</main>
+            </TRPCProvider>
+          </ThemeProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

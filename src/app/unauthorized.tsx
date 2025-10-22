@@ -122,7 +122,7 @@ export default function Unauthorized() {
                     size="sm"
                     asChild
                   >
-                    <Link href="/contact">Support Center</Link>
+                    <Link href="/#contact">Support Center</Link>
                   </Button>
                 </div>
               </Card>

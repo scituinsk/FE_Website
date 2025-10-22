@@ -1,155 +1,105 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { Calendar, ExternalLink, Github, Users } from "lucide-react";
-import { motion } from "framer-motion";
-import { useScrollAnimation, staggerContainer, staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { useMemo } from "react";
+import { useQueryState } from "nuqs";
+import { PROJECTS } from "@/constants/projects";
 
-import { allProjects } from "@/constants/projects";
+import { ProjectCard } from "../components/project-card";
+import { ProjectFilters } from "../components/project-filters";
+import { ProjectPagination } from "../components/project-pagination";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+const ITEMS_PER_PAGE = 9;
 
 export const ProjectGridSection = () => {
-  const { ref: gridRef, controls: gridControls } = useScrollAnimation();
+  const [search, setSearch] = useQueryState("search", { defaultValue: "" });
+  const [tech, setTech] = useQueryState("tech", { defaultValue: "all" });
+  const [page, setPage] = useQueryState("page", { defaultValue: "1" });
+
+  const filteredProjects = useMemo(() => {
+    let filtered = PROJECTS;
+
+    // Filter by search
+    if (search) {
+      filtered = filtered.filter(
+        (project) =>
+          project.title.toLowerCase().includes(search.toLowerCase()) ||
+          project.description.toLowerCase().includes(search.toLowerCase()) ||
+          project.tech?.some((technology) => technology.toLowerCase().includes(search.toLowerCase()))
+      );
+    }
+
+    // Filter by technology
+    if (tech && tech !== "all") {
+      filtered = filtered.filter((project) => project.tech?.some((technology) => technology.toLowerCase() === tech.toLowerCase()));
+    }
+
+    return filtered;
+  }, [search, tech]);
+
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const currentPage = parseInt(page) || 1;
+
+  const paginatedProjects = useMemo(() => {
+    const start = (currentPage - 1) * ITEMS_PER_PAGE;
+    const end = start + ITEMS_PER_PAGE;
+    return filteredProjects.slice(start, end);
+  }, [filteredProjects, currentPage]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage.toString());
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleResetFilters = () => {
+    setSearch("");
+    setTech("all");
+    setPage("1");
+  };
 
   return (
     <section className="py-16 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
-          {allProjects.length === 0 ? (
+          <ProjectFilters
+            search={search}
+            setSearch={setSearch}
+            tech={tech}
+            setTech={setTech}
+            totalResults={filteredProjects.length}
+            onResetFilters={handleResetFilters}
+          />
+
+          {filteredProjects.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-6xl mb-4">🔍</div>
               <h3 className="text-2xl font-bold text-foreground mb-2">No projects found</h3>
-              <p className="text-muted-foreground">Try adjusting your search or filter criteria</p>
+              <p className="text-muted-foreground mb-4">Try adjusting your search or filter criteria</p>
+              <button
+                onClick={handleResetFilters}
+                className="text-primary hover:underline"
+              >
+                Reset all filters
+              </button>
             </div>
           ) : (
-            <motion.div
-              ref={gridRef}
-              initial="hidden"
-              animate={gridControls}
-              variants={staggerContainer}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {allProjects.map((project, index) => (
-                <motion.div
-                  key={index}
-                  variants={staggerItem}
-                >
-                  <Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
-                    {/* Project image placeholder */}
-                    <div className="h-48 bg-gradient-to-br from-primary/10 to-primary/20 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/30" />
-                      <div className="absolute top-4 left-4">
-                        <span className="px-2 py-1 bg-surface text-foreground text-xs font-medium rounded-lg">{project.category}</span>
-                      </div>
-                      <div className="absolute bottom-4 left-4">
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            project.status === "Production"
-                              ? "bg-primary/10 text-primary"
-                              : project.status === "Beta Testing"
-                              ? "bg-primary/10 text-primary"
-                              : "bg-primary/10 text-primary"
-                          }`}
-                        >
-                          {project.status}
-                        </span>
-                      </div>
-                    </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                {paginatedProjects.map((project) => (
+                  <ProjectCard
+                    project={project}
+                    key={project.href}
+                  />
+                ))}
+              </div>
 
-                    <CardHeader>
-                      <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
-                      <CardDescription className="leading-relaxed">{project.description}</CardDescription>
-                    </CardHeader>
-
-                    <CardContent className="space-y-4">
-                      {/* Tech stack */}
-                      <div className="flex flex-wrap gap-2">
-                        {project.tech.slice(0, 4).map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-lg"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {project.tech.length > 4 && (
-                          <span className="px-2 py-1 bg-muted text-muted-foreground text-xs rounded-lg">+{project.tech.length - 4} more</span>
-                        )}
-                      </div>
-
-                      {/* Project stats */}
-                      <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4" />
-                          {project.teamSize} members
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          {project.duration}
-                        </div>
-                      </div>
-
-                      {/* Features */}
-                      <div>
-                        <h4 className="text-sm font-medium text-foreground mb-2">Key Features:</h4>
-                        <ul className="text-sm text-muted-foreground space-y-1">
-                          {project.features.slice(0, 3).map((feature, featureIndex) => (
-                            <li
-                              key={featureIndex}
-                              className="flex items-center gap-2"
-                            >
-                              <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      {/* Action buttons */}
-                      <div className="flex gap-2 pt-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          className="flex-1"
-                          asChild
-                        >
-                          <Link
-                            href={project.github}
-                            target="_blank"
-                          >
-                            <Github className="h-4 w-4 mr-2" />
-                            Code
-                          </Link>
-                        </Button>
-                        <Button
-                          size="sm"
-                          className="flex-1"
-                          asChild
-                        >
-                          <Link
-                            href={project.demo}
-                            target="_blank"
-                          >
-                            <ExternalLink className="h-4 w-4 mr-2" />
-                            Demo
-                          </Link>
-                        </Button>
-                      </div>
-
-                      {/* Testimonial */}
-                      {project.testimonial && (
-                        <div className="border-t pt-4">
-                          <blockquote className="text-sm italic text-muted-foreground">&quot;{project.testimonial}&quot;</blockquote>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </motion.div>
+              {totalPages > 1 && (
+                <ProjectPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={handlePageChange}
+                />
+              )}
+            </>
           )}
         </div>
       </div>
