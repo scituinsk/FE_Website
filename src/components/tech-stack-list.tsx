@@ -4,8 +4,8 @@ import { useTheme } from "next-themes";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { staggerItem } from "@/lib/hooks/use-scroll-animation";
 import { getTechStack } from "@/constants/tech-stacks";
+import { staggerItem } from "@/utils/animations";
 
 interface TechStackListProps {
   techNames: string[];

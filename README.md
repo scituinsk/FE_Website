@@ -92,24 +92,7 @@ Lalu buka [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 🧮 Custom Hooks
-
-### `useScrollAnimation`
-
-Hook ini mengontrol animasi Framer Motion ketika elemen muncul di viewport.
-
-```ts
-const { ref, controls } = useScrollAnimation();
-<motion.div
-  ref={ref}
-  animate={controls}
-  variants={fadeInUp}
->
-  ...
-</motion.div>;
-```
-
----
+<!-- --- -->
 
 <!-- ## 🧑‍💻 Kontributor
 
