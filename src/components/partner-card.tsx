@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
 import { Partner } from "@/constants/partners";
-import { staggerItem } from "@/lib/hooks/use-scroll-animation";
+import { staggerItem } from "@/utils/animations";
 
 interface PartnerCardProps {
   partner: Partner;

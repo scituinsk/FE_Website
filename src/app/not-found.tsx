@@ -1,14 +1,11 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { useScrollAnimation, staggerContainer, fadeInUp, fadeInDown } from "@/lib/hooks/use-scroll-animation";
-import { Home, ArrowLeft, MapPin } from "lucide-react";
 import Link from "next/link";
+import { Home, ArrowLeft, MapPin } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export default function NotFound() {
-  const { ref: heroRef, controls: heroControls } = useScrollAnimation();
-
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background tint */}
@@ -26,52 +23,29 @@ export default function NotFound() {
 
       <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center max-w-2xl mx-auto">
-          <motion.div
-            ref={heroRef}
-            initial="hidden"
-            animate={heroControls}
-            variants={staggerContainer}
-            className="space-y-8"
-          >
+          <div className="space-y-8">
             {/* 404 Number */}
-            <motion.div
-              variants={fadeInDown}
-              className="text-8xl md:text-9xl font-bold text-primary leading-none"
-            >
-              404
-            </motion.div>
+            <div className="text-8xl md:text-9xl font-bold text-primary leading-none">404</div>
 
             {/* Badge */}
-            <motion.div
-              variants={fadeInDown}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium"
-            >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium">
               <MapPin className="h-4 w-4" />
               Page Not Found
-            </motion.div>
+            </div>
 
             {/* Main heading */}
-            <motion.h1
-              variants={fadeInUp}
-              className="text-3xl md:text-5xl font-bold text-foreground leading-tight"
-            >
+            <h1 className="text-3xl md:text-5xl font-bold text-foreground leading-tight">
               Oops! Halaman
               <span className="block text-primary">Tidak Ditemukan</span>
-            </motion.h1>
+            </h1>
 
             {/* Description */}
-            <motion.p
-              variants={fadeInUp}
-              className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed"
-            >
+            <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed">
               Halaman yang Anda cari mungkin telah dipindahkan, dihapus, atau tidak pernah ada. Mari kembali ke halaman utama.
-            </motion.p>
+            </p>
 
             {/* Action buttons */}
-            <motion.div
-              variants={fadeInUp}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4"
-            >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button
                 size="lg"
                 asChild
@@ -90,8 +64,8 @@ export default function NotFound() {
                 <ArrowLeft className="mr-2 h-5 w-5" />
                 Halaman Sebelumnya
               </Button>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
 

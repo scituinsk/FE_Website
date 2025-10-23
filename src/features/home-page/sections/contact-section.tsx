@@ -19,6 +19,9 @@ export const ContactSection = () => {
             delay: 0.1,
             type: "spring",
           }}
+          viewport={{
+            once: true,
+          }}
         >
           Get In Touch
         </motion.h1>
@@ -31,6 +34,9 @@ export const ContactSection = () => {
             delay: 0.2,
             type: "spring",
           }}
+          viewport={{
+            once: true,
+          }}
         >
           Feel free to contact me if you have any questions or just want to say hi.
         </motion.p>
@@ -41,6 +47,9 @@ export const ContactSection = () => {
           transition={{
             delay: 0.3,
             type: "spring",
+          }}
+          viewport={{
+            once: true,
           }}
         >
           <a href={`mailto:${footerConfig.contact.email}?subject=Hello&body=Hello%20SCIT`}>{footerConfig.contact.email}</a>
@@ -55,6 +64,9 @@ export const ContactSection = () => {
             transition={{
               y: { delay: 0.1 },
               opacity: { delay: 0.2 },
+            }}
+            viewport={{
+              once: true,
             }}
           >
             <FaEnvelope className="text-3xl" />
@@ -71,6 +83,9 @@ export const ContactSection = () => {
               y: { delay: 0.2 },
               opacity: { delay: 0.3 },
             }}
+            viewport={{
+              once: true,
+            }}
           >
             <FaGithub className="text-3xl" />
           </motion.a>
@@ -85,6 +100,9 @@ export const ContactSection = () => {
               y: { delay: 0.3 },
               opacity: { delay: 0.4 },
             }}
+            viewport={{
+              once: true,
+            }}
           >
             <FaInstagram className="text-3xl" />
           </motion.a>
@@ -98,6 +116,9 @@ export const ContactSection = () => {
             transition={{
               y: { delay: 0.4 },
               opacity: { delay: 0.5 },
+            }}
+            viewport={{
+              once: true,
             }}
           >
             <FaLinkedin className="text-3xl" />

@@ -88,7 +88,7 @@ export const FeaturesSection = () => {
               <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-surface h-full">
                 <CardHeader className="pb-4">
                   <div className={`w-14 h-14  ${feature.color} rounded-2xl flex items-center justify-center mb-4  `}>
-                    <feature.icon className="h-7 w-7 text-surface" />
+                    <feature.icon className="h-7 w-7 text-white" />
                   </div>
                   <CardTitle className="text-lg group-hover:text-primary transition-colors">{feature.title}</CardTitle>
                 </CardHeader>

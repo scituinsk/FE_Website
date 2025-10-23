@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Instagram, Github, Mail, MapPin, Linkedin } from "lucide-react";
+import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
 import { ApplicationLogo } from "@/components/logo";
@@ -27,7 +27,7 @@ const Footer = () => {
                   href={footerConfig.socialMedia.instagram}
                   target="_blank"
                 >
-                  <Instagram className="h-4 w-4" />
+                  <FaInstagram className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -40,7 +40,7 @@ const Footer = () => {
                   href={footerConfig.socialMedia.github}
                   target="_blank"
                 >
-                  <Github className="h-4 w-4" />
+                  <FaGithub className="h-4 w-4" />
                 </Link>
               </Button>
               <Button
@@ -53,7 +53,7 @@ const Footer = () => {
                   href={footerConfig.socialMedia.linkedin}
                   target="_blank"
                 >
-                  <Linkedin className="h-4 w-4" />
+                  <FaLinkedin className="h-4 w-4" />
                 </Link>
               </Button>
             </div>
@@ -99,11 +99,11 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-foreground">Contact Info</h3>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                <FaMapMarkerAlt className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-muted-foreground">{footerConfig.contact.address}</div>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-primary flex-shrink-0" />
+                <FaEnvelope className="h-4 w-4 text-primary flex-shrink-0" />
                 <a
                   href="mailto:scit@uin-suka.ac.id"
                   className="text-sm text-muted-foreground hover:text-primary transition-colors"
