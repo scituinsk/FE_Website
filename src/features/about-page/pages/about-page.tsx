@@ -10,8 +10,8 @@ export const AboutPage = () => {
       <HeroSection />
       <VisiMisiSection />
       <TimelineSection />
-      <TeamSection />
       <ValuesSection />
+      <TeamSection />
     </div>
   );
 };
