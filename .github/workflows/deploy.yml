@@ -21,6 +21,8 @@ jobs:
           script: |
             cd /opt/production/scit/FE_Website
             git pull origin main
+            cd ..
+            
             sudo docker compose build --no-cache frontend
             echo "Build image finished successfully!"
 
