@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Rubik } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 import { TRPCProvider } from "@/trpc/client";
@@ -9,7 +9,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const rubik = Rubik({
   subsets: ["latin"],
   variable: "--font-plus-jakarta-sans",
   display: "swap",
@@ -58,7 +58,7 @@ export default function RootLayout({
       className="scroll-smooth"
       suppressHydrationWarning
     >
-      <body className={`${plusJakartaSans.className} font-sans antialiased`}>
+      <body className={`${rubik.className} font-sans antialiased`}>
         <NuqsAdapter>
           <ThemeProvider
             attribute="class"
