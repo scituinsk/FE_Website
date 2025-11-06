@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import * as motion from "framer-motion/client";
 import { Rocket, Code2, Lightbulb, Target } from "lucide-react";
 

@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
-import { Pencil, Trash2, Plus, Search, Images as ImagesIcon, Calendar, Filter } from "lucide-react";
+import { useState } from "react";
+import { Pencil, Trash2, Plus, Search, Images as ImagesIcon, Calendar } from "lucide-react";
 
 import { GALLERY_IMAGES, GALLERY_YEARS, GALLERY_MONTHS } from "@/constants/gallery";
 
@@ -16,10 +16,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 const ManageGalleriesPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedYear, setSelectedYear] = useState<string>("all");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-
-  // Get unique categories
-  const categories = ["all", ...Array.from(new Set(GALLERY_IMAGES.map((img) => img.category).filter(Boolean)))];
 
   // Filter gallery images
   const filteredImages = GALLERY_IMAGES.filter((image) => {
@@ -27,14 +23,8 @@ const ManageGalleriesPage = () => {
 
     const matchesYear = selectedYear === "all" || image.date.getFullYear().toString() === selectedYear;
 
-    const matchesCategory = selectedCategory === "all" || image.category === selectedCategory;
-
-    return matchesSearch && matchesYear && matchesCategory;
+    return matchesSearch && matchesYear;
   });
-
-  // Get statistics
-  const totalImages = GALLERY_IMAGES.length;
-  const categoriesCount = categories.length - 1; // Exclude "all"
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -42,40 +32,6 @@ const ManageGalleriesPage = () => {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold tracking-tight">Manage Galleries</h1>
         <p className="text-muted-foreground">Kelola galeri foto kegiatan dan acara SCIT</p>
-      </div>
-
-      {/* Statistics Cards */}
-      <div className="grid gap-4 md:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Images</CardTitle>
-            <ImagesIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{totalImages}</div>
-            <p className="text-xs text-muted-foreground">In gallery</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Categories</CardTitle>
-            <Filter className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{categoriesCount}</div>
-            <p className="text-xs text-muted-foreground">Event categories</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Years</CardTitle>
-            <Calendar className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{GALLERY_YEARS.length}</div>
-            <p className="text-xs text-muted-foreground">Different years</p>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Gallery List */}
@@ -106,26 +62,6 @@ const ManageGalleriesPage = () => {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Image URL</label>
                     <Input placeholder="https://example.com/image.jpg" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Category</label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {categories
-                          .filter((c) => c !== "all")
-                          .map((category) => (
-                            <SelectItem
-                              key={category}
-                              value={category || ""}
-                            >
-                              {category}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
                   </div>
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Date</label>
@@ -175,27 +111,6 @@ const ManageGalleriesPage = () => {
                       {year}
                     </SelectItem>
                   ))}
-                </SelectContent>
-              </Select>
-              <Select
-                value={selectedCategory}
-                onValueChange={setSelectedCategory}
-              >
-                <SelectTrigger className="w-full sm:w-[180px]">
-                  <SelectValue placeholder="Filter by category" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Categories</SelectItem>
-                  {categories
-                    .filter((c) => c !== "all")
-                    .map((category) => (
-                      <SelectItem
-                        key={category}
-                        value={category || ""}
-                      >
-                        {category}
-                      </SelectItem>
-                    ))}
                 </SelectContent>
               </Select>
             </div>

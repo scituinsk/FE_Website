@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Link from "next/link";
 import { Users2, ArrowRight, Crown, Code, Shield, Brain } from "lucide-react";
 import { CORE_TEAM } from "@/constants/core-team";

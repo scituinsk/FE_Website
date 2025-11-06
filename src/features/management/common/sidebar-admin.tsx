@@ -1,8 +1,10 @@
 "use client";
+
 import Link from "next/link";
+import { toast } from "sonner";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LogOut, User, Settings, ClipboardList, Users, Images } from "lucide-react";
+import { User, Settings, ClipboardList, Users, Images, UserIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -25,6 +27,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/features/auth/contexts/auth-context";
 
 const items = [
   {
@@ -46,6 +49,7 @@ const items = [
 
 export const SidebarAdmin = () => {
   const pathname = usePathname();
+  const { user } = useAuth();
 
   // Function to check if a menu item is active
   const isActive = (url: string) => {
@@ -93,27 +97,40 @@ export const SidebarAdmin = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+              {user?.role === "ADMIN" && (
+                <SidebarMenuItem>
+                  <SidebarMenuButton
+                    asChild
+                    isActive={isActive("/admin/manage-users-login")}
+                  >
+                    <Link href="/admin/manage-users-login">
+                      <UserIcon />
+                      <span>Manage User Login</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="border-t p-4">
+      <SidebarFooter className="border-t p-4 overflow-hidden">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               variant="ghost"
               className="w-full justify-start gap-3 h-12 px-3"
             >
-              <Avatar className="h-8 w-8">
+              <Avatar className="h-8 w-8 flex-shrink-0">
                 <AvatarImage
-                  src="/avatars/01.png"
+                  src={user?.avatar as string}
                   alt="User"
                 />
                 <AvatarFallback>U</AvatarFallback>
               </Avatar>
-              <div className="flex flex-col items-start text-left flex-1">
-                <span className="text-sm font-medium">John Doe</span>
-                <span className="text-xs text-muted-foreground">john@scit.com</span>
+              <div className="flex flex-col items-start text-left overflow-hidden min-w-0 flex-1">
+                <span className="text-sm font-medium truncate w-full">{user?.name}</span>
+                <span className="text-xs text-muted-foreground truncate w-full">{user?.username}</span>
               </div>
             </Button>
           </DropdownMenuTrigger>
@@ -124,23 +141,18 @@ export const SidebarAdmin = () => {
           >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">John Doe</p>
-                <p className="text-xs leading-none text-muted-foreground">john@scit.com</p>
+                <p className="text-sm font-medium leading-none truncate">{user?.name}</p>
+                <p className="text-xs leading-none text-muted-foreground truncate">{user?.username}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => toast.info("Fitur belum tersedia!")}>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => toast.info("Fitur belum tersedia!")}>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

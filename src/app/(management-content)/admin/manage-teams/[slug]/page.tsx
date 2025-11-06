@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Pencil, Trash2, UserPlus, Search, Code, Shield, Brain, Users2 } from "lucide-react";
 import { DIVISION_DETAILS } from "@/constants/division-members";
@@ -9,17 +9,20 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useParams } from "next/navigation";
+import { useAuth } from "@/features/auth/contexts/auth-context";
 
 const DivisionManagementPage = () => {
   const params = useParams();
   const slug = params.slug as string;
 
+  const auth = useAuth();
+
+  console.log("Auth", auth);
+
   const [searchQuery, setSearchQuery] = useState("");
-  const [memberType, setMemberType] = useState<string>("all");
 
   // Find division
   const division = DIVISION_DETAILS.find((d) => d.slug === slug);
@@ -55,7 +58,7 @@ const DivisionManagementPage = () => {
 
   // Get filtered members based on type
   const getFilteredMembers = () => {
-    let members = memberType === "core" ? coreMembers : memberType === "members" ? regularMembers : division.members;
+    let members = division.members;
 
     if (searchQuery) {
       members = members.filter(
@@ -130,183 +133,144 @@ const DivisionManagementPage = () => {
           </CardContent>
         </Card>
       </div>
-
-      {/* Tabs for Core Members and Regular Members */}
-      <Tabs
-        defaultValue="all"
-        className="space-y-4"
-      >
-        <TabsList>
-          <TabsTrigger
-            value="all"
-            onClick={() => setMemberType("all")}
-          >
-            All Members
-          </TabsTrigger>
-          <TabsTrigger
-            value="core"
-            onClick={() => setMemberType("core")}
-          >
-            Core Members ({coreMembers.length})
-          </TabsTrigger>
-          <TabsTrigger
-            value="members"
-            onClick={() => setMemberType("members")}
-          >
-            Members ({regularMembers.length})
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent
-          value={memberType}
-          className="space-y-4"
-        >
-          <Card>
-            <CardHeader>
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                  <CardTitle>{memberType === "core" ? "Core Members" : memberType === "members" ? "Regular Members" : "All Members"}</CardTitle>
-                  <CardDescription>
-                    {memberType === "core"
-                      ? `${coreMembers.length} leadership members`
-                      : memberType === "members"
-                      ? `${regularMembers.length} regular members`
-                      : `${division.members.length} total members`}
-                  </CardDescription>
-                </div>
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>
-                      <UserPlus className="mr-2 h-4 w-4" />
-                      Add Member
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Add Member to {division.name}</DialogTitle>
-                      <DialogDescription>Tambahkan anggota baru ke divisi {division.name}</DialogDescription>
-                    </DialogHeader>
-                    <div className="space-y-4 py-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Name</label>
-                        <Input placeholder="Enter member name" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Role</label>
-                        <Input placeholder="e.g., Lead, Co-Lead, Member" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Angkatan</label>
-                        <Input placeholder="e.g., Informatics '23" />
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Member Type</label>
-                        <Select>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select member type" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="core">Core Member</SelectItem>
-                            <SelectItem value="regular">Regular Member</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">Image URL</label>
-                        <Input placeholder="https://example.com/image.jpg" />
-                      </div>
-                      <Button className="w-full">Save Member</Button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                <Input
-                  placeholder="Search by name, role, or angkatan..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9"
-                />
-              </div>
-
-              <Separator />
-
-              {/* Members List */}
-              <div className="space-y-3">
-                {filteredMembers.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <Users2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
-                    <p className="text-sm text-muted-foreground">No members found</p>
+      <Card>
+        <CardHeader>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <CardTitle>All Members</CardTitle>
+              <CardDescription></CardDescription>
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Add Member
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add Member to {division.name}</DialogTitle>
+                  <DialogDescription>Tambahkan anggota baru ke divisi {division.name}</DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Name</label>
+                    <Input placeholder="Enter member name" />
                   </div>
-                ) : (
-                  filteredMembers.map((member, index) => (
-                    <div
-                      key={`${member.name}-${index}`}
-                      className="flex items-center justify-between rounded-lg border p-4 hover:bg-accent/50 transition-colors"
-                    >
-                      <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <Avatar className="h-12 w-12 flex-shrink-0">
-                          <AvatarImage
-                            src={member.imageUrl}
-                            alt={member.name}
-                          />
-                          <AvatarFallback>
-                            {member.name
-                              .split(" ")
-                              .map((n: string) => n[0])
-                              .join("")
-                              .substring(0, 2)}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <p className="font-medium truncate">{member.name}</p>
-                            {member.isCoreMember && <Badge variant="secondary">Core</Badge>}
-                          </div>
-                          <p className="text-sm text-muted-foreground truncate">{member.role}</p>
-                          <div className="flex items-center gap-2 mt-1 flex-wrap">
-                            <Badge
-                              variant="outline"
-                              className="text-xs"
-                            >
-                              {member.angkatan}
-                            </Badge>
-                          </div>
-                        </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Role</label>
+                    <Input placeholder="e.g., Lead, Co-Lead, Member" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Angkatan</label>
+                    <Input placeholder="e.g., Informatics '23" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Member Type</label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select member type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="core">Core Member</SelectItem>
+                        <SelectItem value="regular">Regular Member</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Image URL</label>
+                    <Input placeholder="https://example.com/image.jpg" />
+                  </div>
+                  <Button className="w-full">Save Member</Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder="Search by name, role, or angkatan..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9"
+            />
+          </div>
+
+          <Separator />
+
+          {/* Members List */}
+          <div className="space-y-3">
+            {filteredMembers.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-12 text-center">
+                <Users2 className="h-12 w-12 text-muted-foreground/50 mb-4" />
+                <p className="text-sm text-muted-foreground">No members found</p>
+              </div>
+            ) : (
+              filteredMembers.map((member, index) => (
+                <div
+                  key={`${member.name}-${index}`}
+                  className="flex items-center justify-between rounded-lg border p-4 hover:bg-accent/50 transition-colors"
+                >
+                  <div className="flex items-center gap-4 flex-1 min-w-0">
+                    <Avatar className="h-12 w-12 flex-shrink-0">
+                      <AvatarImage
+                        src={member.imageUrl}
+                        alt={member.name}
+                      />
+                      <AvatarFallback>
+                        {member.name
+                          .split(" ")
+                          .map((n: string) => n[0])
+                          .join("")
+                          .substring(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="font-medium truncate">{member.name}</p>
+                        {member.isCoreMember && <Badge variant="secondary">Core</Badge>}
                       </div>
-                      <div className="flex items-center gap-2 ml-4 flex-shrink-0">
-                        <Button
-                          variant="ghost"
-                          size="icon"
+                      <p className="text-sm text-muted-foreground truncate">{member.role}</p>
+                      <div className="flex items-center gap-2 mt-1 flex-wrap">
+                        <Badge
+                          variant="outline"
+                          className="text-xs"
                         >
-                          <Pencil className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
+                          {member.angkatan}
+                        </Badge>
                       </div>
                     </div>
-                  ))
-                )}
-              </div>
-
-              {/* Pagination info */}
-              {filteredMembers.length > 0 && (
-                <div className="text-sm text-muted-foreground text-center pt-2">
-                  Showing {filteredMembers.length} member{filteredMembers.length !== 1 ? "s" : ""}
+                  </div>
+                  <div className="flex items-center gap-2 ml-4 flex-shrink-0">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  </div>
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+              ))
+            )}
+          </div>
+
+          {/* Pagination info */}
+          {filteredMembers.length > 0 && (
+            <div className="text-sm text-muted-foreground text-center pt-2">
+              Showing {filteredMembers.length} member{filteredMembers.length !== 1 ? "s" : ""}
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

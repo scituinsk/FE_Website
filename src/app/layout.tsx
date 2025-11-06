@@ -6,6 +6,7 @@ import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/providers/theme-provider";
+import ReactQueryProvider from "@/providers/react-query-provider";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -58,21 +59,23 @@ export default function RootLayout({
     >
       <body className={`${rubik.className} font-sans antialiased`}>
         <NuqsAdapter>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <NextTopLoader
-              showSpinner={false}
-              color="#2563EB"
-              height={4}
-            />
+          <ReactQueryProvider>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              <NextTopLoader
+                showSpinner={false}
+                color="#2563EB"
+                height={4}
+              />
 
-            <Toaster />
-            <main>{children}</main>
-          </ThemeProvider>
+              <Toaster />
+              <main>{children}</main>
+            </ThemeProvider>
+          </ReactQueryProvider>
         </NuqsAdapter>
       </body>
     </html>
