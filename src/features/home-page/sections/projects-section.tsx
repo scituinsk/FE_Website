@@ -1,14 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import * as motion from "framer-motion/client";
-import { ArrowRight, ExternalLink, Star } from "lucide-react";
+import { ArrowRight, ExternalLink } from "lucide-react";
 
-import { PROJECT_CATEGORIES, PROJECTS } from "@/constants/projects";
+import { PROJECTS } from "@/constants/projects";
 import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
 
 import { Button } from "@/components/ui/button";
 import { TechStackList } from "@/components/tech-stack-list";
-import { AnimatedNumber } from "@/components/animated-number";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const ProjectsSection = () => {
@@ -101,7 +100,7 @@ export const ProjectsSection = () => {
         </motion.div>
 
         {/* Project categories */}
-        <motion.div
+        {/* <motion.div
           variants={fadeIn}
           className="bg-surface rounded-3xl p-8 md:p-12 mb-12"
           {...animationConfig}
@@ -132,10 +131,10 @@ export const ProjectsSection = () => {
               </motion.div>
             ))}
           </motion.div>
-        </motion.div>
+        </motion.div> */}
 
         {/* CTA section */}
-        <motion.div
+        {/* <motion.div
           variants={fadeIn}
           className="text-center"
           {...animationConfig}
@@ -160,7 +159,7 @@ export const ProjectsSection = () => {
               </Link>
             </Button>
           </div>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

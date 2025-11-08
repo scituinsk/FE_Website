@@ -10,9 +10,9 @@ export const ContactSection = () => {
       id="contact"
       className="container py-12 scroll-mt-24"
     >
-      <div className="z-10 w-full md:w-auto  col-span-2 flex flex-col justify-center items-start md:items-start text-start px-10 overflow-hidden">
+      <div className="z-10 w-full md:w-auto col-span-2 flex flex-col justify-center items-center text-center px-10 overflow-hidden">
         <motion.h1
-          className="px-3 md-px-0 text-foreground text-5xl md:text-8xl font-bold mb-3"
+          className="px-3 md-px-0 text-foreground text-5xl md:text-7xl font-bold mb-3"
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{
@@ -23,11 +23,10 @@ export const ContactSection = () => {
             once: true,
           }}
         >
-          Get In Touch
+          Hubungi Kami
         </motion.h1>
-        <hr />
         <motion.p
-          className="title text-xl mt-4 tracking-wider text-muted-foreground leading-[1.7rem] md:mb-5"
+          className="title text-lg mt-4 tracking-wider text-muted-foreground leading-[1.7rem] md:mb-5"
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 1 }}
           transition={{
@@ -38,7 +37,7 @@ export const ContactSection = () => {
             once: true,
           }}
         >
-          Feel free to contact me if you have any questions or just want to say hi.
+          Jangan ragu untuk menghubungi kami jika Anda memiliki pertanyaan, membutuhkan informasi tambahan, atau ingin berdiskusi lebih lanjut.
         </motion.p>
         <motion.p
           className="title text-xl mt-4 tracking-wider text-muted-foreground leading-[1.7rem] mb-5"

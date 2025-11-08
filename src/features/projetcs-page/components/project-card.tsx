@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { TechStackList } from "@/components/tech-stack-list";
@@ -50,7 +50,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
         />
         {/* === Action Buttons === */}
         <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
-          <Button
+          {/* <Button
             variant="outline"
             size="sm"
             className="flex-1 min-w-0 py-2"
@@ -63,7 +63,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
               <ExternalLink className="h-4 w-4 mr-2 flex-shrink-0" />
               <span className="truncate">Demo</span>
             </Link>
-          </Button>
+          </Button> */}
           <Button
             size="sm"
             className="flex-1 min-w-0 py-2"

@@ -61,18 +61,10 @@ export const HeroSection = () => {
                 alt="Ilustrasi kolaborasi dan proyek"
                 className="w-full max-w-md rounded-2xl shadow-lg object-cover"
               />
-
-              {/* decorative orbs */}
-              <div className="absolute -top-6 -right-6 w-14 h-14 bg-primary/18 rounded-full blur-lg" />
-              <div className="absolute bottom-[-18px] left-6 w-8 h-8 bg-primary/12 rounded-full blur-md" />
             </motion.div>
           </div>
         </div>
       </div>
-
-      {/* Floating accents */}
-      <div className="absolute top-12 left-6 w-14 h-14 bg-primary/18 rounded-full blur-xl" />
-      <div className="absolute bottom-12 right-8 w-24 h-24 bg-primary/12 rounded-full blur-xl" />
     </section>
   );
 };

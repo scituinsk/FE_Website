@@ -68,8 +68,7 @@ export const FeaturesSection = () => {
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Expertise Areas</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            SCIT UIN Suka mengembangkan berbagai bidang teknologi informasi untuk mempersiapkan mahasiswa menghadapi tantangan industri 4.0 dan era
-            digital
+            Kami mengembangkan berbagai bidang teknologi informasi untuk mempersiapkan mahasiswa menghadapi tantangan industri 4.0 dan era digital
           </p>
         </motion.div>
 
