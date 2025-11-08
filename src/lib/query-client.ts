@@ -1,44 +1,88 @@
 import { isServer, QueryClient, UseMutationOptions } from "@tanstack/react-query";
 
+/**
+ * Fungsi pembantu (helper) untuk membuat instance QueryClient baru dengan defaultOptions yang ditentukan.
+ *
+ * @function makeQueryClient
+ * @returns {QueryClient} Instance QueryClient baru.
+ */
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
+        // Dengan SSR (Server-Side Rendering), kita mengatur staleTime > 0 (60 detik)
+        // untuk mencegah refetching segera di sisi klien setelah hidrasi.
         staleTime: 60 * 1000,
+        // Menonaktifkan retry secara default, dapat ditimpa di setiap query.
         retry: false,
       },
     },
   });
 }
 
+/**
+ * Variabel untuk menyimpan instance QueryClient di sisi browser (client).
+ * Digunakan untuk memastikan hanya ada satu instance QueryClient di seluruh aplikasi klien.
+ *
+ * @type {QueryClient | undefined}
+ */
 let browserQueryClient: QueryClient | undefined = undefined;
 
+/**
+ * Fungsi untuk mendapatkan instance QueryClient yang tepat, tergantung lingkungan (Server atau Browser).
+ * - Di sisi Server, selalu membuat instance baru untuk menghindari berbagi status antar permintaan.
+ * - Di sisi Browser, menggunakan instance yang sudah ada (`browserQueryClient`) atau membuat yang baru jika belum ada.
+ *
+ * @function getQueryClient
+ * @returns {QueryClient} Instance QueryClient yang sesuai.
+ */
 function getQueryClient() {
   if (isServer) {
-    // Server: always make a new query client
+    // Server: selalu buat klien query baru
     return makeQueryClient();
   } else {
-    // Browser: make a new query client if we don't already have one
-    // This is very important, so we don't re-make a new client if React
-    // suspends during the initial render. This may not be needed if we
-    // have a suspense boundary BELOW the creation of the query client
+    // Browser: buat klien baru jika belum ada
     if (!browserQueryClient) browserQueryClient = makeQueryClient();
     return browserQueryClient;
   }
 }
 
-// NOTE: Avoid useState when initializing the query client if you don't
-//       have a suspense boundary between this and the code that may
-//       suspend because React will throw away the client on the initial
-//       render if it suspends and there is no boundary
+/**
+ * Instance QueryClient yang digunakan di seluruh aplikasi.
+ * Pengambilan instance klien diatur oleh `getQueryClient()`.
+ *
+ * Catatan: Hindari penggunaan `useState` untuk inisialisasi di root karena dapat
+ * menyebabkan client dibuang jika terjadi suspensi.
+ *
+ * @constant {QueryClient} queryClient
+ */
 export const queryClient = getQueryClient();
 
+/**
+ * Utility Type: Mendapatkan tipe data yang dikembalikan oleh Promise dari fungsi asynchronous.
+ *
+ * @typedef {Awaited<ReturnType<FnType>>} ApiFnReturnType
+ * @template FnType - Tipe fungsi async (misalnya, fungsi fetcher API).
+ */
 export type ApiFnReturnType<FnType extends (...args: any) => Promise<any>> = Awaited<ReturnType<FnType>>;
 
+/**
+ * Utility Type: Tipe konfigurasi untuk opsi `useQuery`, mengecualikan `queryKey` dan `queryFn`
+ * karena properti ini sudah didefinisikan dalam fungsi `queryOptions`.
+ *
+ * @typedef {Omit<ReturnType<T>, "queryKey" | "queryFn">} QueryConfig
+ * @template T - Tipe fungsi yang mengembalikan objek `queryOptions`.
+ */
 export type QueryConfig<T extends (...args: any[]) => any> = Omit<ReturnType<T>, "queryKey" | "queryFn">;
 
+/**
+ * Utility Type: Tipe konfigurasi untuk opsi `useMutation`,
+ * menyesuaikan tipe `UseMutationOptions` TanStack Query agar sesuai dengan
+ * tipe pengembalian (success data), error, dan parameter (payload) dari fungsi mutasi API (`MutationFnType`).
+ *
+ * @typedef {UseMutationOptions<ApiFnReturnType<MutationFnType>, Error, Parameters<MutationFnType>[0]>} MutationConfig
+ * @template MutationFnType - Tipe fungsi mutasi async (misalnya, fungsi post/put API).
+ */
 export type MutationConfig<MutationFnType extends (...args: any) => Promise<any>> = UseMutationOptions<
   ApiFnReturnType<MutationFnType>,
   Error,

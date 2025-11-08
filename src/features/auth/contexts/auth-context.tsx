@@ -102,13 +102,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         // Handle 401 Unauthorized
         if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-          // CRITICAL: Jangan refresh jika user memang belum pernah login
-          // Hanya refresh jika user sebelumnya sudah authenticated
-          if (!hasEverBeenAuthenticated.current) {
-            // User belum pernah login, langsung reject tanpa refresh
-            return Promise.reject(error);
-          }
-
           // Cegah infinite loop jika refresh endpoint yang gagal
           if (originalRequest.url?.includes("/auth/refresh")) {
             isRefreshing.current = false;
