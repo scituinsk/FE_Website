@@ -57,7 +57,7 @@ export const HeroSection = () => {
               {/* Illustration / image on the right. Replace src with your asset or external URL */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/assets/colaboration-ilustration.png"
+                src="/assets/foto-bersama.jpg"
                 alt="Ilustrasi kolaborasi dan proyek"
                 className="w-full max-w-md rounded-2xl shadow-lg object-cover"
               />

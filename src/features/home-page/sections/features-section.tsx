@@ -1,5 +1,4 @@
 import * as motion from "framer-motion/client";
-import { Code2, Smartphone, Palette, Database, Shield, Globe, Brain, Cpu } from "lucide-react";
 
 import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
 
@@ -7,52 +6,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 const features = [
   {
-    icon: Code2,
+    icon: "/icons/web-settings.png",
     title: "Web Development",
     description: "Membangun aplikasi web modern menggunakan teknologi terdepan seperti React, Next.js, dan Node.js",
-    color: "bg-blue-600",
   },
   {
-    icon: Smartphone,
+    icon: "/icons/app-development.png",
     title: "Mobile Development",
     description: "Pengembangan aplikasi mobile cross-platform dengan React Native dan Flutter untuk iOS dan Android",
-    color: "bg-green-600",
   },
   {
-    icon: Palette,
+    icon: "/icons/ui.png",
     title: "UI/UX Design",
     description: "Menciptakan pengalaman pengguna yang intuitif dan menarik dengan prinsip-prinsip design thinking",
-    color: "bg-purple-600",
   },
   {
-    icon: Database,
-    title: "Data Science",
-    description: "Analisis data dan machine learning untuk menghasilkan insights yang valuable dari big data",
-    color: "bg-orange-600",
-  },
-  {
-    icon: Shield,
+    icon: "/icons/it-security.png",
     title: "Cybersecurity",
     description: "Keamanan sistem informasi dan ethical hacking untuk melindungi aset digital organisasi",
-    color: "bg-red-600",
   },
   {
-    icon: Globe,
-    title: "Cloud Computing",
-    description: "Implementasi dan pengelolaan infrastruktur cloud menggunakan AWS, Azure, dan Google Cloud",
-    color: "bg-cyan-600",
-  },
-  {
-    icon: Brain,
+    icon: "/icons/ai-assistant.png",
     title: "Artificial Intelligence",
     description: "Pengembangan sistem AI dan deep learning untuk otomatisasi dan intelligent decision making",
-    color: "bg-indigo-600",
   },
   {
-    icon: Cpu,
+    icon: "/icons/internet-of-things.png",
     title: "IoT Development",
     description: "Internet of Things dan embedded systems untuk solusi smart city dan industry 4.0",
-    color: "bg-pink-600",
   },
 ];
 
@@ -75,7 +56,7 @@ export const FeaturesSection = () => {
         {/* Features grid */}
         <motion.div
           variants={staggerContainer}
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 auto-rows-fr"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
           {...animationConfig}
         >
           {features.map((feature, index) => (
@@ -86,9 +67,17 @@ export const FeaturesSection = () => {
             >
               <Card className="group hover:shadow-xl transition-all duration-300 border-0 bg-surface h-full">
                 <CardHeader className="pb-4">
-                  <div className={`w-14 h-14  ${feature.color} rounded-2xl flex items-center justify-center mb-4  `}>
-                    <feature.icon className="h-7 w-7 text-white" />
-                  </div>
+                  <div
+                    style={{
+                      backgroundImage: `url("${feature.icon}")`,
+                      backgroundSize: "90%",
+                      backgroundRepeat: "no-repeat",
+                      backgroundPosition: "center",
+                      width: "50px",
+                      height: "50px",
+                    }}
+                  />
+
                   <CardTitle className="text-lg group-hover:text-primary transition-colors">{feature.title}</CardTitle>
                 </CardHeader>
                 <CardContent>

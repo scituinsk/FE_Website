@@ -127,9 +127,9 @@ const Footer = () => {
         <Separator className="my-8" />
 
         {/* Bottom Footer */}
-        <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 text-center sm:text-left">
+        <div className="flex flex-co  sm:flex-row justify-center items-center space-y-4 sm:space-y-0 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
-            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} SCIT UIN Sunan Kalijaga. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Study Club IT UIN Sunan Kalijaga. All rights reserved.</p>
             <div className="flex items-center flex-wrap gap-2 sm:gap-4">
               <Link
                 href="/privacy-policy"
@@ -144,9 +144,6 @@ const Footer = () => {
                 Terms of Service
               </Link>
             </div>
-          </div>
-          <div className="text-sm text-muted-foreground">
-            <span>Dikelola oleh SCIT UIN SUKA</span>
           </div>
         </div>
       </div>

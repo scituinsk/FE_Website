@@ -98,15 +98,19 @@ export const HeroSection = () => {
 
             <motion.div
               variants={staggerContainer}
-              className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 items-center"
+              className="flex flex-wrap justify-center gap-4 md:gap-6"
               {...animationConfig}
             >
               {PARTNERS.map((partner) => (
-                <PartnerCard
+                <div
                   key={partner.name}
-                  partner={partner}
-                  showBadge={true}
-                />
+                  className="flex-grow basis-[calc(33.333%-1rem)] max-w-[calc(33.333%-1rem)] md:basis-[calc(33.333%-1.5rem)] md:max-w-[calc(33.333%-1.5rem)] flex justify-center"
+                >
+                  <PartnerCard
+                    partner={partner}
+                    showBadge={true}
+                  />
+                </div>
               ))}
             </motion.div>
           </motion.div>

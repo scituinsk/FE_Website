@@ -7,27 +7,21 @@ export interface Partner {
 
 export const PARTNERS: Partner[] = [
   {
-    name: "Google Cloud Platform",
-    description: "Cloud computing services dan machine learning platform",
-    logo: "https://assets.cdn.dicoding.com/original/commons/homepage-partner-google.png",
-    website: "https://cloud.google.com",
+    name: "Informatika UIN Sunan Kalijaga",
+    description: "Departemen Informatika UIN Sunan Kalijaga Yogyakarta",
+    logo: "https://lpm.uin-suka.ac.id/media/dokumen_akademik/011_20211205_UIN%20Sunan%20Kalijaga.png",
+    website: "https://informatika.uin-suka.ac.id",
   },
   {
-    name: "Microsoft",
-    description: "Azure cloud services dan developer tools",
-    logo: "https://assets.cdn.dicoding.com/original/commons/homepage-partner-microsoft.png",
-    website: "https://azure.microsoft.com",
+    name: "HMPPS Informatika UIN Sunan Kalijaga",
+    description: "Himpunan Mahasiswa Program Studi Informatika UIN Sunan Kalijaga Yogyakarta",
+    logo: "/partner-image/hmps-informatika-uin.png",
+    website: "https://www.instagram.com/hmituinsuka",
   },
   {
-    name: "IBM",
-    description: "AI, cloud computing, dan enterprise solutions",
-    logo: "https://assets.cdn.dicoding.com/original/commons/homepage-partner-ibm.png",
-    website: "https://ibm.com",
-  },
-  {
-    name: "Amazon Web Services",
-    description: "Cloud infrastructure dan web services",
-    logo: "https://assets.cdn.dicoding.com/original/commons/homepage-partner-aws.png",
-    website: "https://aws.amazon.com",
+    name: "UINIC Yogyakarta",
+    description: "Unbeatable IT Events and Competition of UIN Sunan Kalijaga",
+    logo: "/partner-image/uinic.png",
+    website: "https://www.instagram.com/uinicyogyakarta",
   },
 ] as const;

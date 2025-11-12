@@ -13,9 +13,18 @@ export const ApplicationLogo = ({ responsive = true }: ApplicationLogoProps) => 
       className="flex items-center space-x-3 transition-opacity hover:opacity-80"
     >
       {/* Logo Image */}
-      <div className="relative h-10 w-10 flex-shrink-0 dark:bg-foreground dark:rounded-full">
+      <div className="relative h-10 w-10 flex-shrink-0 dark:hidden">
         <Image
-          src="/logo-scit.png"
+          src="/scit-logo/light.png"
+          alt="SCIT Logo"
+          fill
+          priority
+          className="object-contain"
+        />
+      </div>
+      <div className="hidden relative h-10 w-10 flex-shrink-0 dark:flex">
+        <Image
+          src="/scit-logo/dark.png"
           alt="SCIT Logo"
           fill
           priority
