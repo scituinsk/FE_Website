@@ -17,6 +17,7 @@ export const PartnerCard = ({ partner, showBadge = true }: PartnerCardProps) => 
     <Link
       href={partner.website}
       target="_blank"
+      className="w-full"
     >
       <motion.div
         variants={staggerItem}
