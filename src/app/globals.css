@@ -238,3 +238,39 @@ button:not(:disabled),
     @apply bg-background text-foreground;
   }
 }
+
+/* === Marquee Testimonial Styles === */
+.marquee-wrapper {
+  position: relative;
+}
+
+.marquee-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  animation: scroll-marquee 40s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-item {
+  transition: transform 0.3s ease;
+}
+
+.marquee-item:hover {
+  transform: translateY(-4px);
+}

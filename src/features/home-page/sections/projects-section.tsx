@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import * as motion from "framer-motion/client";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { PROJECTS } from "@/constants/projects";
 import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
@@ -67,20 +67,6 @@ export const ProjectsSection = () => {
                   />
                   {/* === Action Buttons === */}
                   <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1 min-w-0 py-2"
-                      asChild
-                    >
-                      <Link
-                        href={project.demo}
-                        target="_blank"
-                      >
-                        <ExternalLink className="h-4 w-4 mr-2 flex-shrink-0" />
-                        <span className="truncate">Demo</span>
-                      </Link>
-                    </Button>
                     <Button
                       size="sm"
                       className="flex-1 min-w-0 py-2"
