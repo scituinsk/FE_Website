@@ -64,7 +64,7 @@ export const LandingPageHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-surface backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-primary/10 bg-surface/70 backdrop-blur-lg backdrop-saturate-150">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
         <ApplicationLogo />
