@@ -33,8 +33,8 @@ export function TestimonialMarquee({ testimonials }: TestimonialMarqueeProps) {
       </div>
 
       {/* Fade masks on both sides using Tailwind */}
-      <div className="absolute top-0 left-0 w-48 h-full bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-48 h-full bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 left-0 w-12 md:w-48 h-full bg-gradient-to-r from-background via-background/80 to-transparent pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-12 md:w-48 h-full bg-gradient-to-l from-background via-background/80 to-transparent pointer-events-none z-10" />
     </div>
   );
 }

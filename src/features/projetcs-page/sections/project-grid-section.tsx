@@ -12,7 +12,6 @@ const ITEMS_PER_PAGE = 9;
 
 export const ProjectGridSection = () => {
   const [search, setSearch] = useQueryState("search", { defaultValue: "" });
-  const [tech, setTech] = useQueryState("tech", { defaultValue: "all" });
   const [page, setPage] = useQueryState("page", { defaultValue: "1" });
 
   const filteredProjects = useMemo(() => {
@@ -28,13 +27,8 @@ export const ProjectGridSection = () => {
       );
     }
 
-    // Filter by technology
-    if (tech && tech !== "all") {
-      filtered = filtered.filter((project) => project.tech?.some((technology) => technology.toLowerCase() === tech.toLowerCase()));
-    }
-
     return filtered;
-  }, [search, tech]);
+  }, [search]);
 
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   const currentPage = parseInt(page) || 1;
@@ -52,7 +46,6 @@ export const ProjectGridSection = () => {
 
   const handleResetFilters = () => {
     setSearch("");
-    setTech("all");
     setPage("1");
   };
 
@@ -63,8 +56,6 @@ export const ProjectGridSection = () => {
           <ProjectFilters
             search={search}
             setSearch={setSearch}
-            tech={tech}
-            setTech={setTech}
             totalResults={filteredProjects.length}
             onResetFilters={handleResetFilters}
           />

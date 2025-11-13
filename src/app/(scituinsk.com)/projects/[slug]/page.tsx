@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ExternalLink, Calendar, Clock } from "lucide-react";
@@ -7,7 +6,6 @@ import Image from "next/image";
 import { ProjectGalleryCarousel } from "@/components/project-gallery-carousel";
 import { TestimonialMarquee } from "@/components/testimonial-marquee";
 
-// Mock data - nanti bisa diganti dengan dynamic data dari slug
 const projectData = {
   title: "Smart Campus System",
   description:
@@ -15,10 +13,22 @@ const projectData = {
   fullDescription:
     "Platform komprehensif yang mendigitalisasi berbagai aspek kehidupan kampus, mulai dari sistem presensi otomatis menggunakan QR code, manajemen jadwal kelas, hingga dashboard analytics untuk monitoring aktivitas akademik. Sistem ini dirancang untuk meningkatkan efisiensi operasional kampus dan memberikan pengalaman yang lebih baik bagi mahasiswa dan dosen.",
   mainImage: "/projects/smart-campus.jpg",
-  tech: ["React", "Node.js", "PostgreSQL", "IoT", "Firebase", "Docker"],
+  tech: [
+    {
+      name: "React",
+      icon: "https://icon.icepanel.io/Technology/svg/React.svg",
+    },
+    {
+      name: "Nest Js",
+      icon: "https://icon.icepanel.io/Technology/svg/Nest.js.svg",
+    },
+    {
+      name: "Python",
+      icon: "	https://icon.icepanel.io/Technology/svg/Python.svg",
+    },
+  ],
   category: "Web Application",
   status: "Production",
-  teamSize: 8,
   duration: "6 months",
   github: "https://github.com/scit-uinsuka/smart-campus",
   demo: "https://smartcampus.uin-suka.ac.id",
@@ -264,13 +274,19 @@ const ProjectDetailPage = () => {
                 <CardContent className="p-6 space-y-4">
                   <h3 className="text-xl font-bold text-foreground">Tech Stack</h3>
                   <div className="flex flex-wrap gap-2">
-                    {projectData.tech.map((tech, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
+                    {projectData.tech.map((tech) => (
+                      <div
+                        key={tech.name}
+                        className="relative aspect-square w-10"
+                        title={tech.name}
                       >
-                        {tech}
-                      </Badge>
+                        <Image
+                          src={tech.icon}
+                          alt={tech.name}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
                     ))}
                   </div>
                 </CardContent>
@@ -279,8 +295,8 @@ const ProjectDetailPage = () => {
               {/* CTA Card */}
               <Card className="bg-primary text-primary-foreground mt-5">
                 <CardContent className="p-6 space-y-4">
-                  <h3 className="text-xl font-bold">Interested?</h3>
-                  <p className="text-sm opacity-90">Learn more about our projects or collaborate with us on innovative solutions.</p>
+                  <h3 className="text-xl font-bold">Tertarik bekerjasama dengan kami?</h3>
+                  <p className="text-sm opacity-90">Bangun aplikasi anda, kami siap membantu.</p>
                   <Button
                     variant="secondary"
                     className="w-full"

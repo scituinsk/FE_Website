@@ -1,7 +1,7 @@
 "use client";
 
 import * as motion from "framer-motion/client";
-import { Rocket, Code2, Lightbulb, Target } from "lucide-react";
+import { Code2, Target } from "lucide-react";
 
 import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
@@ -31,14 +31,6 @@ export const HeroSection = () => {
             className="space-y-6 mb-8"
             {...animationConfig}
           >
-            <motion.div
-              variants={fadeIn}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
-            >
-              <Rocket className="h-4 w-4" />
-              Innovation Showcase
-            </motion.div>
-
             <motion.h1
               variants={fadeIn}
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight"
@@ -58,7 +50,7 @@ export const HeroSection = () => {
           {/* Stats */}
           <motion.div
             variants={fadeIn}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            className="flex flex-wrap items-center  justify-center gap-8 max-w-4xl mx-auto"
             {...animationConfig}
           >
             <div className="text-center">
@@ -86,34 +78,6 @@ export const HeroSection = () => {
                 />
               </div>
               <div className="text-muted-foreground">Live Projects</div>
-            </div>
-
-            <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Lightbulb className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">
-                <AnimatedNumber
-                  duration={2}
-                  value={50}
-                />
-                +
-              </div>
-              <div className="text-muted-foreground">Contributors</div>
-            </div>
-
-            <div className="text-center">
-              <div className="flex items-center justify-center w-16 h-16 bg-primary/10 rounded-2xl mx-auto mb-4">
-                <Rocket className="h-8 w-8 text-primary" />
-              </div>
-              <div className="text-3xl font-bold text-foreground mb-2">
-                <AnimatedNumber
-                  duration={2}
-                  value={15}
-                />
-                +
-              </div>
-              <div className="text-muted-foreground">Technologies</div>
             </div>
           </motion.div>
         </div>

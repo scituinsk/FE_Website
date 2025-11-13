@@ -7,8 +7,8 @@ import { PROJECTS } from "@/constants/projects";
 import { animationConfig, fadeIn, staggerContainer, staggerItem } from "@/utils/animations";
 
 import { Button } from "@/components/ui/button";
-import { TechStackList } from "@/components/tech-stack-list";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { SimpleTechStack } from "@/components/simple-tech-stack";
 
 export const ProjectsSection = () => {
   return (
@@ -60,7 +60,7 @@ export const ProjectsSection = () => {
 
                 <CardContent className="space-y-4 flex-1 flex flex-col">
                   {/* === Tech Stack === */}
-                  <TechStackList
+                  <SimpleTechStack
                     techNames={project.tech}
                     size="sm"
                     className="mb-4 flex-shrink-0"
