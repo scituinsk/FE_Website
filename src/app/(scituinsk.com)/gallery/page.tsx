@@ -1,4 +1,4 @@
-import { GalleryPage } from "@/features/gallery-page/pages/gallery-page";
+import { GalleryPage } from "@/features/gallery/pages/gallery-page";
 import type { Metadata } from "next";
 import { connection } from "next/server";
 

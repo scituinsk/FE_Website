@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { DIVISION_DETAILS } from "@/constants/division-members";
-import { DivisionDetailPage } from "@/features/division-detail-page/pages/division-detail-page";
+import { DivisionDetailPage } from "@/features/division/pages/division-detail-page";
 
 interface DivisionPageProps {
   params: Promise<{

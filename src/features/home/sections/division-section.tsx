@@ -5,14 +5,14 @@ import Link from "next/link";
 
 export const DivisionSection = () => {
   return (
-    <section>
+    <section className="px-4">
       <motion.div
         variants={fadeIn}
         className="mt-20"
         {...animationConfig}
       >
         <div className="text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Division</h3>
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">Divisi</h3>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Setiap divisi berperan penting dalam mendukung pengembangan anggota dan keberlangsungan organisasi.
           </p>

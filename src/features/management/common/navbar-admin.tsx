@@ -1,5 +1,5 @@
 import { ThemeToggle } from "@/components/theme-toggle";
-import { LogoutButton } from "@/components/logout-button";
+import { LogoutButton } from "@/features/auth/components/logout-button";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const NavbarAdmin = () => {

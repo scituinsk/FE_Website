@@ -1,4 +1,4 @@
-import { ProjectPage } from "@/features/projetcs-page/pages/project-page";
+import { ProjectPage } from "@/features/projects/pages/project-page";
 
 export const metadata = {
   title: "Our Projects",

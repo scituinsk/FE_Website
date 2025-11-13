@@ -6,7 +6,7 @@ import { PARTNERS } from "@/constants/partners";
 import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
 import { Button } from "@/components/ui/button";
-import { PartnerCard } from "@/components/partner-card";
+import { PartnerCard } from "@/features/home/components/partner-card";
 
 export const HeroSection = () => {
   return (

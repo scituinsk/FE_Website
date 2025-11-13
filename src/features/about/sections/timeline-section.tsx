@@ -52,7 +52,7 @@ export const TimelineSection = () => {
         >
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Perjalanan Kami</h2>
           <p className="text-lg text-muted-foreground">
-            Dari awal berdiri hingga kini, SCIT UIN Suka terus tumbuh sebagai pionir inovasi dan kolaborasi teknologi di kampus.
+            Sejak berdiri hingga saat ini, Kami terus berkembang menjadi pelopor inovasi dan kolaborasi teknologi di lingkungan kampus.
           </p>
         </motion.div>
 

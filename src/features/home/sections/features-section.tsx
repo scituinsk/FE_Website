@@ -47,9 +47,10 @@ export const FeaturesSection = () => {
           className="text-center max-w-3xl mx-auto mb-16"
           {...animationConfig}
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Our Expertise Areas</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">Bidang Keahlian Kami</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Kami mengembangkan berbagai bidang teknologi informasi untuk mempersiapkan mahasiswa menghadapi tantangan industri 4.0 dan era digital
+            Kami mengembangkan kompetensi di berbagai bidang teknologi informasi untuk membekali mahasiswa menghadapi dinamika industri 4.0 dan dunia
+            digital.
           </p>
         </motion.div>
 
@@ -70,7 +71,7 @@ export const FeaturesSection = () => {
                   <div
                     style={{
                       backgroundImage: `url("${feature.icon}")`,
-                      backgroundSize: "90%",
+                      backgroundSize: "100%",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       width: "50px",

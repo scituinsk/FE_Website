@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { SimpleTechStack } from "@/components/simple-tech-stack";
+import { SimpleTechStack } from "@/features/projects/components/simple-tech-stack";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface Project {
@@ -42,29 +42,14 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
       </CardHeader>
 
       <CardContent className="space-y-4 flex-1 flex flex-col">
-        {/* === Tech Stack === */}
         <SimpleTechStack
           techNames={project.tech}
           size="sm"
           className="mb-4 flex-shrink-0"
           maxDisplay={6}
         />
-        {/* === Action Buttons === */}
+
         <div className="flex flex-col sm:flex-row gap-2 pt-2 mt-auto">
-          {/* <Button
-            variant="outline"
-            size="sm"
-            className="flex-1 min-w-0 py-2"
-            asChild
-          >
-            <Link
-              href={project.demo}
-              target="_blank"
-            >
-              <ExternalLink className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="truncate">Demo</span>
-            </Link>
-          </Button> */}
           <Button
             size="sm"
             className="flex-1 min-w-0 py-2"

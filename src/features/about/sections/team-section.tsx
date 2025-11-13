@@ -53,9 +53,9 @@ export const TeamSection = () => {
           className="text-center max-w-3xl mx-auto mb-12 sm:mb-14 md:mb-16"
           {...animationConfig}
         >
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">Meet Our Team</h2>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4 sm:mb-6">Tim Kami</h2>
           <p className="text-base sm:text-lg text-muted-foreground px-4">
-            Tim pengurus SCIT yang berdedikasi untuk memajukan komunitas dan mengembangkan potensi setiap anggota
+            Kami bekerja bersama dengan semangat kolaborasi untuk menginspirasi, mengembangkan potensi, dan membawa komunitas menuju kemajuan.
           </p>
         </motion.div>
 
