@@ -1,4 +1,4 @@
-import { AboutPage } from "@/features/about-page/pages/about-page";
+import { AboutPage } from "@/features/about/pages/about-page";
 
 export const metadata = {
   title: "About Us",

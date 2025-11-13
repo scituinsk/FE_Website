@@ -2,12 +2,11 @@ export interface GalleryImage {
   id: string;
   title: string;
   imageUrl: string;
-  aspectRatio: number; // width/height ratio (e.g., 1.5 for landscape, 0.75 for portrait)
+  aspectRatio: number;
   date: Date;
   category?: string;
 }
 
-// Sample data - replace with real data from your backend/CMS
 export const GALLERY_IMAGES: GalleryImage[] = [
   {
     id: "1",

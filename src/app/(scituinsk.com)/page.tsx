@@ -1,4 +1,4 @@
-import { HomePage } from "@/features/home-page/pages/home-page";
+import { HomePage } from "@/features/home/pages/home-page";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

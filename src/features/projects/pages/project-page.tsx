@@ -6,7 +6,6 @@ export const ProjectPage = async () => {
   await connection();
   return (
     <div className="min-h-screen">
-      {/* <HeroSection /> */}
       <ProjectGridSection />
     </div>
   );

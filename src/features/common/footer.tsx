@@ -6,7 +6,7 @@ import { ApplicationLogo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { footerConfig } from "@/constants/footer-config";
 
-const Footer = () => {
+const Footer = async () => {
   return (
     <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-8 md:py-12 ">
@@ -111,15 +111,6 @@ const Footer = () => {
                   {footerConfig.contact.email}
                 </a>
               </div>
-              {/* <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-primary flex-shrink-0" />
-                <a
-                  href="#"
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  {footerConfig.contact.phone}
-                </a>
-              </div> */}
             </div>
           </div>
         </div>
@@ -130,6 +121,7 @@ const Footer = () => {
         <div className="flex flex-co  sm:flex-row justify-center items-center space-y-4 sm:space-y-0 text-center sm:text-left">
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Study Club IT UIN Sunan Kalijaga. All rights reserved.</p>
+
             <div className="flex items-center flex-wrap gap-2 sm:gap-4">
               <Link
                 href="/privacy-policy"
