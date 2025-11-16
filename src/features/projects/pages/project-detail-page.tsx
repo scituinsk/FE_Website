@@ -121,7 +121,8 @@ const projectData = {
     },
   ],
 };
-export const ProjectDetailPage = () => {
+export const ProjectDetailPage = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 10000)); // Simulate loading delay
   return (
     <div className="min-h-screen bg-background">
       {/* Header Section */}

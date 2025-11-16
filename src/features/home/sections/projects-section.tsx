@@ -1,8 +1,11 @@
+import { Suspense } from "react";
 import * as motion from "framer-motion/client";
 
 import { PROJECTS } from "@/constants/projects";
 import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
+
 import { ProjectCard } from "@/features/projects/components/project-card";
+import { ProjectCardSkeleton } from "@/features/projects/components/project-card-skeleton";
 
 export const ProjectsSection = () => {
   return (
@@ -19,19 +22,38 @@ export const ProjectsSection = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
-          {...animationConfig}
-        >
-          {PROJECTS.slice(-3).map((project) => (
-            <ProjectCard
-              project={project}
-              key={project.title}
-            />
-          ))}
-        </motion.div>
+        <Suspense fallback={<ProjectsSectionSkeleton />}>
+          <FeaturedProject />
+        </Suspense>
       </div>
     </section>
+  );
+};
+
+const FeaturedProject = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  return (
+    <motion.div
+      variants={staggerContainer}
+      className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
+      {...animationConfig}
+    >
+      {PROJECTS.slice(-3).map((project) => (
+        <ProjectCard
+          project={project}
+          key={project.title}
+        />
+      ))}
+    </motion.div>
+  );
+};
+
+const ProjectsSectionSkeleton = () => {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16">
+      {[...Array(3)].map((_, index) => (
+        <ProjectCardSkeleton key={index} />
+      ))}
+    </div>
   );
 };

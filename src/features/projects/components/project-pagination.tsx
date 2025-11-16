@@ -1,13 +1,27 @@
+"use client";
+
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useTransition } from "react";
 
 interface ProjectPaginationProps {
   currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
 }
 
-export const ProjectPagination = ({ currentPage, totalPages, onPageChange }: ProjectPaginationProps) => {
+export const ProjectPagination = ({ currentPage, totalPages }: ProjectPaginationProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const handlePageChange = (page: number) => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", page.toString());
+      router.push(`?${params.toString()}`, { scroll: true });
+    });
+  };
   const generatePageNumbers = () => {
     const pages = [];
     const showEllipsis = totalPages > 7;
@@ -50,8 +64,8 @@ export const ProjectPagination = ({ currentPage, totalPages, onPageChange }: Pro
       <Button
         variant="outline"
         size="sm"
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1 || isPending}
         className="h-8 w-8 p-0"
       >
         <ChevronLeft className="h-4 w-4" />
@@ -67,7 +81,8 @@ export const ProjectPagination = ({ currentPage, totalPages, onPageChange }: Pro
             <Button
               variant={currentPage === page ? "default" : "outline"}
               size="sm"
-              onClick={() => onPageChange(page as number)}
+              onClick={() => handlePageChange(page as number)}
+              disabled={isPending}
               className="h-8 w-8 p-0"
             >
               {page}
@@ -79,8 +94,8 @@ export const ProjectPagination = ({ currentPage, totalPages, onPageChange }: Pro
       <Button
         variant="outline"
         size="sm"
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages || isPending}
         className="h-8 w-8 p-0"
       >
         <ChevronRight className="h-4 w-4" />
