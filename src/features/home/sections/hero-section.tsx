@@ -52,8 +52,7 @@ export const HeroSection = () => {
               variants={fadeIn}
               className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed safe-text"
             >
-              SCIT UIN Sunan Kalijaga adalah komunitas mahasiswa yang berdedikasi untuk mengembangkan inovasi teknologi dan menciptakan solusi digital
-              yang berdampak.
+              Kami adalah komunitas mahasiswa yang berdedikasi untuk mengembangkan inovasi teknologi dan menciptakan solusi digital yang berdampak.
             </motion.p>
           </motion.div>
 

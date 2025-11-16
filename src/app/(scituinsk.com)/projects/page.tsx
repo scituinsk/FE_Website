@@ -5,4 +5,13 @@ export const metadata = {
   description: "Explore the innovative projects and solutions developed by SCIT UIN Sunan Kalijaga members.",
 };
 
-export default ProjectPage;
+interface PageProps {
+  searchParams: Promise<{
+    search?: string;
+    page?: string;
+  }>;
+}
+
+export default function Page({ searchParams }: PageProps) {
+  return <ProjectPage searchParams={searchParams} />;
+}
