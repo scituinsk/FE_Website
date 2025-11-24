@@ -14,8 +14,8 @@ import { getUsersQueryKey } from "./useGetUsers";
  * @param {string} userId - ID pengguna yang akan dihapus.
  * @returns {Promise<void>}
  */
-export const deleteUser = async (userId: string) => {
-  const response = await apiClient.delete<ApiResponse<void>>(`/auth/users/${userId}`);
+export const deleteUser = async (userId: number) => {
+  const response = await apiClient.delete<ApiResponse<void>>(`/users/${userId}`);
   return response.data.data;
 };
 

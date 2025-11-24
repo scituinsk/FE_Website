@@ -12,7 +12,7 @@ import { getUsersQueryKey } from "./useGetUsers";
  * @property {UpdateUserRequest} data - Data yang akan diupdate.
  */
 type UpdateUserParams = {
-  userId: string;
+  userId: number;
   data: UpdateUserRequest;
 };
 
@@ -26,7 +26,10 @@ type UpdateUserParams = {
  * @returns {Promise<User>} Data pengguna yang telah diupdate.
  */
 export const updateUser = async ({ userId, data }: UpdateUserParams) => {
-  const response = await apiClient.put<ApiResponse<User>>(`/auth/users/${userId}`, data);
+  const response = await apiClient.patch<ApiResponse<User>>(`/users`, {
+    userId,
+    ...data,
+  });
   return response.data.data;
 };
 

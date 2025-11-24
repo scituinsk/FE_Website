@@ -9,13 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, AlertCircle, User } from "lucide-react";
 
 import { useLogin } from "@/features/auth/queries/useLogin";
-import { LoginPageGuard } from "@/features/auth/guard/login-page-guard";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FieldLabel } from "@/components/ui/field";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { LoginPageGuard } from "@/features/auth/guard/login-page-guard";
 
 const loginFormSchema = z.object({
   username: z.string().min(1, "Username is required"),

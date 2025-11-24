@@ -9,10 +9,9 @@
  * @property {string} updatedAt - Timestamp update terakhir user.
  */
 export type User = {
-  userId: string;
+  id: number;
   name: string;
   username: string;
-  avatar: string | null;
   role: "USER" | "ADMIN";
   createdAt: string;
   updatedAt: string;

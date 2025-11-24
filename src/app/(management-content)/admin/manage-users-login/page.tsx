@@ -9,17 +9,20 @@ import { Button } from "@/components/ui/button";
 import { UserTable } from "@/features/auth/components/user-table";
 import { UserFormDialog } from "@/features/auth/components/user-form-dialog";
 import { DeleteUserDialog } from "@/features/auth/components/delete-user-dialog";
-import { useGetUsers } from "@/features/auth/queries/useGetUsers";
+import { getUsersQueryKey, useGetUsers } from "@/features/auth/queries/useGetUsers";
 import { useCreateUser } from "@/features/auth/queries/useCreateUser";
 import { useUpdateUser } from "@/features/auth/queries/useUpdateUser";
 import { useDeleteUser } from "@/features/auth/queries/useDeleteUser";
 import { User, CreateUserRequest, UpdateUserRequest } from "@/types/user";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ManageUserLoginPage = () => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [formMode, setFormMode] = useState<"create" | "edit">("create");
+
+  const queryClient = useQueryClient();
 
   // Queries
   const { data: users = [], isLoading } = useGetUsers();
@@ -28,6 +31,9 @@ const ManageUserLoginPage = () => {
   const { mutate: createUser, isPending: isCreating } = useCreateUser({
     mutationConfig: {
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getUsersQueryKey(),
+        });
         toast.success("User berhasil ditambahkan!");
         setIsFormOpen(false);
         setSelectedUser(null);
@@ -41,6 +47,9 @@ const ManageUserLoginPage = () => {
   const { mutate: updateUser, isPending: isUpdating } = useUpdateUser({
     mutationConfig: {
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getUsersQueryKey(),
+        });
         toast.success("User berhasil diupdate!");
         setIsFormOpen(false);
         setSelectedUser(null);
@@ -54,6 +63,9 @@ const ManageUserLoginPage = () => {
   const { mutate: deleteUser, isPending: isDeleting } = useDeleteUser({
     mutationConfig: {
       onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: getUsersQueryKey(),
+        });
         toast.success("User berhasil dihapus!");
         setIsDeleteDialogOpen(false);
         setSelectedUser(null);
@@ -87,7 +99,7 @@ const ManageUserLoginPage = () => {
       createUser(data as CreateUserRequest);
     } else if (selectedUser) {
       updateUser({
-        userId: selectedUser.userId,
+        userId: selectedUser.id,
         data: data as UpdateUserRequest,
       });
     }
@@ -95,7 +107,7 @@ const ManageUserLoginPage = () => {
 
   const handleDeleteConfirm = () => {
     if (selectedUser) {
-      deleteUser(selectedUser.userId);
+      deleteUser(selectedUser.id);
     }
   };
 
@@ -105,7 +117,7 @@ const ManageUserLoginPage = () => {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Manajemen Pengguna</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Manajemen User Login</h1>
             <p className="text-muted-foreground mt-1">Kelola akun pengguna dan hak akses sistem</p>
           </div>
           <Button

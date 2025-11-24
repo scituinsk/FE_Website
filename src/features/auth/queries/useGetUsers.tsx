@@ -14,7 +14,7 @@ import { User } from "@/types/user";
  * @returns {Promise<User[]>} Array data pengguna.
  */
 export const getUsers = async () => {
-  const response = await apiClient.get<ApiResponse<User[]>>("/auth/users");
+  const response = await apiClient.get<ApiResponse<User[]>>("/users");
   return response.data.data;
 };
 

@@ -3,12 +3,11 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Edit, Trash2, MoreVertical, Search } from "lucide-react";
+import { Edit, Trash2, MoreVertical, Search, User as UserIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -27,15 +26,6 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
   const filteredUsers = users.filter(
     (user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.username.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  };
 
   if (isLoading) {
     return (
@@ -78,15 +68,16 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border">
+        {/* Desktop Table View */}
+        <div className="hidden md:block rounded-md border">
           <Table>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[50px]">No</TableHead>
-                <TableHead>Pengguna</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead className="hidden md:table-cell">Role</TableHead>
-                <TableHead className="hidden lg:table-cell">Dibuat</TableHead>
+                <TableHead>Nama</TableHead>
+                <TableHead>Username</TableHead>
+                <TableHead>Role</TableHead>
+                <TableHead className="hidden lg:table-cell">Tanggal Dibuat</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
@@ -102,25 +93,13 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
                 </TableRow>
               ) : (
                 filteredUsers.map((user, index) => (
-                  <TableRow key={user.userId}>
+                  <TableRow key={user.id}>
                     <TableCell className="font-medium">{index + 1}</TableCell>
                     <TableCell>
-                      <div className="flex items-center gap-3">
-                        <Avatar className="h-9 w-9">
-                          <AvatarImage
-                            src={user.avatar || undefined}
-                            alt={user.name}
-                          />
-                          <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col">
-                          <span className="font-medium">{user.name}</span>
-                          <span className="text-sm text-muted-foreground md:hidden">{user.username}</span>
-                        </div>
-                      </div>
+                      <div className="font-medium">{user.name}</div>
                     </TableCell>
-                    <TableCell className="hidden md:table-cell">{user.username}</TableCell>
-                    <TableCell className="hidden md:table-cell">
+                    <TableCell>{user.username}</TableCell>
+                    <TableCell>
                       <Badge variant={user.role === "ADMIN" ? "default" : "secondary"}>{user.role}</Badge>
                     </TableCell>
                     <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">
@@ -158,6 +137,70 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
               )}
             </TableBody>
           </Table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-4">
+          {filteredUsers.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {searchQuery ? "Tidak ada pengguna yang sesuai dengan pencarian." : "Belum ada pengguna terdaftar."}
+            </div>
+          ) : (
+            filteredUsers.map((user, index) => (
+              <Card
+                key={user.id}
+                className="overflow-hidden"
+              >
+                <CardContent className="p-4">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                      <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <UserIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-semibold text-sm truncate">{user.name}</h3>
+                          <Badge
+                            variant={user.role === "ADMIN" ? "default" : "secondary"}
+                            className="text-xs"
+                          >
+                            {user.role}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground truncate">{user.username}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{format(new Date(user.createdAt), "dd MMM yyyy", { locale: id })}</p>
+                      </div>
+                    </div>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 flex-shrink-0"
+                        >
+                          <MoreVertical className="h-4 w-4" />
+                          <span className="sr-only">Menu aksi</span>
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => onEdit(user)}>
+                          <Edit className="mr-2 h-4 w-4" />
+                          Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => onDelete(user)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Hapus
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       </CardContent>
     </Card>
