@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import { Plus, Search } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
@@ -21,9 +22,125 @@ import {
 
 import { CreateProjectForm } from "../components/create-project-form";
 import { ProjectGrid } from "../components/project-grid";
+import { useGetProjects } from "../queries/use-get-projects";
+
+const PER_PAGE = 10;
+const DEBOUNCE_DELAY = 500; // 500ms delay
 
 export const ManagementProjectsPage = () => {
-  const [searchQuery, setSearchQuery] = useState("");
+  // Nuqs state management for URL params
+  const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const [search, setSearch] = useQueryState("search", parseAsString.withDefault(""));
+
+  // Local state for input (immediate update)
+  const [searchInput, setSearchInput] = useState(search);
+
+  // Debounce effect - update URL search param after delay
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (searchInput !== search) {
+        setSearch(searchInput);
+        setPage(1); // Reset to page 1 when search changes
+      }
+    }, DEBOUNCE_DELAY);
+
+    return () => clearTimeout(timer);
+  }, [searchInput, search, setSearch, setPage]);
+
+  // Sync local input with URL search param (for browser back/forward)
+  useEffect(() => {
+    setSearchInput(search);
+  }, [search]);
+
+  // Fetch projects with pagination and search
+  const { data, isLoading } = useGetProjects({
+    params: {
+      page,
+      search,
+      per_page: PER_PAGE,
+    },
+  });
+
+  const pagination = data?.pagination;
+  const projects = data?.data;
+
+  // Generate pagination items
+  const generatePaginationItems = () => {
+    if (!pagination) return null;
+
+    const { page: currentPage, totalPages } = pagination;
+    const items = [];
+
+    // Show max 5 page numbers
+    const maxVisible = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+
+    if (endPage - startPage < maxVisible - 1) {
+      startPage = Math.max(1, endPage - maxVisible + 1);
+    }
+
+    // First page + ellipsis
+    if (startPage > 1) {
+      items.push(
+        <PaginationItem key="1">
+          <PaginationLink
+            href="#"
+            onClick={() => setPage(1)}
+            isActive={currentPage === 1}
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+      if (startPage > 2) {
+        items.push(
+          <PaginationItem key="ellipsis-start">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+    }
+
+    // Middle pages
+    for (let i = startPage; i <= endPage; i++) {
+      items.push(
+        <PaginationItem key={i}>
+          <PaginationLink
+            href="#"
+            onClick={() => setPage(i)}
+            isActive={currentPage === i}
+          >
+            {i}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    // Ellipsis + last page
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) {
+        items.push(
+          <PaginationItem key="ellipsis-end">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+      items.push(
+        <PaginationItem key={totalPages}>
+          <PaginationLink
+            href="#"
+            onClick={() => setPage(totalPages)}
+            isActive={currentPage === totalPages}
+          >
+            {totalPages}
+          </PaginationLink>
+        </PaginationItem>
+      );
+    }
+
+    return items;
+  };
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -39,7 +156,10 @@ export const ManagementProjectsPage = () => {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <CardTitle className="lg:text-2xl">Projects</CardTitle>
-              <CardDescription>Daftar semua proyek yang telah dikembangkan</CardDescription>
+              <CardDescription>
+                Daftar semua proyek yang telah dikembangkan
+                {pagination && ` (${pagination.total} total)`}
+              </CardDescription>
             </div>
             <Dialog>
               <DialogTrigger asChild>
@@ -65,8 +185,8 @@ export const ManagementProjectsPage = () => {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search projects by title, description, or tech..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
                 className="pl-9"
               />
             </div>
@@ -75,25 +195,35 @@ export const ManagementProjectsPage = () => {
           <Separator />
 
           {/* Projects Grid */}
-          <ProjectGrid />
+          <ProjectGrid
+            projects={projects}
+            isLoading={isLoading}
+          />
 
           {/* Pagination */}
-          <Pagination>
-            <PaginationContent>
-              <PaginationItem>
-                <PaginationPrevious href="#" />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationLink href="#">1</PaginationLink>
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationEllipsis />
-              </PaginationItem>
-              <PaginationItem>
-                <PaginationNext href="#" />
-              </PaginationItem>
-            </PaginationContent>
-          </Pagination>
+          {pagination && pagination.totalPages > 1 && (
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious
+                    href="#"
+                    onClick={() => setPage(Math.max(1, page - 1))}
+                    className={page === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+
+                {generatePaginationItems()}
+
+                <PaginationItem>
+                  <PaginationNext
+                    href="#"
+                    onClick={() => setPage(Math.min(pagination.totalPages, page + 1))}
+                    className={page === pagination.totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
+          )}
         </CardContent>
       </Card>
     </div>
