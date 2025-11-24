@@ -47,6 +47,7 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
 
   const handleSave = () => {
     // TODO: API call to save tech stacks
+    console.log(selectedTechStacks);
     setIsSelecting(false);
   };
 

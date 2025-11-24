@@ -1,16 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Pencil, Save, X, Upload } from "lucide-react";
-import Image from "next/image";
-import { ImageCropper } from "./image-cropper";
-
+import { Pencil, Save, X } from "lucide-react";
 interface ProjectBasicInfoProps {
   projectId: string;
 }
@@ -23,7 +19,6 @@ interface ProjectData {
   status: string;
   duration: string;
   launchYear: string;
-  githubUrl: string;
   demoUrl: string;
   mainImage: string;
   mainImageFile?: File;
@@ -40,17 +35,11 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
     status: "Production",
     duration: "6 months",
     launchYear: "2024",
-    githubUrl: "https://github.com/scit-uinsuka/smart-campus",
     demoUrl: "https://smartcampus.uin-suka.ac.id",
     mainImage: "/projects/smart-campus.jpg",
   });
 
   const [editedData, setEditedData] = useState<ProjectData>(projectData);
-  const mainImageInputRef = useRef<HTMLInputElement>(null);
-
-  // Cropper states
-  const [cropperOpen, setCropperOpen] = useState(false);
-  const [imageToCrop, setImageToCrop] = useState<string>("");
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -72,6 +61,7 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
     // }
 
     setProjectData(editedData);
+    console.log(editedData);
     setIsEditing(false);
   };
 
@@ -79,33 +69,8 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
     setEditedData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleMainImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const previewUrl = URL.createObjectURL(file);
-      setImageToCrop(previewUrl);
-      setCropperOpen(true);
-    }
-  };
-
-  const handleCropComplete = (croppedBlob: Blob, croppedUrl: string) => {
-    // Convert blob to file
-    const croppedFile = new File([croppedBlob], editedData.mainImageFile?.name || "main-image.jpg", {
-      type: "image/jpeg",
-    });
-    setEditedData((prev) => ({ ...prev, mainImage: croppedUrl, mainImageFile: croppedFile }));
-  };
-
   return (
     <>
-      <ImageCropper
-        imageSrc={imageToCrop}
-        isOpen={cropperOpen}
-        onClose={() => setCropperOpen(false)}
-        onCropComplete={handleCropComplete}
-        aspectRatio={16 / 9}
-      />
-
       <Card>
         <CardHeader>
           <div className="flex items-start justify-between">
@@ -201,44 +166,6 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
                 />
               </div>
 
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="mainImage">Main Image</Label>
-                <div className="space-y-3">
-                  {editedData.mainImage && (
-                    <div className="relative w-full max-w-md aspect-video rounded-lg overflow-hidden border border-border">
-                      <Image
-                        src={editedData.mainImage}
-                        alt="Main image preview"
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  )}
-                  <div className="flex items-center gap-3">
-                    <input
-                      ref={mainImageInputRef}
-                      type="file"
-                      id="mainImage"
-                      accept="image/*"
-                      onChange={handleMainImageChange}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => mainImageInputRef.current?.click()}
-                    >
-                      <Upload className="mr-2 h-4 w-4" />
-                      {editedData.mainImageFile ? editedData.mainImageFile.name : "Upload Main Image"}
-                    </Button>
-                    {editedData.mainImageFile && <Badge variant="secondary">{(editedData.mainImageFile.size / 1024 / 1024).toFixed(2)} MB</Badge>}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    Upload the main/primary image for this project. This will be uploaded using presigned URL.
-                  </p>
-                </div>
-              </div>
-
               <div className="space-y-2">
                 <Label htmlFor="demoUrl">Demo URL</Label>
                 <Input
@@ -278,20 +205,6 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Launch Year</h4>
                 <p className="text-base font-medium">{projectData.launchYear}</p>
-              </div>
-
-              <div className="md:col-span-2">
-                <h4 className="text-sm font-medium text-muted-foreground mb-1">Main Image</h4>
-                {projectData.mainImage && (
-                  <div className="relative w-full max-w-md aspect-video rounded-lg overflow-hidden border border-border mt-2">
-                    <Image
-                      src={projectData.mainImage}
-                      alt="Main project image"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
               </div>
 
               <div>

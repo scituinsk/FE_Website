@@ -35,6 +35,9 @@ export const ManagementProjectsPage = () => {
   // Local state for input (immediate update)
   const [searchInput, setSearchInput] = useState(search);
 
+  // Dialog state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   // Debounce effect - update URL search param after delay
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -161,7 +164,10 @@ export const ManagementProjectsPage = () => {
                 {pagination && ` (${pagination.total} total)`}
               </CardDescription>
             </div>
-            <Dialog>
+            <Dialog
+              open={isDialogOpen}
+              onOpenChange={setIsDialogOpen}
+            >
               <DialogTrigger asChild>
                 <Button>
                   <Plus className="mr-2 h-4 w-4" />
@@ -173,7 +179,7 @@ export const ManagementProjectsPage = () => {
                   <DialogTitle> Tambah Project</DialogTitle>
                   <DialogDescription>Tambahkan proyek baru ke portfolio</DialogDescription>
                 </DialogHeader>
-                <CreateProjectForm />
+                <CreateProjectForm onSuccess={() => setIsDialogOpen(false)} />
               </DialogContent>
             </Dialog>
           </div>
