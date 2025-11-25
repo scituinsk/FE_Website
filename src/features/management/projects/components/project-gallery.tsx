@@ -3,50 +3,35 @@
 import { useState, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Pencil, Save, X, Upload, Star } from "lucide-react";
 import Image from "next/image";
 import { ImageCropper } from "./image-cropper";
-
-interface GalleryImage {
-  id: string;
-  url: string;
-  alt: string;
-  isPrimary: boolean;
-  file?: File;
-}
+import { DetailProject } from "../queries/use-get-project-by-id";
 
 interface ProjectGalleryProps {
-  projectId: string;
+  project: DetailProject;
 }
 
-export function ProjectGallery({ projectId }: ProjectGalleryProps) {
-  const [images, setImages] = useState<GalleryImage[]>([
-    {
-      id: "1",
-      url: "https://images.unsplash.com/photo-1473042904451-00171c69419d?ixlib=rb-4.1.0&auto=format&fit=crop&q=60&w=600",
-      alt: "Dashboard Overview",
-      isPrimary: true,
-    },
-    {
-      id: "2",
-      url: "https://plus.unsplash.com/premium_photo-1661919068698-40e7b78f196a?ixlib=rb-4.1.0&auto=format&fit=crop&q=60&w=600",
-      alt: "Attendance System",
-      isPrimary: false,
-    },
-    {
-      id: "3",
-      url: "https://images.unsplash.com/photo-1496939217462-7d42e9a74f0e?ixlib=rb-4.1.0&auto=format&fit=crop&q=60&w=600",
-      alt: "Analytics Dashboard",
-      isPrimary: false,
-    },
-  ]);
+export function ProjectGallery({ project }: ProjectGalleryProps) {
+  // Extend API type with optional file for upload
+  type GalleryImageWithFile = DetailProject["images"][0] & { file?: File };
 
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedImage, setEditedImage] = useState<GalleryImage | null>(null);
-  const [newImage, setNewImage] = useState<Omit<GalleryImage, "id">>({ url: "", alt: "", isPrimary: false });
+  const [images, setImages] = useState<GalleryImageWithFile[]>(
+    project.images?.map((img) => ({
+      ...img,
+      file: undefined,
+    })) || []
+  );
+
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editedImage, setEditedImage] = useState<GalleryImageWithFile | null>(null);
+  const [newImage, setNewImage] = useState<Partial<GalleryImageWithFile>>({
+    imageUrl: "",
+    isPrimary: false,
+    isUsed: true,
+  });
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingFile, setUploadingFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -57,7 +42,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
   const [imageToCrop, setImageToCrop] = useState<string>("");
   const [cropMode, setCropMode] = useState<"new" | "edit">("new");
 
-  const handleEdit = (image: GalleryImage) => {
+  const handleEdit = (image: GalleryImageWithFile) => {
     setEditingId(image.id);
     setEditedImage(image);
   };
@@ -75,7 +60,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setImages(images.filter((img) => img.id !== id));
   };
 
@@ -102,7 +87,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
     }
   };
 
-  const handleSetPrimary = (id: string) => {
+  const handleSetPrimary = (id: number) => {
     setImages(images.map((img) => ({ ...img, isPrimary: img.id === id })));
   };
 
@@ -113,24 +98,36 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
     });
 
     if (cropMode === "new") {
-      setNewImage({ ...newImage, url: croppedUrl, file: croppedFile });
+      setNewImage({ ...newImage, imageUrl: croppedUrl, file: croppedFile });
     } else if (cropMode === "edit" && editedImage) {
-      setEditedImage({ ...editedImage, url: croppedUrl, file: croppedFile });
+      setEditedImage({ ...editedImage, imageUrl: croppedUrl, file: croppedFile });
     }
   };
 
   const handleAddImage = async () => {
-    if (newImage.alt && (newImage.file || newImage.url)) {
+    if (newImage.imageUrl && (newImage.file || newImage.imageUrl)) {
       // TODO: If file exists, get presigned URL and upload
       // const presignedUrl = await getPresignedUrl(newImage.file);
       // await uploadToPresignedUrl(presignedUrl, newImage.file);
       // const finalUrl = presignedUrl.split('?')[0]; // Get URL without query params
 
-      const newId = String(Date.now());
+      const newId = Date.now();
       // If this is the first image, make it primary
       const isPrimary = images.length === 0;
-      setImages([...images, { ...newImage, id: newId, isPrimary }]);
-      setNewImage({ url: "", alt: "", isPrimary: false });
+      setImages([
+        ...images,
+        {
+          id: newId,
+          projectId: project.id,
+          imageUrl: newImage.imageUrl,
+          isPrimary,
+          isUsed: true,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          file: newImage.file,
+        },
+      ]);
+      setNewImage({ imageUrl: "", isPrimary: false, isUsed: true });
       setUploadingFile(null);
       setIsAdding(false);
     }
@@ -197,10 +194,10 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                 </div>
 
                 {/* Preview */}
-                {newImage.url && (
+                {newImage.imageUrl && (
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
                     <Image
-                      src={newImage.url}
+                      src={newImage.imageUrl}
                       alt="Preview"
                       fill
                       className="object-cover"
@@ -208,22 +205,13 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                   </div>
                 )}
 
-                {/* Alt Text */}
-                <div className="space-y-2">
-                  <Label htmlFor="new-alt">Alt Text / Description</Label>
-                  <Input
-                    id="new-alt"
-                    value={newImage.alt}
-                    onChange={(e) => setNewImage({ ...newImage, alt: e.target.value })}
-                    placeholder="Description of the image"
-                  />
-                </div>
+                {/* Alt Text - removed since API doesn't have alt field */}
               </div>
               <div className="flex gap-2">
                 <Button
                   size="sm"
                   onClick={handleAddImage}
-                  disabled={!newImage.url || !newImage.alt}
+                  disabled={!newImage.imageUrl}
                 >
                   <Save className="mr-2 h-4 w-4" />
                   Add Image
@@ -233,7 +221,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                   variant="outline"
                   onClick={() => {
                     setIsAdding(false);
-                    setNewImage({ url: "", alt: "", isPrimary: false });
+                    setNewImage({ imageUrl: "", isPrimary: false, isUsed: true });
                     setUploadingFile(null);
                   }}
                 >
@@ -255,8 +243,8 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                   <div className="border border-border rounded-lg p-4 space-y-3 bg-muted/30">
                     <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                       <Image
-                        src={editedImage.url}
-                        alt={editedImage.alt}
+                        src={editedImage.imageUrl}
+                        alt={`Image ${editedImage.id}`}
                         fill
                         className="object-cover"
                       />
@@ -289,14 +277,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                         Change Image
                       </Button>
                     </div>
-                    <div className="space-y-2">
-                      <Label className="text-xs">Alt Text</Label>
-                      <Input
-                        value={editedImage.alt}
-                        onChange={(e) => setEditedImage({ ...editedImage, alt: e.target.value })}
-                        className="text-sm"
-                      />
-                    </div>
+                    {/* Removed alt text field since API doesn't have it */}
                     <div className="flex gap-2">
                       <Button
                         size="sm"
@@ -319,8 +300,8 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                   <div className="group relative border border-border rounded-lg overflow-hidden hover:border-primary transition-colors">
                     <div className="relative w-full aspect-video">
                       <Image
-                        src={image.url}
-                        alt={image.alt}
+                        src={image.imageUrl}
+                        alt={`Image ${image.id}`}
                         fill
                         className="object-cover"
                       />
@@ -334,7 +315,7 @@ export function ProjectGallery({ projectId }: ProjectGalleryProps) {
                       )}
                     </div>
                     <div className="p-3 space-y-2">
-                      <p className="text-sm font-medium truncate">{image.alt}</p>
+                      <p className="text-sm font-medium truncate">Image {image.id}</p>
                       <div className="flex gap-2">
                         {!image.isPrimary && (
                           <Button

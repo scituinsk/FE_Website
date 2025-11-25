@@ -9,14 +9,15 @@ import Image from "next/image";
 import { TechStack } from "@/types/tech-stack";
 import { useGetTechStacks } from "../queries/use-get-tech-stacks";
 import { useDebounce } from "@/hooks/use-debounce";
+import { DetailProject } from "../queries/use-get-project-by-id";
 
 interface ProjectTechStackProps {
-  projectId: string;
+  project: DetailProject;
 }
 
-export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
-  // Initially no tech stacks selected
-  const [selectedTechStacks, setSelectedTechStacks] = useState<TechStack[]>([]);
+export function ProjectTechStack({ project }: ProjectTechStackProps) {
+  // Initialize with technologies from project data
+  const [selectedTechStacks, setSelectedTechStacks] = useState<TechStack[]>(project.technologies || []);
   const [isSelecting, setIsSelecting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

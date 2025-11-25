@@ -14,6 +14,7 @@ import { ProjectBasicInfoSkeleton, ProjectCardSkeleton } from "@/features/manage
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetProjectById } from "../queries/use-get-project-by-id";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ManagementDetailProjectsPageProps {
   projectId: string;
@@ -23,18 +24,6 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
   const { data: project, isLoading } = useGetProjectById({
     params: { projectId },
   });
-
-  const projectBasicData = project
-    ? {
-        title: project.title,
-        slug: project.slug,
-        demoUrl: project.demoUrl || "",
-        description: project.description || "",
-        duration: project.duration || "",
-        launchYear: project.launchYear || "",
-        status: project.status || "",
-      }
-    : null;
 
   return (
     <div className="min-h-screen bg-background">
@@ -52,27 +41,22 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
           </Link>
           <div>
             <h1 className="text-3xl font-bold text-foreground">Manage Project</h1>
-            <p className="mt-1 text-muted-foreground">{isLoading ? "Loading project..." : "Edit project details, gallery, and testimonials"}</p>
+            {isLoading ? (
+              <Skeleton className="w-1/3 h-7 mt-2" />
+            ) : (
+              <p className="mt-1 text-muted-foreground">Edit project details, gallery, and testimonials</p>
+            )}
           </div>
         </div>
       </div>
 
       <div className="container space-y-8 py-8">
-        {isLoading ? (
-          <ProjectBasicInfoSkeleton />
-        ) : (
-          projectBasicData && (
-            <ProjectBasicInfo
-              project={projectBasicData}
-              projectId={projectId}
-            />
-          )
-        )}
+        {isLoading ? <ProjectBasicInfoSkeleton /> : project && <ProjectBasicInfo project={project} />}
 
-        {isLoading ? <ProjectCardSkeleton /> : <ProjectTechStack projectId={projectId} />}
-        {isLoading ? <ProjectCardSkeleton /> : <ProjectDetails projectId={projectId} />}
-        {isLoading ? <ProjectCardSkeleton /> : <ProjectGallery projectId={projectId} />}
-        {isLoading ? <ProjectCardSkeleton /> : <ProjectTestimonials projectId={projectId} />}
+        {isLoading ? <ProjectCardSkeleton /> : project && <ProjectTechStack project={project} />}
+        {isLoading ? <ProjectCardSkeleton /> : project && <ProjectDetails project={project} />}
+        {isLoading ? <ProjectCardSkeleton /> : project && <ProjectGallery project={project} />}
+        {isLoading ? <ProjectCardSkeleton /> : project && <ProjectTestimonials project={project} />}
 
         <Separator className="my-12" />
 

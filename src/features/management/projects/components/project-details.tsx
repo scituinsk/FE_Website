@@ -7,43 +7,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Pencil, Save, X, Plus, Trash2 } from "lucide-react";
+import { DetailProject } from "../queries/use-get-project-by-id";
 
 interface ProjectDetailsProps {
-  projectId: string;
+  project: DetailProject;
 }
 
 interface ProjectDetail {
   aboutProject: string;
-  features: string[];
-  challenges: string[];
-  results: string[];
+  features: DetailProject["keyFeatures"];
+  challenges: DetailProject["challenges"];
+  results: DetailProject["results"];
 }
 
-export function ProjectDetails({ projectId }: ProjectDetailsProps) {
+export function ProjectDetails({ project }: ProjectDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [projectDetail, setProjectDetail] = useState<ProjectDetail>({
-    aboutProject:
-      "Platform komprehensif yang mendigitalisasi berbagai aspek kehidupan kampus, mulai dari sistem presensi otomatis menggunakan QR code, manajemen jadwal kelas, hingga dashboard analytics untuk monitoring aktivitas akademik. Sistem ini dirancang untuk meningkatkan efisiensi operasional kampus dan memberikan pengalaman yang lebih baik bagi mahasiswa dan dosen.",
-    features: [
-      "Digital Attendance System",
-      "Class Management Dashboard",
-      "Real-time Analytics",
-      "Notification System",
-      "QR Code Integration",
-      "Mobile Responsive Design",
-    ],
-    challenges: [
-      "Integrasi dengan sistem legacy yang sudah ada",
-      "Handling real-time data untuk ribuan pengguna",
-      "Optimasi performa database",
-      "Implementasi security best practices",
-    ],
-    results: [
-      "95% adopsi oleh mahasiswa dalam 3 bulan",
-      "Pengurangan waktu absensi hingga 80%",
-      "Peningkatan efisiensi administrasi 60%",
-      "Zero downtime selama 6 bulan operasional",
-    ],
+    aboutProject: project.about,
+    features: project.keyFeatures,
+    challenges: project.challenges,
+    results: project.results,
   });
 
   const [editedDetail, setEditedDetail] = useState<ProjectDetail>(projectDetail);
@@ -61,6 +44,7 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
   const handleSave = () => {
     // TODO: API call to save data
     setProjectDetail(editedDetail);
+    console.log(editedDetail);
     setIsEditing(false);
   };
 
@@ -68,24 +52,33 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
     setEditedDetail((prev) => ({ ...prev, aboutProject: value }));
   };
 
-  const handleListItemChange = (type: "features" | "challenges" | "results", index: number, value: string) => {
+  const handleListItemChange = (type: "features" | "challenges" | "results", id: number, value: string) => {
     setEditedDetail((prev) => ({
       ...prev,
-      [type]: prev[type].map((item, i) => (i === index ? value : item)),
+      [type]: prev[type].map((item) =>
+        item.id === id ? { ...item, [type === "features" ? "feature" : type === "challenges" ? "challenge" : "result"]: value } : item
+      ),
     }));
   };
 
   const handleAddListItem = (type: "features" | "challenges" | "results") => {
+    const newItem = {
+      id: Date.now(), // Temporary ID for new items
+      projectId: parseInt(String(project.id)),
+      [type === "features" ? "feature" : type === "challenges" ? "challenge" : "result"]: "",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
     setEditedDetail((prev) => ({
       ...prev,
-      [type]: [...prev[type], ""],
+      [type]: [...prev[type], newItem as any],
     }));
   };
 
-  const handleRemoveListItem = (type: "features" | "challenges" | "results", index: number) => {
+  const handleRemoveListItem = (type: "features" | "challenges" | "results", id: number) => {
     setEditedDetail((prev) => ({
       ...prev,
-      [type]: prev[type].filter((_, i) => i !== index),
+      [type]: prev[type].filter((item) => item.id !== id),
     }));
   };
 
@@ -160,20 +153,20 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
           </div>
           {isEditing ? (
             <div className="space-y-2">
-              {editedDetail.features.map((feature, index) => (
+              {editedDetail.features.map((feature) => (
                 <div
-                  key={index}
+                  key={feature.id}
                   className="flex gap-2"
                 >
                   <Input
-                    value={feature}
-                    onChange={(e) => handleListItemChange("features", index, e.target.value)}
+                    value={feature.feature}
+                    onChange={(e) => handleListItemChange("features", feature.id, e.target.value)}
                     placeholder="Enter feature..."
                   />
                   <Button
                     size="icon"
                     variant="destructive"
-                    onClick={() => handleRemoveListItem("features", index)}
+                    onClick={() => handleRemoveListItem("features", feature.id)}
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>
@@ -182,13 +175,13 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
             </div>
           ) : (
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {projectDetail.features.map((feature, index) => (
+              {projectDetail.features.map((feature) => (
                 <li
-                  key={index}
+                  key={feature.id}
                   className="flex items-start gap-2 text-muted-foreground"
                 >
                   <span className="text-primary mt-1">✓</span>
-                  <span>{feature}</span>
+                  <span>{feature.feature}</span>
                 </li>
               ))}
             </ul>
@@ -213,20 +206,20 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
             </div>
             {isEditing ? (
               <div className="space-y-2">
-                {editedDetail.challenges.map((challenge, index) => (
+                {editedDetail.challenges.map((challenge) => (
                   <div
-                    key={index}
+                    key={challenge.id}
                     className="flex gap-2"
                   >
                     <Input
-                      value={challenge}
-                      onChange={(e) => handleListItemChange("challenges", index, e.target.value)}
+                      value={challenge.challenge}
+                      onChange={(e) => handleListItemChange("challenges", challenge.id, e.target.value)}
                       placeholder="Enter challenge..."
                     />
                     <Button
                       size="icon"
                       variant="destructive"
-                      onClick={() => handleRemoveListItem("challenges", index)}
+                      onClick={() => handleRemoveListItem("challenges", challenge.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -235,13 +228,13 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
               </div>
             ) : (
               <ul className="space-y-2">
-                {projectDetail.challenges.map((challenge, index) => (
+                {projectDetail.challenges.map((challenge) => (
                   <li
-                    key={index}
+                    key={challenge.id}
                     className="text-sm text-muted-foreground flex items-start gap-2"
                   >
                     <span className="text-primary mt-0.5">•</span>
-                    <span>{challenge}</span>
+                    <span>{challenge.challenge}</span>
                   </li>
                 ))}
               </ul>
@@ -264,20 +257,20 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
             </div>
             {isEditing ? (
               <div className="space-y-2">
-                {editedDetail.results.map((result, index) => (
+                {editedDetail.results.map((result) => (
                   <div
-                    key={index}
+                    key={result.id}
                     className="flex gap-2"
                   >
                     <Input
-                      value={result}
-                      onChange={(e) => handleListItemChange("results", index, e.target.value)}
+                      value={result.result}
+                      onChange={(e) => handleListItemChange("results", result.id, e.target.value)}
                       placeholder="Enter result..."
                     />
                     <Button
                       size="icon"
                       variant="destructive"
-                      onClick={() => handleRemoveListItem("results", index)}
+                      onClick={() => handleRemoveListItem("results", result.id)}
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -286,13 +279,13 @@ export function ProjectDetails({ projectId }: ProjectDetailsProps) {
               </div>
             ) : (
               <ul className="space-y-2">
-                {projectDetail.results.map((result, index) => (
+                {projectDetail.results.map((result) => (
                   <li
-                    key={index}
+                    key={result.id}
                     className="text-sm text-muted-foreground flex items-start gap-2"
                   >
                     <span className="text-green-500 mt-0.5">→</span>
-                    <span>{result}</span>
+                    <span>{result.result}</span>
                   </li>
                 ))}
               </ul>

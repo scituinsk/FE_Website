@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Pencil, Save, X } from "lucide-react";
+import { DetailProject } from "../queries/use-get-project-by-id";
+import { UpdateBasicInfoPayload, useupdateBasicInfo } from "../mutations/use-update-basic-info";
+import { toast } from "sonner";
 
 const STATUS_OPTIONS = [
   { value: "PRODUCTION", label: "Production" },
@@ -15,7 +18,6 @@ const STATUS_OPTIONS = [
 
 interface ProjectData {
   title: string;
-  slug: string;
   description: string;
   status: string;
   duration: string;
@@ -24,25 +26,23 @@ interface ProjectData {
 }
 
 interface ProjectBasicInfoProps {
-  projectId: string;
-  project: ProjectData;
+  project: DetailProject;
 }
 
-export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) {
+export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [projectData, setProjectData] = useState<ProjectData>({
-    title: project.title || "Smart Campus System",
-    slug: project.slug || "smart-campus-system",
-    description:
-      project.description ||
-      "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics real-time.",
-    status: project.status || "PRODUCTION",
-    duration: project.duration || "6 months",
-    launchYear: project.launchYear || "2024",
-    demoUrl: project.demoUrl || "https://smartcampus.uin-suka.ac.id",
+  const [projectData, setProjectData] = useState<UpdateBasicInfoPayload>({
+    title: project.title,
+    description: project.description,
+    status: project.status,
+    duration: project.duration,
+    launchYear: project.launchYear,
+    demoUrl: project.demoUrl,
   });
 
-  const [editedData, setEditedData] = useState<ProjectData>(projectData);
+  const { mutate, isPending } = useupdateBasicInfo();
+
+  const [editedData, setEditedData] = useState<UpdateBasicInfoPayload>(projectData);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -55,9 +55,25 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
   };
 
   const handleSave = async () => {
-    setProjectData(editedData);
-    console.log(editedData);
-    setIsEditing(false);
+    mutate(
+      {
+        projectId: String(project.id),
+        data: editedData,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Project basic info updated successfully.");
+          setProjectData(editedData);
+        },
+        onError: (error) => {
+          console.error("Failed to update project basic info:", error);
+          toast.error("Failed to update project basic info. Please try again.");
+        },
+        onSettled: () => {
+          setIsEditing(false);
+        },
+      }
+    );
   };
 
   const handleChange = (field: keyof ProjectData, value: string) => {
@@ -100,9 +116,10 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
                 <Button
                   size="sm"
                   onClick={handleSave}
+                  disabled={isPending}
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  Save
+                  {isPending ? "Saving..." : "Save"}
                 </Button>
               </div>
             )}
