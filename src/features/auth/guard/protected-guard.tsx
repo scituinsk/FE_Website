@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { RedirectType } from "next/navigation";
 import { useAuth } from "../contexts/auth-context";
+import { Redirect } from "@/components/redirect";
 
 interface ProtectedGuardProps {
   children: React.ReactNode;
@@ -10,18 +10,14 @@ interface ProtectedGuardProps {
 
 export const ProtectedGuard = ({ children }: ProtectedGuardProps) => {
   const { isLoggedIn } = useAuth();
-  const router = useRouter();
 
-  useEffect(() => {
-    // Redirect ke login jika user tidak login
-    if (!isLoggedIn) {
-      router.push("/login");
-    }
-  }, [isLoggedIn, router]);
-
-  // Hanya render children jika user sudah login
   if (!isLoggedIn) {
-    return null;
+    return (
+      <Redirect
+        to="/login"
+        type={RedirectType.replace}
+      />
+    );
   }
 
   return <>{children}</>;

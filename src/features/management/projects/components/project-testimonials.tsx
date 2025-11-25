@@ -8,53 +8,27 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus, Trash2, Pencil, Save, X, Star } from "lucide-react";
-
-interface Testimonial {
-  id: string;
-  name: string;
-  role: string;
-  message: string;
-  rating: number;
-  avatar: string;
-}
+import { DetailProject } from "../queries/use-get-project-by-id";
 
 interface ProjectTestimonialsProps {
-  projectId: string;
+  project: DetailProject;
 }
 
-export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([
-    {
-      id: "1",
-      name: "Muhammad Rizki",
-      role: "Student Representative",
-      message:
-        "Very user-friendly and makes our daily activities much more efficient. As a student, I appreciate how easy it is to use and how it saves us time every day.",
-      rating: 5,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rizki",
-    },
-    {
-      id: "2",
-      name: "Dr. Ahmad Fauzi",
-      role: "Dean of Faculty",
-      message: "This system has revolutionized how we manage campus activities and student attendance. The implementation is seamless.",
-      rating: 5,
-      avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Ahmad",
-    },
-  ]);
+export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
+  const [testimonials, setTestimonials] = useState<DetailProject["testimonials"]>(project.testimonials);
 
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editedTestimonial, setEditedTestimonial] = useState<Testimonial | null>(null);
-  const [newTestimonial, setNewTestimonial] = useState<Omit<Testimonial, "id">>({
+  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editedTestimonial, setEditedTestimonial] = useState<DetailProject["testimonials"][0] | null>(null);
+  const [newTestimonial, setNewTestimonial] = useState<Omit<DetailProject["testimonials"][0], "id" | "projectId" | "createdAt" | "updatedAt">>({
     name: "",
     role: "",
-    message: "",
+    testimonial: "",
     rating: 5,
-    avatar: "",
+    avatarUrl: "",
   });
   const [isAdding, setIsAdding] = useState(false);
 
-  const handleEdit = (testimonial: Testimonial) => {
+  const handleEdit = (testimonial: DetailProject["testimonials"][0]) => {
     setEditingId(testimonial.id);
     setEditedTestimonial(testimonial);
   };
@@ -72,16 +46,29 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
     }
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (id: number) => {
     setTestimonials(testimonials.filter((t) => t.id !== id));
   };
 
   const handleAddTestimonial = () => {
-    if (newTestimonial.name && newTestimonial.role && newTestimonial.message) {
-      const newId = String(Date.now());
-      const avatar = newTestimonial.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${newTestimonial.name}`;
-      setTestimonials([...testimonials, { ...newTestimonial, id: newId, avatar }]);
-      setNewTestimonial({ name: "", role: "", message: "", rating: 5, avatar: "" });
+    if (newTestimonial.name && newTestimonial.role && newTestimonial.testimonial) {
+      const newId = Date.now();
+      const avatarUrl = newTestimonial.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${newTestimonial.name}`;
+      setTestimonials([
+        ...testimonials,
+        {
+          id: newId,
+          projectId: project.id,
+          name: newTestimonial.name,
+          role: newTestimonial.role,
+          testimonial: newTestimonial.testimonial,
+          rating: newTestimonial.rating,
+          avatarUrl,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ]);
+      setNewTestimonial({ name: "", role: "", testimonial: "", rating: 5, avatarUrl: "" });
       setIsAdding(false);
     }
   };
@@ -152,25 +139,15 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                   id="new-role"
                   value={newTestimonial.role}
                   onChange={(e) => setNewTestimonial({ ...newTestimonial, role: e.target.value })}
-                  placeholder="Position or Title"
-                />
-              </div>
-              <div className="space-y-2 md:col-span-2">
-                <Label htmlFor="new-message">Message</Label>
-                <Textarea
-                  id="new-message"
-                  value={newTestimonial.message}
-                  onChange={(e) => setNewTestimonial({ ...newTestimonial, message: e.target.value })}
-                  placeholder="Enter testimonial message..."
-                  rows={3}
+                  placeholder="CEO, Student, etc."
                 />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="new-avatar">Avatar URL (Optional)</Label>
                 <Input
                   id="new-avatar"
-                  value={newTestimonial.avatar}
-                  onChange={(e) => setNewTestimonial({ ...newTestimonial, avatar: e.target.value })}
+                  value={newTestimonial.avatarUrl}
+                  onChange={(e) => setNewTestimonial({ ...newTestimonial, avatarUrl: e.target.value })}
                   placeholder="https://example.com/avatar.jpg"
                 />
               </div>
@@ -181,12 +158,22 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                   onRatingChange={(rating) => setNewTestimonial({ ...newTestimonial, rating })}
                 />
               </div>
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="new-message">Testimonial</Label>
+                <Textarea
+                  id="new-message"
+                  value={newTestimonial.testimonial}
+                  onChange={(e) => setNewTestimonial({ ...newTestimonial, testimonial: e.target.value })}
+                  placeholder="Enter testimonial message..."
+                  rows={3}
+                />
+              </div>
             </div>
             <div className="flex gap-2">
               <Button
                 size="sm"
                 onClick={handleAddTestimonial}
-                disabled={!newTestimonial.name || !newTestimonial.role || !newTestimonial.message}
+                disabled={!newTestimonial.name || !newTestimonial.role || !newTestimonial.testimonial}
               >
                 <Save className="mr-2 h-4 w-4" />
                 Add Testimonial
@@ -196,7 +183,7 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                 variant="outline"
                 onClick={() => {
                   setIsAdding(false);
-                  setNewTestimonial({ name: "", role: "", message: "", rating: 5, avatar: "" });
+                  setNewTestimonial({ name: "", role: "", testimonial: "", rating: 5, avatarUrl: "" });
                 }}
               >
                 <X className="mr-2 h-4 w-4" />
@@ -216,30 +203,22 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                     <div className="space-y-2">
                       <Label className="text-xs">Name</Label>
                       <Input
-                        value={editedTestimonial.name}
+                        value={editedTestimonial.name || ""}
                         onChange={(e) => setEditedTestimonial({ ...editedTestimonial, name: e.target.value })}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs">Role</Label>
                       <Input
-                        value={editedTestimonial.role}
+                        value={editedTestimonial.role || ""}
                         onChange={(e) => setEditedTestimonial({ ...editedTestimonial, role: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2 md:col-span-2">
-                      <Label className="text-xs">Message</Label>
-                      <Textarea
-                        value={editedTestimonial.message}
-                        onChange={(e) => setEditedTestimonial({ ...editedTestimonial, message: e.target.value })}
-                        rows={3}
                       />
                     </div>
                     <div className="space-y-2">
                       <Label className="text-xs">Avatar URL</Label>
                       <Input
-                        value={editedTestimonial.avatar}
-                        onChange={(e) => setEditedTestimonial({ ...editedTestimonial, avatar: e.target.value })}
+                        value={editedTestimonial.avatarUrl || ""}
+                        onChange={(e) => setEditedTestimonial({ ...editedTestimonial, avatarUrl: e.target.value })}
                       />
                     </div>
                     <div className="space-y-2">
@@ -247,6 +226,14 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                       <StarRating
                         rating={editedTestimonial.rating}
                         onRatingChange={(rating) => setEditedTestimonial({ ...editedTestimonial, rating })}
+                      />
+                    </div>
+                    <div className="space-y-2 md:col-span-2">
+                      <Label className="text-xs">Testimonial</Label>
+                      <Textarea
+                        value={editedTestimonial.testimonial || ""}
+                        onChange={(e) => setEditedTestimonial({ ...editedTestimonial, testimonial: e.target.value })}
+                        rows={3}
                       />
                     </div>
                   </div>
@@ -272,7 +259,7 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                 <div className="border border-border rounded-lg p-4 hover:border-primary transition-colors">
                   <div className="flex items-start gap-4">
                     <Avatar className="h-12 w-12 shrink-0">
-                      <AvatarImage src={testimonial.avatar} />
+                      <AvatarImage src={testimonial.avatarUrl} />
                       <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
@@ -286,7 +273,7 @@ export function ProjectTestimonials({ projectId }: ProjectTestimonialsProps) {
                           readonly
                         />
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3 italic">"{testimonial.message}"</p>
+                      <p className="text-sm text-muted-foreground mb-3 italic">"{testimonial.testimonial}"</p>
                       <div className="flex gap-2">
                         <Button
                           size="sm"

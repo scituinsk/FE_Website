@@ -7,6 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertTriangle, Save, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
+import { useDeleteProject } from "../mutations/use-delete-project";
+import { useUpdateSlug } from "../mutations/use-update-slug";
 
 interface DangerousSettingsProps {
   projectId: string;
@@ -19,21 +24,47 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
 
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const { mutate: updateSlugMutation, isPending: isUpdatingSlug } = useUpdateSlug({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Slug berhasil diubah");
+        queryClient.invalidateQueries({ queryKey: ["projects"] });
+        setIsSlugDialogOpen(false);
+      },
+      onError: (error: any) => {
+        toast.error(error.response?.data?.message || "Gagal mengubah slug");
+      },
+    },
+  });
+
+  const { mutate: deleteProjectMutation, isPending: isDeletingProject } = useDeleteProject({
+    mutationConfig: {
+      onSuccess: () => {
+        toast.success("Project berhasil dihapus");
+        queryClient.invalidateQueries({ queryKey: ["projects"] });
+        setIsDeleteDialogOpen(false);
+        setDeleteConfirmation("");
+        router.push("/admin/manage-projects");
+      },
+      onError: (error: any) => {
+        toast.error(error.response?.data?.message || "Gagal menghapus project");
+      },
+    },
+  });
+
   const handleSlugChange = () => {
-    // TODO: API call to update slug
-    console.log("Updating slug to:", newSlug);
-    setIsSlugDialogOpen(false);
-    // Redirect to new URL
-    // router.push(`/admin/manage-projects/${newSlug}`);
+    updateSlugMutation({
+      projectId,
+      data: { slug: newSlug },
+    });
   };
 
   const handleDeleteProject = () => {
     if (deleteConfirmation === currentSlug) {
-      // TODO: API call to delete project
-      console.log("Deleting project:", projectId);
-      setIsDeleteDialogOpen(false);
-      // Redirect to projects list
-      // router.push('/admin/manage-projects');
+      deleteProjectMutation(projectId);
     }
   };
 
@@ -72,7 +103,7 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
               <Button
                 variant="outline"
                 onClick={() => setIsSlugDialogOpen(true)}
-                disabled={newSlug === currentSlug || !newSlug}
+                disabled={newSlug === currentSlug || !newSlug || isUpdatingSlug}
               >
                 <Save className="mr-2 h-4 w-4" />
                 Update Slug
@@ -92,6 +123,7 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
             <Button
               variant="destructive"
               onClick={() => setIsDeleteDialogOpen(true)}
+              disabled={isDeletingProject}
             >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete This Project
@@ -126,10 +158,16 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
             <Button
               variant="outline"
               onClick={() => setIsSlugDialogOpen(false)}
+              disabled={isUpdatingSlug}
             >
               Cancel
             </Button>
-            <Button onClick={handleSlugChange}>Confirm Change</Button>
+            <Button
+              onClick={handleSlugChange}
+              disabled={isUpdatingSlug}
+            >
+              {isUpdatingSlug ? "Updating..." : "Confirm Change"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -180,16 +218,17 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
                 setIsDeleteDialogOpen(false);
                 setDeleteConfirmation("");
               }}
+              disabled={isDeletingProject}
             >
               Cancel
             </Button>
             <Button
               variant="destructive"
               onClick={handleDeleteProject}
-              disabled={deleteConfirmation !== currentSlug}
+              disabled={deleteConfirmation !== currentSlug || isDeletingProject}
             >
               <Trash2 className="mr-2 h-4 w-4" />
-              Delete Project
+              {isDeletingProject ? "Deleting..." : "Delete Project"}
             </Button>
           </DialogFooter>
         </DialogContent>
