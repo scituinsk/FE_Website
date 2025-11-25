@@ -23,7 +23,7 @@ export interface Project {
   about: string | null;
   slug: string;
   duration: string | null;
-  launchDate: string | null;
+  launchYear: string | null;
   demoUrl: string | null;
   status: ProjectStatus;
   createdAt: string;

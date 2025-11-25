@@ -10,12 +10,16 @@ import { Project } from "@/types/project";
  * @property {string} title - Judul project.
  * @property {string} description - Deskripsi project.
  * @property {string} slug - Slug untuk URL project.
+ * @property {string} launchYear - Tahun peluncuran project.
+ * @property {string} duration - Durasi pengerjaan project.
  * @property {string} [linkDemo] - URL demo project (optional).
  */
 export type CreateProjectPayload = {
   title: string;
   description: string;
   slug: string;
+  launchYear: string;
+  duration: string;
   linkDemo?: string;
 };
 
@@ -33,41 +37,10 @@ export const createProject = async (data: CreateProjectPayload) => {
   return response.data.data;
 };
 
-/**
- * @typedef {object} UseCreateProjectParams
- * @property {MutationConfig<typeof createProject>} [mutationConfig] - Opsi konfigurasi TanStack Query Mutation tambahan.
- */
 type UseCreateProjectParams = {
   mutationConfig?: MutationConfig<typeof createProject>;
 };
 
-/**
- * Hook kustom TanStack Query untuk membuat project baru.
- * Hook ini secara otomatis akan me-refresh daftar projects setelah berhasil create.
- *
- * @function useCreateProject
- * @param {UseCreateProjectParams} [params={}] - Parameter yang memungkinkan penyesuaian opsi mutasi.
- * @returns {import("@tanstack/react-query").UseMutationResult<Project, Error, CreateProjectPayload>} Hasil dari hook useMutation.
- *
- * @example
- * const { mutate: createProject, isPending } = useCreateProject({
- *   mutationConfig: {
- *     onSuccess: () => {
- *       toast.success("Project berhasil dibuat!");
- *     }
- *   }
- * });
- *
- * @example
- * // Penggunaan dengan error handling
- * const { mutate, isPending, isError, error } = useCreateProject({
- *   mutationConfig: {
- *     onError: (error) => {
- *       toast.error(error.message);
- *     }
- *   }
- * });
- */
 export const useCreateProject = (params: UseCreateProjectParams = {}) => {
   return useMutation({
     mutationFn: createProject,

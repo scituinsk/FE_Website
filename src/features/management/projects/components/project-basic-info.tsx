@@ -7,36 +7,34 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Pencil, Save, X } from "lucide-react";
-interface ProjectBasicInfoProps {
-  projectId: string;
-}
 
 interface ProjectData {
   title: string;
   slug: string;
   description: string;
-  category: string;
   status: string;
   duration: string;
   launchYear: string;
   demoUrl: string;
-  mainImage: string;
-  mainImageFile?: File;
 }
 
-export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
+interface ProjectBasicInfoProps {
+  projectId: string;
+  project: ProjectData;
+}
+
+export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [projectData, setProjectData] = useState<ProjectData>({
-    title: "Smart Campus System",
-    slug: "smart-campus-system",
+    title: project.title || "Smart Campus System",
+    slug: project.slug || "smart-campus-system",
     description:
+      project.description ||
       "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics real-time.",
-    category: "Web Application",
-    status: "Production",
-    duration: "6 months",
-    launchYear: "2024",
-    demoUrl: "https://smartcampus.uin-suka.ac.id",
-    mainImage: "/projects/smart-campus.jpg",
+    status: project.status || "Production",
+    duration: project.duration || "6 months",
+    launchYear: project.launchYear || "2024",
+    demoUrl: project.demoUrl || "https://smartcampus.uin-suka.ac.id",
   });
 
   const [editedData, setEditedData] = useState<ProjectData>(projectData);
@@ -52,14 +50,6 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
   };
 
   const handleSave = async () => {
-    // TODO: If mainImageFile exists, get presigned URL and upload
-    // if (editedData.mainImageFile) {
-    //   const presignedUrl = await getPresignedUrl(editedData.mainImageFile);
-    //   await uploadToPresignedUrl(presignedUrl, editedData.mainImageFile);
-    //   const finalUrl = presignedUrl.split('?')[0];
-    //   editedData.mainImage = finalUrl;
-    // }
-
     setProjectData(editedData);
     console.log(editedData);
     setIsEditing(false);
@@ -120,14 +110,14 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
                 />
               </div>
 
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="category">Category</Label>
                 <Input
                   id="category"
                   value={editedData.category}
                   onChange={(e) => handleChange("category", e.target.value)}
                 />
-              </div>
+              </div> */}
 
               <div className="space-y-2 md:col-span-2">
                 <Label htmlFor="description">Short Description</Label>
@@ -182,10 +172,10 @@ export function ProjectBasicInfo({ projectId }: ProjectBasicInfoProps) {
                 <p className="text-base font-medium">{projectData.title}</p>
               </div>
 
-              <div>
+              {/* <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Category</h4>
                 <p className="text-base font-medium">{projectData.category}</p>
-              </div>
+              </div> */}
 
               <div className="md:col-span-2">
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Short Description</h4>

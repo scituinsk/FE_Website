@@ -47,7 +47,36 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
 
         <CardContent className="space-y-4 flex-1 flex flex-col">
           <SimpleTechStack
-            techNames={project.tech}
+            technologies={[
+              {
+                id: 313,
+                name: "React",
+                logoUrl: "https://icon.icepanel.io/Technology/svg/React.svg",
+                createdAt: "2025-11-13T11:17:43.399Z",
+                updatedAt: "2025-11-13T11:17:43.399Z",
+              },
+              {
+                id: 23,
+                name: "Arch Linux",
+                logoUrl: "https://icon.icepanel.io/Technology/svg/Arch-Linux.svg",
+                createdAt: "2025-11-13T11:17:43.399Z",
+                updatedAt: "2025-11-13T11:17:43.399Z",
+              },
+              {
+                id: 100,
+                name: "Eclipse IDE",
+                logoUrl: "https://icon.icepanel.io/Technology/svg/Eclipse-IDE.svg",
+                createdAt: "2025-11-13T11:17:43.399Z",
+                updatedAt: "2025-11-13T11:17:43.399Z",
+              },
+              {
+                id: 312,
+                name: "Reach",
+                logoUrl: "https://icon.icepanel.io/Technology/svg/Reach.svg",
+                createdAt: "2025-11-13T11:17:43.399Z",
+                updatedAt: "2025-11-13T11:17:43.399Z",
+              },
+            ]}
             size="sm"
             className="mb-4 flex-shrink-0"
             maxDisplay={6}

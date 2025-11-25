@@ -23,6 +23,11 @@ const createProjectFormSchema = z.object({
     .regex(/^[^-].*[^-]$|^[^-]$/, "Slug tidak boleh dimulai atau diakhiri dengan dash")
     .refine((val) => !/\d/.test(val), "Slug tidak boleh mengandung angka")
     .refine((val) => !val.includes("--"), "Slug tidak boleh memiliki dash berturut-turut"),
+  launchYear: z
+    .string()
+    .min(1, "Launch Year is required")
+    .regex(/^\d{4}$/, "Launch Year must be a valid 4-digit year"),
+  duration: z.string().min(1, "Duration is required"),
   linkDemo: z.string().url("Demo URL must be a valid URL").optional().or(z.literal("")),
 });
 
@@ -40,6 +45,8 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
       title: "",
       description: "",
       slug: "",
+      launchYear: "2024",
+      duration: "6 months",
       linkDemo: "",
     },
   });
@@ -94,6 +101,8 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
       title: values.title,
       description: values.description,
       slug: values.slug,
+      launchYear: values.launchYear,
+      duration: values.duration,
       linkDemo: values.linkDemo || undefined,
     });
   }
@@ -152,6 +161,42 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
                 id="createProjectForm-slug"
                 aria-invalid={fieldState.invalid}
                 placeholder="project-slug"
+                autoComplete="off"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name="launchYear"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="createProjectForm-launchYear">Launch Year</FieldLabel>
+              <Input
+                {...field}
+                id="createProjectForm-launchYear"
+                aria-invalid={fieldState.invalid}
+                placeholder="2024"
+                autoComplete="off"
+                disabled={isPending}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
+        <Controller
+          name="duration"
+          control={form.control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="createProjectForm-duration">Duration</FieldLabel>
+              <Input
+                {...field}
+                id="createProjectForm-duration"
+                aria-invalid={fieldState.invalid}
+                placeholder="6 months"
                 autoComplete="off"
                 disabled={isPending}
               />
