@@ -8,6 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Pencil, Save, X } from "lucide-react";
 
+const STATUS_OPTIONS = [
+  { value: "PRODUCTION", label: "Production" },
+  { value: "BETA_LAUNCH", label: "Beta Launch" },
+];
+
 interface ProjectData {
   title: string;
   slug: string;
@@ -31,7 +36,7 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
     description:
       project.description ||
       "Sistem informasi terintegrasi untuk mengelola aktivitas kampus dengan fitur presensi digital, manajemen kelas, dan dashboard analytics real-time.",
-    status: project.status || "Production",
+    status: project.status || "PRODUCTION",
     duration: project.duration || "6 months",
     launchYear: project.launchYear || "2024",
     demoUrl: project.demoUrl || "https://smartcampus.uin-suka.ac.id",
@@ -57,6 +62,11 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
 
   const handleChange = (field: keyof ProjectData, value: string) => {
     setEditedData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const getStatusLabel = (status: string) => {
+    const option = STATUS_OPTIONS.find((opt) => opt.value === status);
+    return option ? option.label : status;
   };
 
   return (
@@ -131,11 +141,21 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
 
               <div className="space-y-2">
                 <Label htmlFor="status">Status</Label>
-                <Input
+                <select
                   id="status"
                   value={editedData.status}
                   onChange={(e) => handleChange("status", e.target.value)}
-                />
+                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {STATUS_OPTIONS.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="space-y-2">
@@ -184,7 +204,7 @@ export function ProjectBasicInfo({ projectId, project }: ProjectBasicInfoProps) 
 
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Status</h4>
-                <p className="text-base font-medium">{projectData.status}</p>
+                <p className="text-base font-medium">{getStatusLabel(projectData.status)}</p>
               </div>
 
               <div>

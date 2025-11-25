@@ -6,30 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { X, Search } from "lucide-react";
 import Image from "next/image";
-
-interface TechStack {
-  id: string;
-  name: string;
-  icon: string;
-}
+import { TechStack } from "@/types/tech-stack";
+import { useGetTechStacks } from "../queries/use-get-tech-stacks";
+import { useDebounce } from "@/hooks/use-debounce";
 
 interface ProjectTechStackProps {
   projectId: string;
 }
-
-// Sample available tech stacks (will be fetched from BE)
-const availableTechStacks: TechStack[] = [
-  { id: "1", name: "React", icon: "https://icon.icepanel.io/Technology/svg/React.svg" },
-  { id: "2", name: "Next.js", icon: "https://icon.icepanel.io/Technology/svg/Next.js.svg" },
-  { id: "3", name: "Node.js", icon: "https://icon.icepanel.io/Technology/svg/Node.js.svg" },
-  { id: "4", name: "NestJS", icon: "https://icon.icepanel.io/Technology/svg/Nest.js.svg" },
-  { id: "5", name: "Python", icon: "https://icon.icepanel.io/Technology/svg/Python.svg" },
-  { id: "6", name: "TypeScript", icon: "https://icon.icepanel.io/Technology/svg/TypeScript.svg" },
-  { id: "7", name: "PostgreSQL", icon: "https://icon.icepanel.io/Technology/svg/PostgresSQL.svg" },
-  { id: "8", name: "MongoDB", icon: "https://icon.icepanel.io/Technology/svg/MongoDB.svg" },
-  { id: "9", name: "Docker", icon: "https://icon.icepanel.io/Technology/svg/Docker.svg" },
-  { id: "10", name: "Tailwind CSS", icon: "https://icon.icepanel.io/Technology/svg/Tailwind-CSS.svg" },
-];
 
 export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
   // Initially no tech stacks selected
@@ -37,14 +20,27 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
   const [isSelecting, setIsSelecting] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 24;
 
-  // Filter available tech stacks based on search query
+  // Debounce search query untuk mengurangi API calls
+  const debouncedSearch = useDebounce(searchQuery, 500);
+
+  // Fetch tech stacks from API dengan debounced search
+  // Hanya fetch saat user klik "Manage Tech Stack" (isSelecting = true)
+  const { data: techStacksData, isLoading } = useGetTechStacks({
+    params: { search: debouncedSearch },
+    queryOptions: {
+      enabled: isSelecting, // Only fetch when user is actively selecting
+    },
+  });
+
+  // Get available tech stacks from API and filter out already selected ones
+  const availableTechStacks = techStacksData?.data || [];
+
+  // Filter available tech stacks to exclude already selected ones
   const filteredTechStacks = useMemo(() => {
-    return availableTechStacks.filter(
-      (tech) => !selectedTechStacks.find((t) => t.id === tech.id) && tech.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery, selectedTechStacks]);
+    return availableTechStacks.filter((tech) => !selectedTechStacks.find((t) => t.id === tech.id));
+  }, [availableTechStacks, selectedTechStacks]);
 
   // Pagination
   const totalPages = Math.ceil(filteredTechStacks.length / itemsPerPage);
@@ -65,7 +61,7 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
     }
   };
 
-  const handleRemoveTech = (techId: string) => {
+  const handleRemoveTech = (techId: number) => {
     setSelectedTechStacks(selectedTechStacks.filter((t) => t.id !== techId));
   };
 
@@ -117,7 +113,7 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
                   <div className="flex items-center gap-2 bg-muted rounded-lg p-3 pr-10 border border-border hover:border-primary transition-colors">
                     <div className="relative h-8 w-8 shrink-0">
                       <Image
-                        src={tech.icon}
+                        src={tech.logoUrl}
                         alt={tech.name}
                         fill
                         className="object-contain"
@@ -146,9 +142,7 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
           <div>
             <div className="flex items-center justify-between mb-3">
               <h4 className="text-sm font-medium text-muted-foreground">Available Technologies</h4>
-              <p className="text-xs text-muted-foreground">
-                {filteredTechStacks.length} of {availableTechStacks.length - selectedTechStacks.length} technologies
-              </p>
+              <p className="text-xs text-muted-foreground">{isLoading ? "Loading..." : `${filteredTechStacks.length} technologies`}</p>
             </div>
 
             {/* Search Bar */}
@@ -164,7 +158,9 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
             </div>
 
             {/* Tech Stack Grid */}
-            {paginatedTechStacks.length > 0 ? (
+            {isLoading ? (
+              <p className="text-center text-muted-foreground text-sm py-8">Loading technologies...</p>
+            ) : paginatedTechStacks.length > 0 ? (
               <>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
                   {paginatedTechStacks.map((tech) => (
@@ -175,7 +171,7 @@ export function ProjectTechStack({ projectId }: ProjectTechStackProps) {
                     >
                       <div className="relative h-8 w-8 shrink-0">
                         <Image
-                          src={tech.icon}
+                          src={tech.logoUrl}
                           alt={tech.name}
                           fill
                           className="object-contain"

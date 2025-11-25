@@ -1,4 +1,5 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
+import { notFound } from "next/navigation";
 
 import apiClient from "@/lib/axios";
 import { QueryConfig } from "@/lib/query-client";
@@ -11,9 +12,16 @@ export interface GetProjectByIdParams {
 }
 
 export const getProjectById = async (params: GetProjectByIdParams) => {
-  const response = await apiClient.get<ApiResponse<Project>>(`/projects/${params.projectId}`);
-
-  return response.data.data;
+  try {
+    const response = await apiClient.get<ApiResponse<Project>>(`/projects/${params.projectId}`);
+    return response.data.data;
+  } catch (error: any) {
+    if (error.response?.status === 404 || error.response?.status === 400) {
+      notFound();
+    }
+    // Let error boundary handle 500 and other errors
+    throw error;
+  }
 };
 
 export const getProjectByIdQueryKey = (params: GetProjectByIdParams) => {
@@ -24,6 +32,7 @@ export const getProjectByIdQueryOptions = (params: GetProjectByIdParams) => {
   return queryOptions({
     queryKey: getProjectByIdQueryKey(params),
     queryFn: () => getProjectById(params),
+    throwOnError: true,
   });
 };
 
