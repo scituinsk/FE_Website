@@ -118,7 +118,7 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
 
   return (
     <Dialog
-      open={isOpen}
+      open={isOpen && !!imageSrc}
       onOpenChange={(open) => !open && onClose()}
     >
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
@@ -127,23 +127,25 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
           <DialogDescription>Adjust the crop area to fit your image. The aspect ratio is locked to 16:9.</DialogDescription>
         </DialogHeader>
 
-        <div className="flex justify-center items-center bg-muted/30 rounded-lg p-4">
-          <ReactCrop
-            crop={crop}
-            onChange={(c) => setCrop(c)}
-            onComplete={(c) => setCompletedCrop(c)}
-            aspect={aspectRatio}
-            className="max-w-full"
-          >
-            <img
-              ref={imgRef}
-              src={imageSrc}
-              alt="Crop preview"
-              onLoad={onImageLoad}
-              className="max-w-full h-auto"
-            />
-          </ReactCrop>
-        </div>
+        {imageSrc && (
+          <div className="flex justify-center items-center bg-muted/30 rounded-lg p-4">
+            <ReactCrop
+              crop={crop}
+              onChange={(c) => setCrop(c)}
+              onComplete={(c) => setCompletedCrop(c)}
+              aspect={aspectRatio}
+              className="max-w-full"
+            >
+              <img
+                ref={imgRef}
+                src={imageSrc}
+                alt="Crop preview"
+                onLoad={onImageLoad}
+                className="max-w-full h-auto"
+              />
+            </ReactCrop>
+          </div>
+        )}
 
         <DialogFooter>
           <Button
