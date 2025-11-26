@@ -9,13 +9,18 @@ import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Plus, Trash2, Pencil, Save, X, Star } from "lucide-react";
 import { DetailProject } from "../queries/use-get-project-by-id";
+import { useCreateProjectTestimonial } from "../mutations/use-create-project-testimonial";
+import { useUpdateProjectTestimonial } from "../mutations/use-update-project-testimonial";
+import { useDeleteProjectTestimonial } from "../mutations/use-delete-project-testimonial";
+import { toast } from "sonner";
 
 interface ProjectTestimonialsProps {
   project: DetailProject;
 }
 
 export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
-  const [testimonials, setTestimonials] = useState<DetailProject["testimonials"]>(project.testimonials);
+  // Gunakan data langsung dari project prop (React Query cache) bukan local state
+  const testimonials = project.testimonials;
 
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editedTestimonial, setEditedTestimonial] = useState<DetailProject["testimonials"][0] | null>(null);
@@ -27,6 +32,10 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
     avatarUrl: "",
   });
   const [isAdding, setIsAdding] = useState(false);
+
+  const { mutate: createTestimonial, isPending: isPendingCreateTestimonial } = useCreateProjectTestimonial();
+  const { mutate: updateTestimonial, isPending: isPendingUpdateTestimonial } = useUpdateProjectTestimonial();
+  const { mutate: deleteTestimonial, isPending: isPendingDeleteTestimonial } = useDeleteProjectTestimonial();
 
   const handleEdit = (testimonial: DetailProject["testimonials"][0]) => {
     setEditingId(testimonial.id);
@@ -40,36 +49,78 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
 
   const handleSaveEdit = () => {
     if (editedTestimonial) {
-      setTestimonials(testimonials.map((t) => (t.id === editedTestimonial.id ? editedTestimonial : t)));
-      setEditingId(null);
-      setEditedTestimonial(null);
+      updateTestimonial(
+        {
+          projectId: project.id.toString(),
+          testimonialId: editedTestimonial.id.toString(),
+          data: {
+            name: editedTestimonial.name,
+            role: editedTestimonial.role,
+            testimonial: editedTestimonial.testimonial,
+            rating: editedTestimonial.rating,
+            avatarUrl: editedTestimonial.avatarUrl,
+          },
+        },
+        {
+          onSuccess: () => {
+            toast.success("Testimonial updated successfully");
+            setEditingId(null);
+            setEditedTestimonial(null);
+          },
+          onError: () => {
+            toast.error("Failed to update testimonial");
+          },
+        }
+      );
     }
   };
 
   const handleDelete = (id: number) => {
-    setTestimonials(testimonials.filter((t) => t.id !== id));
+    if (!confirm("Are you sure you want to delete this testimonial?")) return;
+
+    deleteTestimonial(
+      {
+        projectId: project.id.toString(),
+        testimonialId: id.toString(),
+      },
+      {
+        onSuccess: () => {
+          toast.success("Testimonial deleted successfully");
+        },
+        onError: () => {
+          toast.error("Failed to delete testimonial");
+        },
+      }
+    );
   };
 
   const handleAddTestimonial = () => {
     if (newTestimonial.name && newTestimonial.role && newTestimonial.testimonial) {
-      const newId = Date.now();
-      const avatarUrl = newTestimonial.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${newTestimonial.name}`;
-      setTestimonials([
-        ...testimonials,
+      const avatarSeed = encodeURIComponent(newTestimonial.name);
+      const avatarUrl = newTestimonial.avatarUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${avatarSeed}`;
+
+      createTestimonial(
         {
-          id: newId,
-          projectId: project.id,
-          name: newTestimonial.name,
-          role: newTestimonial.role,
-          testimonial: newTestimonial.testimonial,
-          rating: newTestimonial.rating,
-          avatarUrl,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          projectId: project.id.toString(),
+          data: {
+            name: newTestimonial.name,
+            role: newTestimonial.role,
+            testimonial: newTestimonial.testimonial,
+            rating: newTestimonial.rating,
+            avatarUrl,
+          },
         },
-      ]);
-      setNewTestimonial({ name: "", role: "", testimonial: "", rating: 5, avatarUrl: "" });
-      setIsAdding(false);
+        {
+          onSuccess: () => {
+            toast.success("Testimonial added successfully");
+            setIsAdding(false);
+            setNewTestimonial({ name: "", role: "", testimonial: "", rating: 5, avatarUrl: "" });
+          },
+          onError: () => {
+            toast.error("Failed to add testimonial");
+          },
+        }
+      );
     }
   };
 
@@ -173,10 +224,10 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
               <Button
                 size="sm"
                 onClick={handleAddTestimonial}
-                disabled={!newTestimonial.name || !newTestimonial.role || !newTestimonial.testimonial}
+                disabled={!newTestimonial.name || !newTestimonial.role || !newTestimonial.testimonial || isPendingCreateTestimonial}
               >
                 <Save className="mr-2 h-4 w-4" />
-                Add Testimonial
+                {isPendingCreateTestimonial ? "Saving..." : "Add Testimonial"}
               </Button>
               <Button
                 size="sm"
@@ -241,9 +292,10 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
                     <Button
                       size="sm"
                       onClick={handleSaveEdit}
+                      disabled={isPendingUpdateTestimonial}
                     >
                       <Save className="mr-2 h-4 w-4" />
-                      Save
+                      {isPendingUpdateTestimonial ? "Saving..." : "Save"}
                     </Button>
                     <Button
                       size="sm"
@@ -287,9 +339,10 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
                           size="sm"
                           variant="destructive"
                           onClick={() => handleDelete(testimonial.id)}
+                          disabled={isPendingDeleteTestimonial}
                         >
                           <Trash2 className="mr-2 h-3 w-3" />
-                          Delete
+                          {isPendingDeleteTestimonial ? "Deleting..." : "Delete"}
                         </Button>
                       </div>
                     </div>
