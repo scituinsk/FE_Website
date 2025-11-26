@@ -3,20 +3,21 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import apiClient from "@/lib/axios";
 import { MutationConfig } from "@/lib/query-client";
 import { ApiResponse, PaginatedData } from "@/types/api-response";
-import { Project } from "@/types/project";
 import { DetailProject, getProjectByIdQueryKey } from "../queries/use-get-project-by-id";
+import { Project } from "@/types/project";
 import { getProjectsQueryKey } from "../queries/use-get-projects";
 
-export type UpdateBasicInfoPayload = {
-  title: string;
-  description: string;
-  status: string;
-  duration: string;
-  launchYear: string;
-  demoUrl: string;
+export type SyncTechnologiesPayload = {
+  technologies: {
+    id: number;
+    name: string;
+    logoUrl: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 };
 
-type UpdateBasicInfoResponse = {
+type SyncTechnologiesResponse = {
   id: number;
   title: string;
   description: string;
@@ -28,44 +29,44 @@ type UpdateBasicInfoResponse = {
   status: string;
   createdAt: string;
   updatedAt: string;
+  technologies: {
+    id: number;
+    name: string;
+    logoUrl: string;
+    createdAt: string;
+    updatedAt: string;
+  }[];
 };
 
-export type UpdateBasicInfoParams = {
+export type SyncTechnologiesParams = {
   projectId: string;
-  data: UpdateBasicInfoPayload;
+  data: SyncTechnologiesPayload;
 };
 
-export const updateBasicInfo = async ({ projectId, data }: UpdateBasicInfoParams) => {
-  const response = await apiClient.patch<ApiResponse<UpdateBasicInfoResponse>>(`projects/${projectId}/basic-info`, data);
+export const syncTechnologies = async ({ projectId, data }: SyncTechnologiesParams) => {
+  const response = await apiClient.post<ApiResponse<SyncTechnologiesResponse>>(`/projects/${projectId}/technologies`, data);
   return response.data.data;
 };
 
-type UseUpdateBasicInfoParams = {
-  mutationConfig?: MutationConfig<typeof updateBasicInfo>;
+type UseSyncTechnologiesParams = {
+  mutationConfig?: MutationConfig<typeof syncTechnologies>;
 };
 
-export const useUpdateBasicInfo = (params: UseUpdateBasicInfoParams = {}) => {
+export const useSyncTechnologies = (params: UseSyncTechnologiesParams = {}) => {
   const queryClient = useQueryClient();
 
   return useMutation({
+    mutationFn: syncTechnologies,
     ...params.mutationConfig,
-    mutationFn: updateBasicInfo,
     onSuccess: (...args) => {
       const [data, variables] = args;
 
       // Update detail project cache
-      queryClient.setQueryData<DetailProject>(getProjectByIdQueryKey({ projectId: variables.projectId }), (oldData) => {
+      queryClient.setQueryData<DetailProject>(getProjectByIdQueryKey({ projectId: variables.projectId.toString() }), (oldData) => {
         if (!oldData) return oldData;
         return {
           ...oldData,
-          title: data.title,
-          description: data.description,
-          status: data.status,
-          duration: data.duration,
-          launchYear: data.launchYear,
-          demoUrl: data.demoUrl,
-          slug: data.slug,
-          about: data.about,
+          technologies: data.technologies,
         };
       });
 
@@ -78,12 +79,7 @@ export const useUpdateBasicInfo = (params: UseUpdateBasicInfoParams = {}) => {
             project.id === data.id
               ? {
                   ...project,
-                  title: data.title,
-                  description: data.description,
-                  status: data.status as Project["status"],
-                  duration: data.duration,
-                  launchYear: data.launchYear,
-                  slug: data.slug,
+                  technologies: data.technologies,
                 }
               : project
           ),

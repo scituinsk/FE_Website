@@ -5,7 +5,7 @@ import { Users2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useGetDataDashboardManageTeam } from "@/features/dashboard/manage-teams/queries/use-get-data-dashboard-manage-team";
+import { useGetDataDashboardManageTeam } from "@/features/management/teams/queries/use-get-data-dashboard-manage-team";
 
 const ManageTeamsPage = () => {
   const { data: dataDashboardManageTeam, isLoading: dataDashboardManageTeamIsLoading } = useGetDataDashboardManageTeam();

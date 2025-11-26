@@ -10,7 +10,8 @@ import { TechStack } from "@/types/tech-stack";
 import { useGetTechStacks } from "../queries/use-get-tech-stacks";
 import { useDebounce } from "@/hooks/use-debounce";
 import { DetailProject } from "../queries/use-get-project-by-id";
-
+import { useSyncTechnologies } from "../mutations/use-sync-technologies";
+import { toast } from "sonner";
 interface ProjectTechStackProps {
   project: DetailProject;
 }
@@ -23,11 +24,11 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 24;
 
+  const { mutate: sync, isPending: isPendingSync } = useSyncTechnologies();
+
   // Debounce search query untuk mengurangi API calls
   const debouncedSearch = useDebounce(searchQuery, 500);
 
-  // Fetch tech stacks from API dengan debounced search
-  // Hanya fetch saat user klik "Manage Tech Stack" (isSelecting = true)
   const { data: techStacksData, isLoading } = useGetTechStacks({
     params: { search: debouncedSearch },
     queryOptions: {
@@ -67,11 +68,29 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
   };
 
   const handleSave = () => {
-    // TODO: API call to save tech stacks
-    console.log(selectedTechStacks);
-    setIsSelecting(false);
-    setSearchQuery("");
-    setCurrentPage(1);
+    sync(
+      {
+        projectId: project.id.toString(),
+        data: {
+          technologies: selectedTechStacks,
+        },
+      },
+      {
+        onSuccess: () => {
+          toast.success("Tech stack updated successfully");
+        },
+        onError: () => {
+          toast.error("Failed to update tech stack. Please try again.");
+          // Revert local state jika error
+          setSelectedTechStacks(project.technologies || []);
+        },
+        onSettled: () => {
+          setIsSelecting(false);
+          setSearchQuery("");
+          setCurrentPage(1);
+        },
+      }
+    );
   };
 
   return (
@@ -94,8 +113,9 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
             <Button
               size="sm"
               onClick={handleSave}
+              disabled={isPendingSync}
             >
-              Save Changes
+              {isPendingSync ? "Saving..." : "Save Changes"}
             </Button>
           )}
         </div>

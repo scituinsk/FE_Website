@@ -1,15 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Pencil, Save, X } from "lucide-react";
-import { DetailProject } from "../queries/use-get-project-by-id";
-import { UpdateBasicInfoPayload, useupdateBasicInfo } from "../mutations/use-update-basic-info";
 import { toast } from "sonner";
+import { useState } from "react";
+import { Pencil, Save, X } from "lucide-react";
+
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+import { DetailProject } from "../queries/use-get-project-by-id";
+import { UpdateBasicInfoPayload, useUpdateBasicInfo } from "../mutations/use-update-basic-info";
 
 const STATUS_OPTIONS = [
   { value: "PRODUCTION", label: "Production" },
@@ -40,7 +42,7 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
     demoUrl: project.demoUrl,
   });
 
-  const { mutate, isPending } = useupdateBasicInfo();
+  const { mutate, isPending } = useUpdateBasicInfo();
 
   const [editedData, setEditedData] = useState<UpdateBasicInfoPayload>(projectData);
 
