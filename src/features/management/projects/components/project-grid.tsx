@@ -35,9 +35,9 @@ export const ProjectGrid = ({ projects, isLoading }: ProjectGridProps) => {
           >
             <div className="flex flex-col sm:flex-row items-center gap-4 rounded-lg border p-4 hover:bg-accent/50 transition-colors">
               {/* Project Image */}
-              <div className="relative w-full sm:w-32 h-32 rounded-md overflow-hidden bg-muted flex-shrink-0">
+              <div className="relative w-full sm:w-32  aspect-video rounded-md overflow-hidden bg-muted flex-shrink-0">
                 <Image
-                  src={project.images[0]?.url || "https://placehold.co/400x300/png?text=No+Image"}
+                  src={project.images[0]?.imageUrl || "https://placehold.co/400x300/png?text=No+Image"}
                   alt={project.title}
                   fill
                   className="object-cover"

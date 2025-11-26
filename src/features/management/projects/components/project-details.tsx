@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Pencil, Save, X, Plus, Trash2 } from "lucide-react";
 import { DetailProject } from "../queries/use-get-project-by-id";
+import { useSyncProjectDetails } from "../mutations/use-sync-project-details";
+import { toast } from "sonner";
 
 interface ProjectDetailsProps {
   project: DetailProject;
@@ -31,6 +33,8 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
 
   const [editedDetail, setEditedDetail] = useState<ProjectDetail>(projectDetail);
 
+  const { mutate: sync, isPending: isPendingSync } = useSyncProjectDetails();
+
   const handleEdit = () => {
     setIsEditing(true);
     setEditedDetail(projectDetail);
@@ -42,10 +46,25 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
   };
 
   const handleSave = () => {
-    // TODO: API call to save data
-    setProjectDetail(editedDetail);
-    console.log(editedDetail);
-    setIsEditing(false);
+    sync(
+      {
+        projectId: project.id.toString(),
+        data: editedDetail,
+      },
+      {
+        onSuccess: () => {
+          toast.success("Project details synced successfully!");
+          setProjectDetail(editedDetail);
+        },
+        onError: (error) => {
+          console.error("Failed to sync project details:", error);
+          toast.error("Failed to sync project details. Please try again.");
+        },
+        onSettled: () => {
+          setIsEditing(false);
+        },
+      }
+    );
   };
 
   const handleAboutChange = (value: string) => {
@@ -112,9 +131,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <Button
                 size="sm"
                 onClick={handleSave}
+                disabled={isPendingSync}
               >
                 <Save className="mr-2 h-4 w-4" />
-                Save
+                {isPendingSync ? "Saving..." : "Save"}
               </Button>
             </div>
           )}

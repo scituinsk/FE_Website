@@ -8,8 +8,7 @@ export interface Technology {
 
 export interface ProjectImage {
   id: number;
-  url: string;
-  alt?: string;
+  imageUrl: string;
   createdAt: string;
   updatedAt: string;
 }
