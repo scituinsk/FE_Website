@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Pencil, Save, X, Upload, Star } from "lucide-react";
+import { Plus, Trash2, Save, X, Upload, Star } from "lucide-react";
 import Image from "next/image";
 import axios from "axios";
 import { toast } from "sonner";
@@ -24,35 +24,21 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
   // Use data from project prop (React Query cache)
   const images = project.images || [];
 
-  const [editingId, setEditingId] = useState<number | null>(null);
   const [newImage, setNewImage] = useState<{ file?: File; previewUrl?: string }>({});
   const [isAdding, setIsAdding] = useState(false);
   const [uploadingFile, setUploadingFile] = useState<File | null>(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const editFileInputRef = useRef<HTMLInputElement>(null);
 
   // Cropper states
   const [cropperOpen, setCropperOpen] = useState(false);
   const [imageToCrop, setImageToCrop] = useState<string>("");
-  const [cropMode, setCropMode] = useState<"new" | "edit">("new");
 
   // Mutations
   const { mutate: getPresignedUrl, isPending: isPendingPresigned } = useGetPresignedUrl();
   const { mutate: confirmUpload, isPending: isPendingConfirm } = useConfirmImageUpload();
   const { mutate: updateImage, isPending: isPendingUpdate } = useUpdateProjectImage();
   const { mutate: deleteImage, isPending: isPendingDelete } = useDeleteProjectImage();
-
-  const handleEdit = (imageId: number) => {
-    setEditingId(imageId);
-  };
-
-  const handleCancelEdit = () => {
-    setEditingId(null);
-    if (editFileInputRef.current) {
-      editFileInputRef.current.value = "";
-    }
-  };
 
   const handleDelete = (id: number) => {
     if (!confirm("Are you sure you want to delete this image?")) return;
@@ -80,18 +66,6 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
       // Create preview URL and open cropper
       const previewUrl = URL.createObjectURL(file);
       setImageToCrop(previewUrl);
-      setCropMode("new");
-      setCropperOpen(true);
-    }
-  };
-
-  const handleEditFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && editingId) {
-      // Create preview URL and open cropper
-      const previewUrl = URL.createObjectURL(file);
-      setImageToCrop(previewUrl);
-      setCropMode("edit");
       setCropperOpen(true);
     }
   };
@@ -113,29 +87,6 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
         setUploadingFile(file);
         const previewUrl = URL.createObjectURL(file);
         setImageToCrop(previewUrl);
-        setCropMode("new");
-        setCropperOpen(true);
-      }
-    }
-  };
-
-  // Drag and drop handlers for edit image
-  const handleEditDragOver = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleEditDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const files = e.dataTransfer.files;
-    if (files.length > 0 && editingId) {
-      const file = files[0]; // Only take the first file
-      if (file.type.startsWith("image/")) {
-        const previewUrl = URL.createObjectURL(file);
-        setImageToCrop(previewUrl);
-        setCropMode("edit");
         setCropperOpen(true);
       }
     }
@@ -164,12 +115,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
       type: "image/jpeg",
     });
 
-    if (cropMode === "new") {
-      setNewImage({ file: croppedFile, previewUrl: croppedUrl });
-    } else if (cropMode === "edit") {
-      // For edit mode, immediately upload
-      handleEditImageUpload(croppedFile);
-    }
+    setNewImage({ file: croppedFile, previewUrl: croppedUrl });
   };
 
   const handleCropperClose = () => {
@@ -235,70 +181,6 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
                   if (newImage.previewUrl) {
                     URL.revokeObjectURL(newImage.previewUrl);
                   }
-                },
-                onError: () => {
-                  toast.error("Failed to confirm image upload");
-                  setUploadProgress(0);
-                },
-              }
-            );
-          } catch (error) {
-            toast.error("Failed to upload image to storage");
-            setUploadProgress(0);
-          }
-        },
-        onError: () => {
-          toast.error("Failed to get upload URL");
-        },
-      }
-    );
-  };
-
-  const handleEditImageUpload = async (file: File) => {
-    if (!editingId) return;
-
-    setUploadProgress(0);
-
-    getPresignedUrl(
-      {
-        projectId: project.id.toString(),
-        data: {
-          fileName: file.name,
-          fileType: file.type,
-          fileSize: file.size,
-        },
-      },
-      {
-        onSuccess: async (presignedData) => {
-          try {
-            await uploadToS3(file, presignedData.uploadUrl);
-
-            confirmUpload(
-              {
-                projectId: project.id.toString(),
-                imageId: presignedData.id.toString(),
-              },
-              {
-                onSuccess: () => {
-                  // Delete old image
-                  deleteImage(
-                    {
-                      projectId: project.id.toString(),
-                      imageId: editingId.toString(),
-                    },
-                    {
-                      onSuccess: () => {
-                        toast.success("Image updated successfully");
-                        setEditingId(null);
-                        setUploadProgress(0);
-                      },
-                      onError: () => {
-                        toast.error("Image uploaded but failed to delete old image");
-                        setEditingId(null);
-                        setUploadProgress(0);
-                      },
-                    }
-                  );
                 },
                 onError: () => {
                   toast.error("Failed to confirm image upload");
@@ -444,135 +326,51 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
           {/* Gallery Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {images.map((image) => (
+            {images.map((image, index) => (
               <div
                 key={image.id}
-                className="space-y-3"
+                className="group relative border border-border rounded-lg overflow-hidden hover:border-primary transition-colors"
               >
-                {editingId === image.id ? (
-                  <div className="border border-border rounded-lg p-4 space-y-3 bg-muted/30">
-                    <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                      <Image
-                        src={image.imageUrl}
-                        alt={`Image ${image.id}`}
-                        fill
-                        className="object-cover"
-                      />
-                      {image.isPrimary && (
-                        <div className="absolute top-2 right-2">
-                          <Badge className="bg-yellow-500">
-                            <Star className="h-3 w-3 mr-1 fill-white" />
-                            Primary
-                          </Badge>
-                        </div>
-                      )}
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={image.imageUrl}
+                    alt={`Image ${index + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                  {image.isPrimary && (
+                    <div className="absolute top-2 right-2">
+                      <Badge className="bg-yellow-500">
+                        <Star className="h-3 w-3 mr-1 fill-white" />
+                        Primary
+                      </Badge>
                     </div>
-                    <div className="space-y-2">
-                      <Label className="text-xs">Upload New Image</Label>
-                      <div
-                        className="border-2 border-dashed border-border rounded-lg p-3 transition-colors hover:border-primary"
-                        onDragOver={handleEditDragOver}
-                        onDrop={handleEditDrop}
-                      >
-                        <input
-                          ref={editFileInputRef}
-                          type="file"
-                          accept="image/*"
-                          onChange={handleEditFileChange}
-                          className="hidden"
-                          disabled={isPendingPresigned || isPendingConfirm || isPendingDelete || uploadProgress > 0}
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          size="sm"
-                          onClick={() => editFileInputRef.current?.click()}
-                          className="w-full"
-                          disabled={isPendingPresigned || isPendingConfirm || isPendingDelete || uploadProgress > 0}
-                        >
-                          <Upload className="mr-2 h-3 w-3" />
-                          {isPendingPresigned || isPendingConfirm || uploadProgress > 0 ? "Uploading..." : "Change Image or Drag & Drop"}
-                        </Button>
-                      </div>
-                      {uploadProgress > 0 && uploadProgress < 100 && (
-                        <div className="space-y-1">
-                          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
-                            <div
-                              className="bg-primary h-full transition-all duration-300"
-                              style={{ width: `${uploadProgress}%` }}
-                            />
-                          </div>
-                          <p className="text-xs text-center text-muted-foreground">{uploadProgress}%</p>
-                        </div>
-                      )}
-                      <p className="text-xs text-muted-foreground">Upload will replace current image automatically.</p>
-                    </div>
-                    <div className="flex gap-2">
+                  )}
+                </div>
+                <div className="p-3 space-y-2">
+                  <p className="text-sm font-medium truncate">Image {index + 1}</p>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => handleDelete(image.id)}
+                      disabled={isPendingDelete}
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </Button>
+                    {!image.isPrimary && (
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={handleCancelEdit}
-                        disabled={isPendingPresigned || isPendingConfirm || isPendingDelete || uploadProgress > 0}
-                        className="w-full"
+                        onClick={() => handleSetPrimary(image.id)}
+                        disabled={isPendingUpdate}
                       >
-                        <X className="mr-2 h-4 w-4" />
-                        Done
+                        <Star className="mr-2 h-3 w-3" />
+                        Set Primary
                       </Button>
-                    </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="group relative border border-border rounded-lg overflow-hidden hover:border-primary transition-colors">
-                    <div className="relative w-full aspect-video">
-                      <Image
-                        src={image.imageUrl}
-                        alt={`Image ${image.id}`}
-                        fill
-                        className="object-cover"
-                      />
-                      {image.isPrimary && (
-                        <div className="absolute top-2 right-2">
-                          <Badge className="bg-yellow-500">
-                            <Star className="h-3 w-3 mr-1 fill-white" />
-                            Primary
-                          </Badge>
-                        </div>
-                      )}
-                    </div>
-                    <div className="p-3 space-y-2">
-                      <p className="text-sm font-medium truncate">Image {image.id}</p>
-                      <div className="flex gap-2">
-                        {!image.isPrimary && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleSetPrimary(image.id)}
-                            className="flex-1"
-                            disabled={isPendingUpdate}
-                          >
-                            <Star className="mr-2 h-3 w-3" />
-                            Set Primary
-                          </Button>
-                        )}
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleEdit(image.id)}
-                          disabled={isPendingUpdate || isPendingDelete}
-                        >
-                          <Pencil className="h-3 w-3" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => handleDelete(image.id)}
-                          disabled={isPendingDelete}
-                        >
-                          <Trash2 className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
