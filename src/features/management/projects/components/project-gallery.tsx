@@ -15,6 +15,7 @@ import { useGetPresignedUrl } from "../mutations/use-get-presigned-url";
 import { useConfirmImageUpload } from "../mutations/use-confirm-image-upload";
 import { useUpdateProjectImage } from "../mutations/use-update-project-image";
 import { useDeleteProjectImage } from "../mutations/use-delete-project-image";
+import { cn } from "@/lib/utils";
 
 interface ProjectGalleryProps {
   project: DetailProject;
@@ -349,11 +350,12 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
                 </div>
                 <div className="p-3 space-y-2">
                   <p className="text-sm font-medium truncate">Image {index + 1}</p>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 ">
                     <Button
                       size="sm"
                       variant="destructive"
                       onClick={() => handleDelete(image.id)}
+                      className={cn(image.isPrimary ? "basis-full" : "basis-1/2")}
                       disabled={isPendingDelete}
                     >
                       <Trash2 className="h-3 w-3" />
@@ -364,6 +366,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
                         variant="outline"
                         onClick={() => handleSetPrimary(image.id)}
                         disabled={isPendingUpdate}
+                        className="basis-1/2"
                       >
                         <Star className="mr-2 h-3 w-3" />
                         Set Primary

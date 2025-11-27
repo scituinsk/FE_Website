@@ -27,7 +27,7 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="sticky top-0 z-10 border-b border-border bg-card">
+      <div className=" top-0 z-10 border-b border-border bg-card">
         <div className="container py-6">
           <Link href="/admin/manage-projects">
             <Button

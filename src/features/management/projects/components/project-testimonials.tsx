@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -41,6 +41,13 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
     setEditingId(testimonial.id);
     setEditedTestimonial(testimonial);
   };
+
+  const hasChanges = useMemo(() => {
+    if (!editedTestimonial || editingId === null) return false;
+    const original = testimonials.find((t) => t.id === editingId);
+    if (!original) return false;
+    return JSON.stringify(original) !== JSON.stringify(editedTestimonial);
+  }, [editedTestimonial, editingId, testimonials]);
 
   const handleCancelEdit = () => {
     setEditingId(null);
@@ -292,7 +299,7 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
                     <Button
                       size="sm"
                       onClick={handleSaveEdit}
-                      disabled={isPendingUpdateTestimonial}
+                      disabled={isPendingUpdateTestimonial || !hasChanges}
                     >
                       <Save className="mr-2 h-4 w-4" />
                       {isPendingUpdateTestimonial ? "Saving..." : "Save"}

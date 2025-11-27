@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { AlertTriangle, Save, Trash2 } from "lucide-react";
+import { AlertTriangle, Save, Trash2, X } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -20,6 +20,7 @@ interface DangerousSettingsProps {
 
 export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsProps) {
   const [newSlug, setNewSlug] = useState(currentSlug);
+  const [isEditingSlug, setIsEditingSlug] = useState(false);
   const [isSlugDialogOpen, setIsSlugDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState("");
@@ -27,12 +28,17 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
   const router = useRouter();
   const queryClient = useQueryClient();
 
+  const hasSlugChanges = useMemo(() => {
+    return newSlug !== currentSlug && newSlug.trim() !== "";
+  }, [newSlug, currentSlug]);
+
   const { mutate: updateSlugMutation, isPending: isUpdatingSlug } = useUpdateSlug({
     mutationConfig: {
       onSuccess: () => {
         toast.success("Slug berhasil diubah");
         queryClient.invalidateQueries({ queryKey: ["projects"] });
         setIsSlugDialogOpen(false);
+        setIsEditingSlug(false);
       },
       onError: (error: any) => {
         toast.error(error.response?.data?.message || "Gagal mengubah slug");
@@ -62,6 +68,11 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
     });
   };
 
+  const handleCancelSlugEdit = () => {
+    setNewSlug(currentSlug);
+    setIsEditingSlug(false);
+  };
+
   const handleDeleteProject = () => {
     if (deleteConfirmation === currentSlug) {
       deleteProjectMutation(projectId);
@@ -87,27 +98,43 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
               <h4 className="font-semibold text-base mb-1">Change Project Slug</h4>
               <p className="text-sm text-muted-foreground">Changing the slug will update the project URL. All existing links will break.</p>
             </div>
-            <div className="flex items-end gap-3">
-              <div className="flex-1 space-y-2">
+            <div className="space-y-3">
+              <div className="space-y-2">
                 <Label htmlFor="slug">Current Slug</Label>
                 <Input
                   id="slug"
                   value={newSlug}
-                  onChange={(e) => setNewSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
+                  onChange={(e) => {
+                    setNewSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"));
+                    if (!isEditingSlug) setIsEditingSlug(true);
+                  }}
                   placeholder="project-slug"
                 />
                 <p className="text-xs text-muted-foreground">
                   Preview: <code className="bg-muted px-1 py-0.5 rounded">/projects/{newSlug}</code>
                 </p>
               </div>
-              <Button
-                variant="outline"
-                onClick={() => setIsSlugDialogOpen(true)}
-                disabled={newSlug === currentSlug || !newSlug || isUpdatingSlug}
-              >
-                <Save className="mr-2 h-4 w-4" />
-                Update Slug
-              </Button>
+              {isEditingSlug && (
+                <div className="flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={handleCancelSlugEdit}
+                    disabled={isUpdatingSlug}
+                  >
+                    <X className="mr-2 h-4 w-4" />
+                    Cancel
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => setIsSlugDialogOpen(true)}
+                    disabled={!hasSlugChanges || isUpdatingSlug}
+                  >
+                    <Save className="mr-2 h-4 w-4" />
+                    Update Slug
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -135,7 +162,13 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
       {/* Slug Change Confirmation Dialog */}
       <Dialog
         open={isSlugDialogOpen}
-        onOpenChange={setIsSlugDialogOpen}
+        onOpenChange={(open) => {
+          setIsSlugDialogOpen(open);
+          if (!open) {
+            setIsEditingSlug(false);
+            setNewSlug(currentSlug);
+          }
+        }}
       >
         <DialogContent>
           <DialogHeader>
