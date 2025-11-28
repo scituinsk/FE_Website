@@ -91,9 +91,11 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
             <Card className="overflow-hidden">
               <div className="relative w-full aspect-video">
                 {/* <Image
+                {/* <Image
                   src={
                     "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnQlMjBjaXR5fGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=600"
                   }
+                  alt={project.title}
                   alt={project.title}
                   fill
                   className="object-cover"
