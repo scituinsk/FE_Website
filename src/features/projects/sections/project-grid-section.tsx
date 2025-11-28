@@ -15,7 +15,13 @@ interface ProjectGridSectionProps {
 export const ProjectGridSection = async ({ searchParams }: ProjectGridSectionProps) => {
   const search = searchParams.search || "";
 
-  const [response, err] = await tryCatchAsync(getProjects(search));
+  const [response, err] = await tryCatchAsync(
+    getProjects({
+      search,
+      sort_by: "created_at",
+      sort_order: "desc",
+    })
+  );
 
   if (err) {
     throw new Error("Failed to fetch projects");
