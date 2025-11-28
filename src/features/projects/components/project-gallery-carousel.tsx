@@ -6,14 +6,10 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
-
-interface GalleryImage {
-  url: string;
-  alt: string;
-}
+import { ProjectFullInformation } from "../types";
 
 interface ProjectGalleryCarouselProps {
-  images: GalleryImage[];
+  images: ProjectFullInformation["images"];
   autoplayDelay?: number;
 }
 
@@ -62,8 +58,8 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
             <CarouselItem key={index}>
               <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                 <Image
-                  src={image.url}
-                  alt={image.alt}
+                  src={image.imageUrl}
+                  alt={image.fileName}
                   fill
                   className="object-cover"
                 />

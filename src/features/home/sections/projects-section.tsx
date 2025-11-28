@@ -1,11 +1,12 @@
 import { Suspense } from "react";
 import * as motion from "framer-motion/client";
 
-import { PROJECTS } from "@/constants/projects";
 import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
 import { ProjectCard } from "@/features/projects/components/project-card";
 import { ProjectCardSkeleton } from "@/features/projects/components/project-card-skeleton";
+import { tryCatchAsync } from "@/utils/try-catch";
+import { getProjects } from "@/features/projects/api/get-projects";
 
 export const ProjectsSection = () => {
   return (
@@ -31,14 +32,21 @@ export const ProjectsSection = () => {
 };
 
 const FeaturedProject = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
+  const [response, err] = await tryCatchAsync(getProjects(undefined, "3"));
+
+  if (err) {
+    throw new Error("Failed to fetch projects");
+  }
+
+  const projects = response.data;
+
   return (
     <motion.div
       variants={staggerContainer}
       className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6 lg:gap-8 mb-16"
       {...animationConfig}
     >
-      {PROJECTS.slice(-3).map((project) => (
+      {projects.slice(-3).map((project) => (
         <ProjectCard
           project={project}
           key={project.title}

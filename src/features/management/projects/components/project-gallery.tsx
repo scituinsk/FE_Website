@@ -22,7 +22,6 @@ interface ProjectGalleryProps {
 }
 
 export function ProjectGallery({ project }: ProjectGalleryProps) {
-  // Use data from project prop (React Query cache)
   const images = project.images || [];
 
   const [newImage, setNewImage] = useState<{ file?: File; previewUrl?: string }>({});

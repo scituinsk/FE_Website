@@ -4,63 +4,43 @@ import { Search, Sparkles, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PROJECTS } from "@/constants/projects";
-import { useState, useTransition, useEffect, useRef } from "react";
+import { useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 interface ProjectFiltersClientProps {
   initialSearch: string;
-  totalResults: number;
 }
 
-export const ProjectFiltersClient = ({ initialSearch, totalResults }: ProjectFiltersClientProps) => {
+export const ProjectFiltersClient = ({ initialSearch }: ProjectFiltersClientProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
 
   const [searchValue, setSearchValue] = useState(initialSearch);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleSearchChange = (value: string) => {
-    setSearchValue(value);
+  const handleSearch = () => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams);
+      if (searchValue.trim()) {
+        params.set("search", searchValue.trim());
+      } else {
+        params.delete("search");
+      }
+      params.delete("page"); // Reset to page 1 on search
 
-    // Clear previous timer
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
-
-    // Set new debounce timer (500ms delay)
-    debounceTimerRef.current = setTimeout(() => {
-      startTransition(() => {
-        const params = new URLSearchParams(searchParams);
-        if (value) {
-          params.set("search", value);
-        } else {
-          params.delete("search");
-        }
-        params.delete("page"); // Reset to page 1 on search
-
-        router.push(`?${params.toString()}`, { scroll: false });
-      });
-    }, 500);
+      router.push(`?${params.toString()}`, { scroll: false });
+    });
   };
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-    };
-  }, []);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const handleResetFilters = () => {
     setSearchValue("");
-    // Clear any pending debounce
-    if (debounceTimerRef.current) {
-      clearTimeout(debounceTimerRef.current);
-    }
     startTransition(() => {
       router.push(window.location.pathname, { scroll: false });
     });
@@ -82,35 +62,49 @@ export const ProjectFiltersClient = ({ initialSearch, totalResults }: ProjectFil
               <span className="text-sm font-medium text-primary">Discover Amazing Projects</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Find Your Next Inspiration</h2>
-            <p className="text-muted-foreground text-lg">Explore {PROJECTS.length}+ innovative projects from our talented community</p>
+            <p className="text-muted-foreground text-lg">Explore innovative projects from our talented community</p>
           </div>
 
           {/* Search Bar */}
           <div className="max-w-3xl mx-auto">
             <div className={`relative group transition-all duration-300 ${isSearchFocused ? "scale-105" : ""}`}>
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/50 via-primary/30 to-primary/50 rounded-2xl blur opacity-0 group-hover:opacity-100 transition duration-300" />
-              <div className="relative flex items-center">
-                <Search
-                  className={`absolute left-4 h-5 w-5 transition-colors duration-300 ${isSearchFocused ? "text-primary" : "text-muted-foreground"}`}
-                />
-                <Input
-                  placeholder="Search by project name, technology, or description..."
-                  value={searchValue}
-                  onChange={(e) => handleSearchChange(e.target.value)}
-                  onFocus={() => setIsSearchFocused(true)}
-                  onBlur={() => setIsSearchFocused(false)}
-                  className="pl-12 pr-4 h-14 text-base rounded-xl border-2 bg-background/80 backdrop-blur-sm focus:border-primary transition-all"
+              <div className="relative flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search
+                    className={`absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 transition-colors duration-300 ${
+                      isSearchFocused ? "text-primary" : "text-muted-foreground"
+                    }`}
+                  />
+                  <Input
+                    placeholder="Search by project name, technology, or description..."
+                    value={searchValue}
+                    onChange={(e) => setSearchValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onFocus={() => setIsSearchFocused(true)}
+                    onBlur={() => setIsSearchFocused(false)}
+                    className="pl-12 pr-4 h-14 text-base rounded-xl border-2 bg-background/80 backdrop-blur-sm focus:border-primary transition-all"
+                    disabled={isPending}
+                  />
+                </div>
+                <Button
+                  onClick={handleSearch}
                   disabled={isPending}
-                />
+                  size="lg"
+                  className="h-14 px-8 rounded-xl"
+                >
+                  <Search className="h-5 w-5 mr-2" />
+                  Search
+                </Button>
                 {searchValue && (
                   <Button
                     variant="ghost"
-                    size="sm"
-                    onClick={() => handleSearchChange("")}
-                    className="absolute right-2 h-8 w-8 p-0 rounded-full hover:bg-destructive/10 hover:text-destructive"
+                    size="icon"
+                    onClick={() => setSearchValue("")}
+                    className="h-14 w-14 rounded-xl hover:bg-destructive/10 hover:text-destructive"
                     disabled={isPending}
                   >
-                    <X className="h-4 w-4" />
+                    <X className="h-5 w-5" />
                   </Button>
                 )}
               </div>
@@ -121,12 +115,12 @@ export const ProjectFiltersClient = ({ initialSearch, totalResults }: ProjectFil
 
       {/* Results Summary */}
       <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-muted/50 border border-border">
+        {/* <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-muted/50 border border-border">
           <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
           <span className="text-sm font-semibold text-foreground">
             {totalResults} {totalResults === 1 ? "Project" : "Projects"} Found
           </span>
-        </div>
+        </div> */}
 
         {/* Active Search Badge */}
         {searchValue && (

@@ -47,6 +47,23 @@ export const useConfirmImageUpload = (params: UseConfirmImageUploadParams = {}) 
         };
       });
 
+      // Update projects list cache
+      queryClient.setQueriesData({ queryKey: ["projects"] }, (oldData: any) => {
+        if (!oldData?.data) return oldData;
+        return {
+          ...oldData,
+          data: oldData.data.map((project: any) => {
+            if (project.id.toString() === variables.projectId) {
+              return {
+                ...project,
+                images: [...project.images, data],
+              };
+            }
+            return project;
+          }),
+        };
+      });
+
       params.mutationConfig?.onSuccess?.(...args);
     },
   });

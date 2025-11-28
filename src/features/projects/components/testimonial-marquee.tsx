@@ -1,17 +1,10 @@
 "use client";
 
+import { ProjectFullInformation } from "../types";
 import { TestimonialCard } from "./testimonial-card";
 
-interface Testimonial {
-  name: string;
-  role: string;
-  message: string;
-  rating?: number;
-  avatar?: string;
-}
-
 interface TestimonialMarqueeProps {
-  testimonials: Testimonial[];
+  testimonials: ProjectFullInformation["testimonials"];
 }
 
 export function TestimonialMarquee({ testimonials }: TestimonialMarqueeProps) {
@@ -24,9 +17,9 @@ export function TestimonialMarquee({ testimonials }: TestimonialMarqueeProps) {
               key={index}
               name={testimonial.name}
               role={testimonial.role}
-              message={testimonial.message}
+              message={testimonial.testimonial}
               rating={testimonial.rating}
-              avatar={testimonial.avatar}
+              avatar={testimonial.avatarUrl}
             />
           ))}
         </div>
