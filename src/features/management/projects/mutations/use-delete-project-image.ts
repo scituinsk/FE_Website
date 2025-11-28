@@ -41,6 +41,9 @@ export const useDeleteProjectImage = (params: UseDeleteProjectImageParams = {}) 
         };
       });
 
+      // Invalidate projects list cache
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+
       params.mutationConfig?.onSuccess?.(...args);
     },
   });

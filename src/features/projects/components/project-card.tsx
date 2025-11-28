@@ -6,28 +6,22 @@ import { Button } from "@/components/ui/button";
 import { SimpleTechStack } from "@/features/projects/components/simple-tech-stack";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-interface Project {
-  title: string;
-  description: string;
-  tech: string[];
-  demo: string;
-  href: string;
-}
+import { ProjectMinimalInfo } from "../types";
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectMinimalInfo;
 }
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <Link
-      href={project.href}
+      href={`/projects/${project.slug}`}
       className="block h-full"
     >
       <Card className="group hover:shadow-xl w-full h-full transition-all duration-300 overflow-hidden flex flex-col cursor-pointer">
         <div className="relative w-full aspect-video flex-shrink-0">
           <Image
-            src={"https://placehold.co/600x400"}
+            src={project.images[0]?.imageUrl || "https://placehold.co/600x400"}
             alt={project.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -47,36 +41,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
 
         <CardContent className="space-y-4 flex-1 flex flex-col">
           <SimpleTechStack
-            technologies={[
-              {
-                id: 313,
-                name: "React",
-                logoUrl: "https://icon.icepanel.io/Technology/svg/React.svg",
-                createdAt: "2025-11-13T11:17:43.399Z",
-                updatedAt: "2025-11-13T11:17:43.399Z",
-              },
-              {
-                id: 23,
-                name: "Arch Linux",
-                logoUrl: "https://icon.icepanel.io/Technology/svg/Arch-Linux.svg",
-                createdAt: "2025-11-13T11:17:43.399Z",
-                updatedAt: "2025-11-13T11:17:43.399Z",
-              },
-              {
-                id: 100,
-                name: "Eclipse IDE",
-                logoUrl: "https://icon.icepanel.io/Technology/svg/Eclipse-IDE.svg",
-                createdAt: "2025-11-13T11:17:43.399Z",
-                updatedAt: "2025-11-13T11:17:43.399Z",
-              },
-              {
-                id: 312,
-                name: "Reach",
-                logoUrl: "https://icon.icepanel.io/Technology/svg/Reach.svg",
-                createdAt: "2025-11-13T11:17:43.399Z",
-                updatedAt: "2025-11-13T11:17:43.399Z",
-              },
-            ]}
+            technologies={project.technologies}
             size="sm"
             className="mb-4 flex-shrink-0"
             maxDisplay={6}

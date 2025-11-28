@@ -62,6 +62,9 @@ export const useUpdateProjectImage = (params: UseUpdateProjectImageParams = {}) 
         };
       });
 
+      // Invalidate projects list cache
+      queryClient.invalidateQueries({ queryKey: ["projects"] });
+
       params.mutationConfig?.onSuccess?.(...args);
     },
   });
