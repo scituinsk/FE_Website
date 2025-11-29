@@ -25,7 +25,7 @@ import axios, { AxiosInstance } from "axios";
  * const response = await apiClient.post('/data', { data: 'payload' });
  */
 const apiClient: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:2000",
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "https://api.scituinsk.com",
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
