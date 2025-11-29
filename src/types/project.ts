@@ -8,7 +8,14 @@ export interface Technology {
 
 export interface ProjectImage {
   id: number;
+  key: string;
+  fileName: string;
+  fileType: string;
+  fileSize: number;
+  projectId: number;
   imageUrl: string;
+  isPrimary: boolean;
+  isUsed: boolean;
   createdAt: string;
   updatedAt: string;
 }

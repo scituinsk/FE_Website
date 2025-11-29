@@ -9,11 +9,11 @@ export interface GetTechStacksParams {
 }
 
 export const getTechStacks = async (params: GetTechStacksParams = {}) => {
-  const { search = "" } = params;
+  const { search } = params;
 
   const response = await apiClient.get<TechStackApiResponse>("/projects/tech-stacks/lists", {
     params: {
-      search,
+      search: search?.trim() == "" ? undefined : search,
     },
   });
 

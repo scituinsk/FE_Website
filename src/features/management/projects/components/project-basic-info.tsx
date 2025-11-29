@@ -1,7 +1,7 @@
 "use client";
 
 import { toast } from "sonner";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Pencil, Save, X } from "lucide-react";
 
 import { Label } from "@/components/ui/label";
@@ -82,6 +82,10 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
     setEditedData((prev) => ({ ...prev, [field]: value }));
   };
 
+  const hasChanges = useMemo(() => {
+    return JSON.stringify(projectData) !== JSON.stringify(editedData);
+  }, [projectData, editedData]);
+
   const getStatusLabel = (status: string) => {
     const option = STATUS_OPTIONS.find((opt) => opt.value === status);
     return option ? option.label : status;
@@ -118,7 +122,7 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
                 <Button
                   size="sm"
                   onClick={handleSave}
-                  disabled={isPending}
+                  disabled={isPending || !hasChanges}
                 >
                   <Save className="mr-2 h-4 w-4" />
                   {isPending ? "Saving..." : "Save"}

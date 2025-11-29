@@ -1,8 +1,7 @@
-import { PROJECTS } from "@/constants/projects";
-
 import { ProjectCard } from "../components/project-card";
-import { ProjectPagination } from "../components/project-pagination";
 import { ProjectCardSkeleton } from "../components/project-card-skeleton";
+import { getProjects } from "../api/get-projects";
+import { tryCatchAsync } from "@/utils/try-catch";
 
 const ITEMS_PER_PAGE = 9;
 
@@ -14,30 +13,25 @@ interface ProjectGridSectionProps {
 }
 
 export const ProjectGridSection = async ({ searchParams }: ProjectGridSectionProps) => {
-  await new Promise((resolve) => setTimeout(resolve, 500)); // Simulate loading delay
   const search = searchParams.search || "";
-  const currentPage = parseInt(searchParams.page || "1") || 1;
 
-  // Filter projects based on search
-  let filteredProjects = PROJECTS;
-  if (search) {
-    filteredProjects = filteredProjects.filter(
-      (project) =>
-        project.title.toLowerCase().includes(search.toLowerCase()) ||
-        project.description.toLowerCase().includes(search.toLowerCase()) ||
-        project.tech?.some((technology) => technology.toLowerCase().includes(search.toLowerCase()))
-    );
+  const [response, err] = await tryCatchAsync(
+    getProjects({
+      search,
+      sort_by: "created_at",
+      sort_order: "desc",
+    })
+  );
+
+  if (err) {
+    throw new Error("Failed to fetch projects");
   }
 
-  // Pagination
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-  const start = (currentPage - 1) * ITEMS_PER_PAGE;
-  const end = start + ITEMS_PER_PAGE;
-  const paginatedProjects = filteredProjects.slice(start, end);
+  const projects = response.data;
 
   return (
     <>
-      {filteredProjects.length === 0 ? (
+      {projects.length === 0 ? (
         <div className="text-center py-16">
           <div className="text-6xl mb-4">🔍</div>
           <h3 className="text-2xl font-bold text-foreground mb-2">No projects found</h3>
@@ -46,20 +40,15 @@ export const ProjectGridSection = async ({ searchParams }: ProjectGridSectionPro
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {paginatedProjects.map((project) => (
+            {projects.map((project) => (
               <ProjectCard
+                key={project.id}
                 project={project}
-                key={project.href}
               />
             ))}
           </div>
 
-          {totalPages > 1 && (
-            <ProjectPagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-            />
-          )}
+          {/* TODO: Impelement Pagination */}
         </>
       )}
     </>

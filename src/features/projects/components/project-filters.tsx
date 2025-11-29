@@ -3,7 +3,6 @@ import { Search, Sparkles, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { PROJECTS } from "@/constants/projects";
 import { useState } from "react";
 
 interface ProjectFiltersProps {
@@ -32,7 +31,7 @@ export const ProjectFilters = ({ search, setSearch, totalResults, onResetFilters
               <span className="text-sm font-medium text-primary">Discover Amazing Projects</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Find Your Next Inspiration</h2>
-            <p className="text-muted-foreground text-lg">Explore {PROJECTS.length}+ innovative projects from our talented community</p>
+            <p className="text-muted-foreground text-lg">Explore innovative projects from our talented community</p>
           </div>
 
           {/* Search Bar */}

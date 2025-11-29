@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { X, Search } from "lucide-react";
+import { X, Search, XIcon } from "lucide-react";
 import Image from "next/image";
 import { TechStack } from "@/types/tech-stack";
 import { useGetTechStacks } from "../queries/use-get-tech-stacks";
@@ -67,6 +67,12 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
     setSelectedTechStacks(selectedTechStacks.filter((t) => t.id !== techId));
   };
 
+  const hasChanges = useMemo(() => {
+    const originalIds = (project.technologies || []).map((t) => t.id).sort();
+    const currentIds = selectedTechStacks.map((t) => t.id).sort();
+    return JSON.stringify(originalIds) !== JSON.stringify(currentIds);
+  }, [project.technologies, selectedTechStacks]);
+
   const handleSave = () => {
     sync(
       {
@@ -110,13 +116,30 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
               Manage Tech Stack
             </Button>
           ) : (
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={isPendingSync}
-            >
-              {isPendingSync ? "Saving..." : "Save Changes"}
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                onClick={() => {
+                  // Revert changes on cancel
+                  setSelectedTechStacks(project.technologies || []);
+                  setIsSelecting(false);
+                  setSearchQuery("");
+                  setCurrentPage(1);
+                }}
+                variant="outline"
+                disabled={isPendingSync}
+              >
+                <XIcon />
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={handleSave}
+                disabled={isPendingSync || !hasChanges}
+              >
+                {isPendingSync ? "Saving..." : "Save Changes"}
+              </Button>
+            </div>
           )}
         </div>
       </CardHeader>

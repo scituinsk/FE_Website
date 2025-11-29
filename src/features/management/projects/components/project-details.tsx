@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -101,6 +101,10 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     }));
   };
 
+  const hasChanges = useMemo(() => {
+    return JSON.stringify(projectDetail) !== JSON.stringify(editedDetail);
+  }, [projectDetail, editedDetail]);
+
   return (
     <Card>
       <CardHeader>
@@ -131,7 +135,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               <Button
                 size="sm"
                 onClick={handleSave}
-                disabled={isPendingSync}
+                disabled={isPendingSync || !hasChanges}
               >
                 <Save className="mr-2 h-4 w-4" />
                 {isPendingSync ? "Saving..." : "Save"}
