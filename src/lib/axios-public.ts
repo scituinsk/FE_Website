@@ -1,7 +1,9 @@
 import axios from "axios";
 
+import { getBaseURL } from "@/utils/get-base-url";
+
 export const axiosPublic = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || "https://api.scituinsk.com",
+  baseURL: getBaseURL(),
   headers: {
     "Content-Type": "application/json",
   },

@@ -128,10 +128,11 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
   const uploadToS3 = async (file: File, uploadUrl: string): Promise<void> => {
     try {
-      await axios.put(uploadUrl, file, {
+      // Upload via proxy to avoid CORS, with progress tracking
+      await axios.put("/proxy/upload", file, {
         headers: {
           "Content-Type": file.type,
-          "x-amz-acl": "public-read",
+          "x-upload-url": uploadUrl,
         },
         onUploadProgress: (progressEvent) => {
           if (progressEvent.total) {
