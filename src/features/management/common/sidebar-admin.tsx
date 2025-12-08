@@ -74,10 +74,12 @@ export const SidebarAdmin = () => {
               className="object-contain"
             />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold text-lg">SCIT</span>
-            <span className="text-xs text-muted-foreground">Web Admin Dashboard</span>
-          </div>
+          <Link href="/">
+            <div className="flex flex-col">
+              <span className="font-bold text-lg">SCIT</span>
+              <span className="text-xs text-muted-foreground">Web Admin Dashboard</span>
+            </div>
+          </Link>
         </div>
       </SidebarHeader>
       <SidebarContent>

@@ -17,8 +17,8 @@ const rubik = Rubik({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | SCIT UIN Sunan Kalijaga",
-    default: "SCIT UIN Sunan Kalijaga",
+    template: "%s | Study Club Information Technology UIN Sunan Kalijaga",
+    default: " Study Club Information Technology UIN Sunan Kalijaga",
   },
   icons: {
     icon: [

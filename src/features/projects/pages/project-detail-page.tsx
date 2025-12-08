@@ -10,13 +10,29 @@ import { tryCatchAsync } from "@/utils/try-catch";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 import { ImageWrapper } from "@/components/ui/image-wrapper";
+import { EmptyState } from "@/components/empty-state";
+import { Activity } from "react";
+import { cn } from "@/lib/utils";
+import { Metadata } from "next";
 
 interface ProjectDetailPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
-export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
+
+export async function generateMetadata({ params }: ProjectDetailPageProps): Promise<Metadata> {
+  const slug = (await params).slug;
+
+  const post = await getProjectBySlug(slug);
+
+  return {
+    title: post.title,
+    description: post.description,
+  };
+}
+
+const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
   const { slug } = await params;
   const [project, error] = await tryCatchAsync(getProjectBySlug(slug));
 
@@ -49,8 +65,8 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
 
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="space-y-3">
-              <h1 className="text-4xl lg:text-5xl font-bold text-foreground">{project?.title}</h1>
-              <p className="text-lg text-muted-foreground max-w-3xl">{project?.description}</p>
+              <h1 className="text-4xl lg:text-5xl font-bold text-foreground">{project?.title ?? "TITLE"}</h1>
+              <p className="text-lg text-muted-foreground max-w-3xl">{project?.description ?? "DESCRIPTION"}</p>
             </div>
 
             <div className="flex gap-3 shrink-0">
@@ -90,20 +106,9 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
             {/* Main Thumbnail */}
             <Card className="overflow-hidden">
               <div className="relative w-full aspect-video">
-                {/* <Image
-                {/* <Image
-                  src={
-                    "https://images.unsplash.com/photo-1498084393753-b411b2d26b34?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnQlMjBjaXR5fGVufDB8fDB8fHww&auto=format&fit=crop&q=60&w=600"
-                  }
-                  alt={project.title}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                  priority
-                /> */}
                 <ImageWrapper
-                  src={primaryImage?.imageUrl}
                   alt={project?.title}
+                  src={primaryImage?.imageUrl}
                 />
               </div>
             </Card>
@@ -112,7 +117,7 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
             <Card>
               <CardContent className="p-6 space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">About Project</h2>
-                <p className="text-muted-foreground leading-relaxed">{project?.about}</p>
+                {project.about ? <p className="text-muted-foreground leading-relaxed">{project.about}</p> : <EmptyState />}
               </CardContent>
             </Card>
 
@@ -120,16 +125,20 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
             <Card>
               <CardContent className="p-6 space-y-4">
                 <h2 className="text-2xl font-bold text-foreground">Key Features</h2>
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {project.keyFeatures.map(({ feature, id }) => (
-                    <li
-                      key={id}
-                      className="flex items-start gap-2 text-muted-foreground"
-                    >
-                      <span className="text-primary mt-1">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
+                <ul className={cn(project.keyFeatures.length > 0 && "grid grid-cols-1 md:grid-cols-2 gap-3")}>
+                  {project.keyFeatures.length > 0 ? (
+                    project.keyFeatures.map(({ feature, id }) => (
+                      <li
+                        key={id}
+                        className="flex items-start gap-2 text-muted-foreground"
+                      >
+                        <span className="text-primary mt-1">✓</span>
+                        <span>{feature}</span>
+                      </li>
+                    ))
+                  ) : (
+                    <EmptyState />
+                  )}
                 </ul>
               </CardContent>
             </Card>
@@ -140,15 +149,19 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
                 <CardContent className="p-6 space-y-4">
                   <h3 className="text-xl font-bold text-foreground">Challenges</h3>
                   <ul className="space-y-2">
-                    {project.challenges.map(({ challenge, id }) => (
-                      <li
-                        key={id}
-                        className="text-sm text-muted-foreground flex items-start gap-2"
-                      >
-                        <span className="text-primary mt-0.5">•</span>
-                        <span>{challenge}</span>
-                      </li>
-                    ))}
+                    {project.challenges.length > 0 ? (
+                      project.challenges.map(({ challenge, id }) => (
+                        <li
+                          key={id}
+                          className="text-sm text-muted-foreground flex items-start gap-2"
+                        >
+                          <span className="text-primary mt-0.5">•</span>
+                          <span>{challenge}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <EmptyState />
+                    )}
                   </ul>
                 </CardContent>
               </Card>
@@ -157,27 +170,33 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
                 <CardContent className="p-6 space-y-4">
                   <h3 className="text-xl font-bold text-foreground">Results</h3>
                   <ul className="space-y-2">
-                    {project.results.map(({ result, id }) => (
-                      <li
-                        key={id}
-                        className="text-sm text-muted-foreground flex items-start gap-2"
-                      >
-                        <span className="text-green-500 mt-0.5">→</span>
-                        <span>{result}</span>
-                      </li>
-                    ))}
+                    {project.results.length > 0 ? (
+                      project.results.map(({ result, id }) => (
+                        <li
+                          key={id}
+                          className="text-sm text-muted-foreground flex items-start gap-2"
+                        >
+                          <span className="text-green-500 mt-0.5">→</span>
+                          <span>{result}</span>
+                        </li>
+                      ))
+                    ) : (
+                      <EmptyState />
+                    )}
                   </ul>
                 </CardContent>
               </Card>
             </div>
 
             {/* Supporting Images Carousel */}
-            <Card>
-              <CardContent className="p-6 space-y-4">
-                <h2 className="text-2xl font-bold text-foreground">Gallery</h2>
-                <ProjectGalleryCarousel images={project.images} />
-              </CardContent>
-            </Card>
+            <Activity mode={project.images.length > 0 ? "visible" : "hidden"}>
+              <Card>
+                <CardContent className="p-6 space-y-4">
+                  <h2 className="text-2xl font-bold text-foreground">Gallery</h2>
+                  <ProjectGalleryCarousel images={project.images} />
+                </CardContent>
+              </Card>
+            </Activity>
           </div>
 
           {/* Right Column - Sidebar (1/3) */}
@@ -188,20 +207,24 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
                 <CardContent className="p-6 space-y-4">
                   <h3 className="text-xl font-bold text-foreground">Tech Stack</h3>
                   <div className="flex flex-wrap gap-2">
-                    {project.technologies.map((tech) => (
-                      <div
-                        key={tech.name}
-                        className="relative aspect-square w-10"
-                        title={tech.name}
-                      >
-                        <Image
-                          src={tech.logoUrl}
-                          alt={tech.name}
-                          fill
-                          className="object-contain"
-                        />
-                      </div>
-                    ))}
+                    {project.technologies.length > 0 ? (
+                      project.technologies.map((tech) => (
+                        <div
+                          key={tech.name}
+                          className="relative aspect-square w-10"
+                          title={tech.name}
+                        >
+                          <Image
+                            src={tech.logoUrl}
+                            alt={tech.name}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      ))
+                    ) : (
+                      <EmptyState />
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -226,13 +249,17 @@ export const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
       </div>
 
       {/* Testimonials Marquee Section */}
-      <div className="bg-muted/30 py-16 overflow-hidden">
-        <div className="container mb-8">
-          <h2 className="text-3xl font-bold text-center text-foreground">What Client Say</h2>
-        </div>
+      <Activity mode={project.testimonials.length > 0 ? "visible" : "hidden"}>
+        <div className="bg-muted/30 py-16 overflow-hidden">
+          <div className="container mb-8">
+            <h2 className="text-3xl font-bold text-center text-foreground">What Client Say</h2>
+          </div>
 
-        <TestimonialMarquee testimonials={project.testimonials} />
-      </div>
+          <TestimonialMarquee testimonials={project.testimonials} />
+        </div>
+      </Activity>
     </div>
   );
 };
+
+export default ProjectDetailPage;
