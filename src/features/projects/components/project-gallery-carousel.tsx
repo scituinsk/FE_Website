@@ -1,10 +1,10 @@
 "use client";
 
+import * as React from "react";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import Autoplay from "embla-carousel-autoplay";
 
 import { cn } from "@/lib/utils";
-
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
 import { ProjectFullInformation } from "../types";
 
@@ -14,11 +14,13 @@ interface ProjectGalleryCarouselProps {
 }
 
 export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: ProjectGalleryCarouselProps) {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [api, setApi] = React.useState<CarouselApi>();
+  const [current, setCurrent] = React.useState(0);
 
-  useEffect(() => {
+  // Gunakan useRef untuk plugin agar tidak memicu re-render saat inisialisasi
+  const plugin = React.useRef(Autoplay({ delay: autoplayDelay, playOnInit: true, stopOnInteraction: true, stopOnMouseEnter: true }));
+
+  React.useEffect(() => {
     if (!api) return;
 
     setCurrent(api.selectedScrollSnap());
@@ -28,27 +30,16 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
     });
   }, [api]);
 
-  // Autoplay functionality
-  useEffect(() => {
-    if (!api || isHovered) return;
-
-    const intervalId = setInterval(() => {
-      api.scrollNext();
-    }, autoplayDelay);
-
-    return () => clearInterval(intervalId);
-  }, [api, isHovered, autoplayDelay]);
-
   return (
     <div
       className="relative w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={() => plugin.current.play()}
     >
       <Carousel
+        plugins={[plugin.current]}
         opts={{
           align: "center",
-          loop: true,
+          loop: false,
         }}
         setApi={setApi}
         className="w-full"
@@ -71,7 +62,6 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
         <CarouselNext />
       </Carousel>
 
-      {/* Dots Indicator */}
       <div className="flex justify-center gap-2 mt-4">
         {images.map((_, index) => (
           <button
