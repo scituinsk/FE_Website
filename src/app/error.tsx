@@ -7,6 +7,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+  const handleReload = () => {
+    reset();
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
@@ -62,7 +67,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button
                 size="lg"
-                onClick={reset}
+                onClick={handleReload}
               >
                 <RefreshCw className="mr-2 h-5 w-5" />
                 Coba Lagi

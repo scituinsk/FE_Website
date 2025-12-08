@@ -6,7 +6,7 @@ import { ApplicationLogo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { footerConfig } from "@/constants/footer-config";
 
-const Footer = async () => {
+export const Footer = async () => {
   return (
     <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-8 md:py-12 ">
@@ -142,5 +142,3 @@ const Footer = async () => {
     </footer>
   );
 };
-
-export default Footer;

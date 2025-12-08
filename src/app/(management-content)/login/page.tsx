@@ -171,7 +171,7 @@ const LoginForm = () => {
 const LoginPage = () => {
   return (
     <LoginPageGuard>
-      <div className="flex items-center justify-center min-h-screen p-4 scroll-gutter-stable">
+      <main className="flex items-center justify-center min-h-screen p-4 scroll-gutter-stable">
         <Card className="w-full max-w-md shadow-xl rounded-2xl">
           <CardHeader className="pb-8">
             <div className="flex flex-col items-center justify-center text-center space-y-4">
@@ -199,7 +199,7 @@ const LoginPage = () => {
             <LoginForm />
           </CardContent>
         </Card>
-      </div>
+      </main>
     </LoginPageGuard>
   );
 };

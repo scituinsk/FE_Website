@@ -1,9 +1,2 @@
-import { HomePage } from "@/features/home/pages/home-page";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "SCIT UIN Sunan Kalijaga",
-  description: "Welcome to SCIT UIN Sunan Kalijaga, the Student Community of Information Technology at UIN Sunan Kalijaga Yogyakarta.",
-};
-
-export default HomePage;
+export { metadata } from "@/features/home/pages/home-page";
+export { default } from "@/features/home/pages/home-page";

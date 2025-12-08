@@ -1,19 +1,23 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ExternalLink, Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { ProjectGalleryCarousel } from "@/features/projects/components/project-gallery-carousel";
-import { TestimonialMarquee } from "@/features/projects/components/testimonial-marquee";
-import { getProjectBySlug } from "../api/get-project-by-slug";
-import { tryCatchAsync } from "@/utils/try-catch";
+import { Metadata } from "next";
+import { Activity } from "react";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
-import { ImageWrapper } from "@/components/ui/image-wrapper";
+import { ChevronLeft, ExternalLink, Calendar, Clock } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
-import { Activity } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { ImageWrapper } from "@/components/ui/image-wrapper";
+
 import { cn } from "@/lib/utils";
-import { Metadata } from "next";
+import { tryCatchAsync } from "@/utils/try-catch";
+
+import { TestimonialMarquee } from "@/features/projects/components/testimonial-marquee";
+import { ProjectGalleryCarousel } from "@/features/projects/components/project-gallery-carousel";
+
+import { getProjectBySlug } from "../api/get-project-by-slug";
 
 interface ProjectDetailPageProps {
   params: Promise<{
@@ -26,9 +30,36 @@ export async function generateMetadata({ params }: ProjectDetailPageProps): Prom
 
   const post = await getProjectBySlug(slug);
 
+  const siteName = "Study Club Information Technology UIN Sunan Kalijaga";
+  const url = `https://scituinsk.com/projects/${slug}`;
+
   return {
-    title: post.title,
-    description: post.description,
+    title: `${post.title}`,
+    description: post.description || `Detail proyek berjudul ${post.title} yang dikembangkan oleh anggota SCIT UIN Sunan Kalijaga.`,
+    keywords: [post.title, "SCIT project", "projek teknologi mahasiswa", "portfolio SCIT", "software engineering project"],
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${post.title} | ${siteName}`,
+      description: post.description || `Detail proyek ${post.title} dari komunitas SCIT UIN Sunan Kalijaga.`,
+      type: "article",
+      url,
+      images: post.images
+        ? [
+            {
+              url: post.images[0]?.imageUrl,
+              alt: post.title,
+            },
+          ]
+        : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description || `Detail proyek ${post.title} dari komunitas SCIT.`,
+      images: post.images ? [{ url: post.images[0]?.imageUrl }] : [],
+    },
   };
 }
 
@@ -48,8 +79,7 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
   const primaryImage = project.images.find((img) => img.isPrimary) || project.images[0];
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header Section */}
+    <>
       <div className="border-b border-border bg-card">
         <div className="container py-8">
           <Link href="/projects">
@@ -84,7 +114,6 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
             </div>
           </div>
 
-          {/* Meta Info */}
           <div className="flex flex-wrap gap-6 mt-6 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Clock className="h-4 w-4" />
@@ -258,7 +287,7 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
           <TestimonialMarquee testimonials={project.testimonials} />
         </div>
       </Activity>
-    </div>
+    </>
   );
 };
 

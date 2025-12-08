@@ -16,10 +16,7 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
-  title: {
-    template: "%s | Study Club Information Technology UIN Sunan Kalijaga",
-    default: " Study Club Information Technology UIN Sunan Kalijaga",
-  },
+  title: "Study Club Information Technology UIN Sunan Kalijaga",
   icons: {
     icon: [
       {
@@ -33,16 +30,6 @@ export const metadata: Metadata = {
         href: "/favicon/scit-dark.png",
       },
     ],
-  },
-  description: "Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta yang berfokus pada pengembangan skill dan inovasi teknologi.",
-  keywords: "SCIT, UIN Suka, teknologi informasi, programming, web development, mobile development",
-  authors: [{ name: "SCIT UIN Suka" }],
-  openGraph: {
-    title: "SCIT UIN Suka - Student Community of Information Technology",
-    description: "Komunitas mahasiswa teknologi informasi UIN Sunan Kalijaga Yogyakarta",
-    url: "https://scit.uin-suka.ac.id",
-    siteName: "SCIT UIN Suka",
-    type: "website",
   },
 };
 
@@ -73,7 +60,7 @@ export default function RootLayout({
               />
 
               <Toaster />
-              <main>{children}</main>
+              {children}
             </ThemeProvider>
           </ReactQueryProvider>
         </NuqsAdapter>
