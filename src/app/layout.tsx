@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import NextTopLoader from "nextjs-toploader";
 import { Rubik } from "next/font/google";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { GoogleTagManager } from "@next/third-parties/google";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -44,6 +45,7 @@ export default function RootLayout({
       className="scroll-smooth"
       suppressHydrationWarning
     >
+      <GoogleTagManager gtmId="G-GTEMB86C6D" />
       <body className={`${rubik.className} font-sans antialiased`}>
         <NuqsAdapter>
           <ReactQueryProvider>
