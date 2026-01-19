@@ -11,7 +11,7 @@ export const Footer = async () => {
     <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-8 md:py-12 ">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {/* About SCIT */}
           <div className="space-y-4">
             <ApplicationLogo responsive={false} />
@@ -77,7 +77,7 @@ export const Footer = async () => {
           </div>
 
           {/* Programs */}
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h3 className="text-lg font-semibold text-foreground">Division</h3>
 
             <ul className="space-y-2">
@@ -92,7 +92,7 @@ export const Footer = async () => {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
 
           {/* Contact Info */}
           <div className="space-y-4">
