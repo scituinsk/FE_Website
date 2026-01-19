@@ -8,7 +8,7 @@ import { queryClient } from "@/lib/query-client";
 export default function ReactQueryProvider({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {process.env.NODE_ENV != "production" && <ReactQueryDevtools />}
+      <ReactQueryDevtools />
       {children}
     </QueryClientProvider>
   );

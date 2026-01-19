@@ -36,7 +36,7 @@ let browserQueryClient: QueryClient | undefined = undefined;
  * @function getQueryClient
  * @returns {QueryClient} Instance QueryClient yang sesuai.
  */
-function getQueryClient() {
+export function getQueryClient() {
   if (isServer) {
     // Server: selalu buat klien query baru
     return makeQueryClient();

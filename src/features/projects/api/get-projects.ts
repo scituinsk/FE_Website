@@ -1,6 +1,7 @@
 import { axiosPublic } from "@/lib/axios-public";
 import { PaginatedApiResponse } from "@/types/api-response";
 import { ProjectMinimalInfo } from "../types";
+import { queryOptions } from "@tanstack/react-query";
 
 type ProjectResponse = PaginatedApiResponse<ProjectMinimalInfo[]>;
 
@@ -22,3 +23,8 @@ export const getProjects = async ({ limit, search, sort_by, sort_order }: GetPro
   });
   return response.data;
 };
+
+export const getRecentProjectsQueryOptions = queryOptions({
+  queryKey: ["projects", "recent"],
+  queryFn: () => getProjects({ limit: "3", sort_by: "created_at", sort_order: "desc" }),
+});
