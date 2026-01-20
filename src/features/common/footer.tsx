@@ -61,7 +61,7 @@ export const Footer = async () => {
 
           {/* Quick Links */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-foreground">Navigasi Cepat</h3>
             <ul className="space-y-2">
               {footerConfig.quickLinks.map((link) => (
                 <li key={link.href}>
@@ -96,7 +96,7 @@ export const Footer = async () => {
 
           {/* Contact Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-foreground">Contact Info</h3>
+            <h3 className="text-lg font-semibold text-foreground">Informasi Kontak</h3>
             <div className="space-y-3">
               <div className="flex items-start space-x-3">
                 <FaMapMarkerAlt className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />

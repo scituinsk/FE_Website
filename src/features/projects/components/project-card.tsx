@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
@@ -14,7 +13,7 @@ interface ProjectCardProps {
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
-    <Link
+    <a
       href={`/projects/${project.slug}`}
       className="block h-full"
     >
@@ -59,6 +58,6 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
           </div>
         </CardContent>
       </Card>
-    </Link>
+    </a>
   );
 };

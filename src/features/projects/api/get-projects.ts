@@ -28,3 +28,10 @@ export const getRecentProjectsQueryOptions = queryOptions({
   queryKey: ["projects", "recent"],
   queryFn: () => getProjects({ limit: "3", sort_by: "created_at", sort_order: "desc" }),
 });
+
+export const getProjectsQueryOptions = (params: GetProjectsParams) => {
+  return queryOptions({
+    queryKey: ["projects", params],
+    queryFn: () => getProjects(params),
+  });
+};

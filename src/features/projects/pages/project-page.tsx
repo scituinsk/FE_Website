@@ -4,6 +4,11 @@ import { connection } from "next/server";
 
 import { ProjectFilterSection } from "../sections/project-filter-section";
 import { ProjectGridSection, ProjectGridSkeleton } from "../sections/project-grid-section";
+import { getQueryClient } from "@/lib/query-client";
+import { getProjectsQueryOptions } from "../api/get-projects";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { ErrorBoundary } from "react-error-boundary";
+import { loadSearchParams } from "../params";
 
 interface ProjectPageProps {
   searchParams: Promise<{
@@ -52,18 +57,28 @@ export const metadata: Metadata = {
 
 const ProjectPage = async ({ searchParams }: ProjectPageProps) => {
   await connection();
-  const params = await searchParams;
+  const filters = await loadSearchParams(searchParams);
+  const queryClient = getQueryClient();
+
+  await queryClient.prefetchQuery(
+    getProjectsQueryOptions({
+      search: filters.search,
+    }),
+  );
 
   return (
     <>
       <section className="py-16 bg-muted/50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <ProjectFilterSection searchParams={params} />
-
-            <Suspense fallback={<ProjectGridSkeleton />}>
-              <ProjectGridSection searchParams={params} />
-            </Suspense>
+            <ProjectFilterSection />
+            <HydrationBoundary state={dehydrate(queryClient)}>
+              <Suspense fallback={<ProjectGridSkeleton />}>
+                <ErrorBoundary fallback={<div>Terjadi kesalahan saat memuat proyek.</div>}>
+                  <ProjectGridSection />
+                </ErrorBoundary>
+              </Suspense>
+            </HydrationBoundary>
           </div>
         </div>
       </section>
