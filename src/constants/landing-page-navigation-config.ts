@@ -1,21 +1,21 @@
 export const navigationItems = [
   {
-    label: "Home",
+    label: "Beranda",
     href: "/",
     exact: true, // Only match exact path for home
   },
   {
-    label: "About Us",
+    label: "Tentang Kami",
     href: "/about",
     exact: false, // Match /about and /about/*
   },
   {
-    label: "Projects",
+    label: "Proyek Portofolio",
     href: "/projects",
     exact: false, // Match /projects and /projects/*
   },
   {
-    label: "Gallery",
+    label: "Galeri",
     href: "/gallery",
     exact: false, // Match /galery and /galery/*
   },
@@ -23,7 +23,7 @@ export const navigationItems = [
 
 export const ctaButtons = [
   {
-    label: "Contact Us",
+    label: "Hubugi Kami",
     href: "/#contact",
     variant: "default" as const,
   },

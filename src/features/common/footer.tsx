@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin, FaMapMarkerAlt } from "react-icons/fa";
 
@@ -6,7 +7,7 @@ import { ApplicationLogo } from "@/components/logo";
 import { Separator } from "@/components/ui/separator";
 import { footerConfig } from "@/constants/footer-config";
 
-export const Footer = async () => {
+export const Footer = () => {
   return (
     <footer className="bg-surface border-t border-2 border-background">
       <div className="container mx-auto px-4 py-8 md:py-12 ">
@@ -122,20 +123,20 @@ export const Footer = async () => {
           <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4">
             <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Study Club IT UIN Sunan Kalijaga. All rights reserved.</p>
 
-            <div className="flex items-center flex-wrap gap-2 sm:gap-4">
+            {/* <div className="flex items-center flex-wrap gap-2 sm:gap-4">
               <Link
                 href="/privacy-policy"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Privacy Policy
+                Kebijakan Privasi
               </Link>
               <Link
                 href="/terms-of-service"
                 className="text-sm text-muted-foreground hover:text-primary transition-colors"
               >
-                Terms of Service
+                Syarat dan Ketentuan
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -44,8 +44,8 @@ export const HeroSection = () => {
               variants={fadeIn}
               className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight safe-text"
             >
-              Innovating the Future of
-              <span className="block text-primary">Technology</span>
+              Berinovasi untuk Masa Depan
+              <span className="block text-primary">Teknologi</span>
             </motion.h1>
 
             <motion.p
@@ -68,7 +68,7 @@ export const HeroSection = () => {
               asChild
             >
               <Link href="/about">
-                About Us
+                Tentang Kami
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
@@ -78,7 +78,7 @@ export const HeroSection = () => {
               className="text-lg px-8"
               asChild
             >
-              <Link href="/projects">Explore Projects</Link>
+              <Link href="/projects">Jelajahi Proyek</Link>
             </Button>
           </motion.div>
 

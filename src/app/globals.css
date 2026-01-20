@@ -1,4 +1,3 @@
-/* === Base Imports === */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -230,7 +229,6 @@ button:not(:disabled),
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-/* === Base Layer Integration with Tailwind === */
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -240,7 +238,6 @@ button:not(:disabled),
   }
 }
 
-/* === Marquee Testimonial Styles === */
 .marquee-wrapper {
   position: relative;
 }
