@@ -3,44 +3,73 @@ import * as motion from "framer-motion/client";
 
 import { CORE_TEAM } from "@/constants/core-team";
 import { animationConfig, fadeIn } from "@/utils/animations";
+import { Card } from "@/components/ui/card";
 
 const CardTeamMember = ({ name, role, angkatan, imageUrl }: { name: string; role: string; angkatan: string; imageUrl: string }) => {
   return (
-    <div className="w-full flex flex-col items-center px-2 mb-8">
-      <div className="relative size-[120px] sm:size-[150px] md:size-[180px] lg:size-[200px] aspect-square rounded-full overflow-hidden">
-        <Image
-          fill
-          alt="profile"
-          src={imageUrl}
-          className="object-cover"
-        />
+    <Card className="w-full rounded-lg border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 p-6">
+      <div className="flex flex-col items-center space-y-4">
+        {/* Image */}
+        <div className="relative size-24 aspect-square rounded-full overflow-hidden ring-2 ring-border">
+          <Image
+            fill
+            alt={name}
+            src={imageUrl}
+            className="object-cover"
+          />
+        </div>
+
+        {/* Nama - Paling menonjol */}
+        <h3 className="text-xl font-semibold text-foreground leading-tight text-center">{name}</h3>
+
+        {/* Jabatan - Subtitle */}
+        <p className="text-base font-medium text-primary text-center">{role}</p>
+
+        {/* Informasi Akademik - Lebih kecil */}
+        <div className="w-full space-y-1.5 pt-3 border-t border-border/50">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground/80">Program Studi:</span> Informatics
+          </p>
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground/80">Angkatan:</span> {angkatan}
+          </p>
+        </div>
       </div>
-      <div className="flex flex-col items-center mt-3 sm:mt-4 lg:mt-5 text-center">
-        <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold leading-tight">{name}</h1>
-        <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-muted-foreground">{role}</p>
-        <p className="text-xs mt-1 text-muted-foreground">{angkatan}</p>
-      </div>
-    </div>
+    </Card>
   );
 };
 
 const SpecialCardTeamMember = ({ name, role, angkatan, imageUrl }: { name: string; role: string; angkatan: string; imageUrl: string }) => {
   return (
-    <div className="w-full flex flex-col items-center px-4 mb-8">
-      <div className="relative size-[150px] sm:size-[180px] md:size-[220px] lg:size-[250px] aspect-square rounded-full overflow-hidden">
-        <Image
-          fill
-          alt="profile"
-          src={imageUrl}
-          className="object-cover"
-        />
+    <Card className="w-full rounded-lg border border-border bg-card shadow-sm hover:shadow-md transition-shadow duration-200 p-8">
+      <div className="flex flex-col items-center space-y-5">
+        {/* Image - Lebih besar untuk leadership */}
+        <div className="relative size-32 aspect-square rounded-full overflow-hidden ring-2 ring-primary/20">
+          <Image
+            fill
+            alt={name}
+            src={imageUrl}
+            className="object-cover"
+          />
+        </div>
+
+        {/* Nama - Paling menonjol untuk leadership */}
+        <h3 className="text-2xl font-bold text-foreground leading-tight text-center">{name}</h3>
+
+        {/* Jabatan - Subtitle */}
+        <p className="text-lg font-semibold text-primary text-center">{role}</p>
+
+        {/* Informasi Akademik - Lebih kecil */}
+        <div className="w-full space-y-2 pt-4 border-t border-border/50">
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground/80">Program Studi:</span> Informatics
+          </p>
+          <p className="text-sm text-muted-foreground">
+            <span className="font-medium text-foreground/80">Angkatan:</span> {angkatan}
+          </p>
+        </div>
       </div>
-      <div className="flex flex-col items-center mt-4 sm:mt-5 lg:mt-6 text-center">
-        <h1 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold leading-tight">{name}</h1>
-        <p className="mt-2 text-xs sm:text-sm md:text-base text-muted-foreground">{role}</p>
-        <p className="text-xs sm:text-sm mt-1 text-muted-foreground">{angkatan}</p>
-      </div>
-    </div>
+    </Card>
   );
 };
 
