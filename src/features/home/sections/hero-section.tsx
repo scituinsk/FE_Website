@@ -1,9 +1,7 @@
 import Link from "next/link";
-import { ArrowRight, Users } from "lucide-react";
-import * as motion from "framer-motion/client";
+import { ArrowRight } from "lucide-react";
 
 import { PARTNERS } from "@/constants/partners";
-import { animationConfig, fadeIn, staggerContainer } from "@/utils/animations";
 
 import { Button } from "@/components/ui/button";
 import { PartnerCard } from "@/features/home/components/partner-card";
@@ -27,41 +25,19 @@ export const HeroSection = () => {
       <div className="container mx-auto px-4 py-12 sm:py-16 md:py-20 relative z-10">
         <div className="text-center max-w-5xl mx-auto safe-container">
           {/* Main headline */}
-          <motion.div
-            variants={staggerContainer}
-            className="space-y-6 mb-8"
-            {...animationConfig}
-          >
-            <motion.div
-              variants={fadeIn}
-              className="invisible inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6"
-            >
-              <Users className="h-4 w-4" />
-              Study Club Informatika UIN Sunan Kalijaga
-            </motion.div>
-
-            <motion.h1
-              variants={fadeIn}
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight safe-text"
-            >
+          <div className="space-y-6 mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight safe-text">
               Berinovasi untuk Masa Depan
               <span className="block text-primary">Teknologi</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              variants={fadeIn}
-              className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed safe-text"
-            >
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed safe-text">
               Kami adalah komunitas mahasiswa yang berdedikasi untuk mengembangkan inovasi teknologi dan menciptakan solusi digital yang berdampak.
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
           {/* CTA buttons */}
-          <motion.div
-            variants={fadeIn}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-            {...animationConfig}
-          >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
             <Button
               size="lg"
               className="text-lg px-8"
@@ -80,30 +56,17 @@ export const HeroSection = () => {
             >
               <Link href="/projects">Jelajahi Proyek</Link>
             </Button>
-          </motion.div>
+          </div>
 
           {/* Partners & Collaborators */}
-          <motion.div
-            variants={fadeIn}
-            className="max-w-4xl mx-auto"
-            {...animationConfig}
-          >
-            <motion.h3
-              variants={fadeIn}
-              className="text-lg md:text-xl text-muted-foreground text-center mb-8 font-medium"
-            >
-              Telah dipercaya oleh
-            </motion.h3>
+          <div className="max-w-4xl mx-auto">
+            <h3 className="text-lg md:text-xl text-muted-foreground text-center mb-8 font-medium">Telah dipercaya oleh</h3>
 
-            <motion.div
-              variants={staggerContainer}
-              className="flex flex-wrap justify-center gap-4 md:gap-6"
-              {...animationConfig}
-            >
+            <div className="flex flex-wrap justify-center gap-4 md:gap-6">
               {PARTNERS.map((partner) => (
                 <div
                   key={partner.name}
-                  className="flex-grow basis-[calc(33.333%-1rem)] max-w-[calc(33.333%-1rem)] md:basis-[calc(33.333%-1.5rem)] md:max-w-[calc(33.333%-1.5rem)] flex justify-center"
+                  className="flex justify-center items-center"
                 >
                   <PartnerCard
                     partner={partner}
@@ -111,8 +74,8 @@ export const HeroSection = () => {
                   />
                 </div>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
