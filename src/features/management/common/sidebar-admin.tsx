@@ -31,17 +31,17 @@ import { useAuth } from "@/features/auth/contexts/auth-context";
 
 const items = [
   {
-    title: "Manage Projects",
+    title: "Projects",
     url: "/admin/manage-projects",
     icon: ClipboardList,
   },
   {
-    title: "Manage Teams",
+    title: "Teams",
     url: "/admin/manage-teams",
     icon: Users,
   },
   {
-    title: "Manage Galleries",
+    title: "Galleries",
     url: "/admin/manage-galleries",
     icon: Images,
   },
@@ -99,7 +99,7 @@ export const SidebarAdmin = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {user?.role === "ADMIN" && (
+              {user?.role === "SUPER_ADMIN" && (
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
@@ -107,7 +107,7 @@ export const SidebarAdmin = () => {
                   >
                     <Link href="/admin/manage-users-login">
                       <UserIcon />
-                      <span>Manage User Login</span>
+                      <span>Accounts</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

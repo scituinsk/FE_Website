@@ -7,15 +7,13 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Save, X, Upload, Star } from "lucide-react";
 import Image from "next/image";
-import axios from "axios";
 import { toast } from "sonner";
 import { ImageCropper } from "./image-cropper";
 import { DetailProject } from "../queries/use-get-project-by-id";
-import { useGetPresignedUrl } from "../mutations/use-get-presigned-url";
-import { useConfirmImageUpload } from "../mutations/use-confirm-image-upload";
 import { useUpdateProjectImage } from "../mutations/use-update-project-image";
 import { useDeleteProjectImage } from "../mutations/use-delete-project-image";
 import { cn } from "@/lib/utils";
+import apiClient from "@/lib/axios";
 
 interface ProjectGalleryProps {
   project: DetailProject;
@@ -35,8 +33,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
   const [imageToCrop, setImageToCrop] = useState<string>("");
 
   // Mutations
-  const { mutate: getPresignedUrl, isPending: isPendingPresigned } = useGetPresignedUrl();
-  const { mutate: confirmUpload, isPending: isPendingConfirm } = useConfirmImageUpload();
+
   const { mutate: updateImage, isPending: isPendingUpdate } = useUpdateProjectImage();
   const { mutate: deleteImage, isPending: isPendingDelete } = useDeleteProjectImage();
 
@@ -55,7 +52,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
         onError: () => {
           toast.error("Failed to delete image");
         },
-      }
+      },
     );
   };
 
@@ -106,7 +103,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
         onError: () => {
           toast.error("Failed to update primary image");
         },
-      }
+      },
     );
   };
 
@@ -126,24 +123,22 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
     setCropperOpen(false);
   };
 
-  const uploadToS3 = async (file: File, uploadUrl: string): Promise<void> => {
-    try {
-      // Upload via proxy to avoid CORS, with progress tracking
-      await axios.put("/proxy/upload", file, {
-        headers: {
-          "Content-Type": file.type,
-          "x-upload-url": uploadUrl,
-        },
-        onUploadProgress: (progressEvent) => {
-          if (progressEvent.total) {
-            const percentComplete = Math.round((progressEvent.loaded / progressEvent.total) * 100);
-            setUploadProgress(percentComplete);
-          }
-        },
-      });
-    } catch (error) {
-      throw new Error("Upload failed");
-    }
+  const uploadImage = async (file: File): Promise<void> => {
+    const formData = new FormData();
+
+    formData.append("image", file);
+
+    await apiClient.post(`/projects/${project.id}/images/upload`, formData, {
+      headers: {
+        "Content-Type": file.type,
+      },
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total) {
+          const percentComplete = Math.round((progressEvent.loaded / progressEvent.total) * 100);
+          setUploadProgress(percentComplete);
+        }
+      },
+    });
   };
 
   const handleAddImage = async () => {
@@ -151,54 +146,27 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
     setUploadProgress(0);
 
-    getPresignedUrl(
-      {
-        projectId: project.id.toString(),
-        data: {
-          fileName: newImage.file.name,
-          fileType: newImage.file.type,
-          fileSize: newImage.file.size,
-        },
-      },
-      {
-        onSuccess: async (presignedData) => {
-          try {
-            // Upload to S3 with progress tracking
-            await uploadToS3(newImage.file!, presignedData.uploadUrl);
+    try {
+      await uploadImage(newImage.file);
 
-            // Confirm upload
-            confirmUpload(
-              {
-                projectId: project.id.toString(),
-                imageId: presignedData.id.toString(),
-              },
-              {
-                onSuccess: () => {
-                  toast.success("Image uploaded successfully");
-                  setIsAdding(false);
-                  setNewImage({});
-                  setUploadingFile(null);
-                  setUploadProgress(0);
-                  if (newImage.previewUrl) {
-                    URL.revokeObjectURL(newImage.previewUrl);
-                  }
-                },
-                onError: () => {
-                  toast.error("Failed to confirm image upload");
-                  setUploadProgress(0);
-                },
-              }
-            );
-          } catch (error) {
-            toast.error("Failed to upload image to storage");
-            setUploadProgress(0);
-          }
-        },
-        onError: () => {
-          toast.error("Failed to get upload URL");
-        },
+      // Success handling
+      toast.success("Image uploaded successfully");
+
+      // Reset form state
+      setIsAdding(false);
+      setNewImage({});
+      setUploadingFile(null);
+      setUploadProgress(0);
+
+      // Clean up preview URL
+      if (newImage.previewUrl) {
+        URL.revokeObjectURL(newImage.previewUrl);
       }
-    );
+    } catch (error) {
+      toast.error("Failed to upload image");
+      setUploadProgress(0);
+      return;
+    }
   };
 
   return (
@@ -267,13 +235,16 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
                 {/* Preview */}
                 {newImage.previewUrl && (
-                  <div className="relative w-full aspect-video rounded-lg overflow-hidden border border-border">
-                    <Image
-                      src={newImage.previewUrl}
-                      alt="Preview"
-                      fill
-                      className="object-cover"
-                    />
+                  <div className="space-y-2">
+                    <Label>Preview</Label>
+                    <div className="relative w-full max-w-md aspect-video rounded-lg overflow-hidden border border-border shadow-sm">
+                      <Image
+                        src={newImage.previewUrl}
+                        alt="Preview"
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 )}
 
@@ -299,10 +270,10 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
                 <Button
                   size="sm"
                   onClick={handleAddImage}
-                  disabled={!newImage.file || isPendingPresigned || isPendingConfirm || uploadProgress > 0}
+                  disabled={!newImage.file || uploadProgress > 0}
                 >
                   <Save className="mr-2 h-4 w-4" />
-                  {isPendingPresigned || isPendingConfirm || uploadProgress > 0 ? "Uploading..." : "Add Image"}
+                  {uploadProgress > 0 ? "Uploading..." : "Add Image"}
                 </Button>
                 <Button
                   size="sm"
@@ -316,7 +287,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
                       URL.revokeObjectURL(newImage.previewUrl);
                     }
                   }}
-                  disabled={isPendingPresigned || isPendingConfirm || uploadProgress > 0}
+                  disabled={uploadProgress > 0}
                 >
                   <X className="mr-2 h-4 w-4" />
                   Cancel
@@ -334,7 +305,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
               >
                 <div className="relative w-full aspect-video">
                   <Image
-                    src={image.imageUrl}
+                    src={image.url}
                     alt={`Image ${index + 1}`}
                     fill
                     className="object-cover"

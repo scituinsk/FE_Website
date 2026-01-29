@@ -5,10 +5,12 @@ export interface ApiResponse<T> {
 }
 
 export interface PaginationMeta {
-  page: number;
+  currentPage: number;
+  from: number;
+  lastPage: number;
   perPage: number;
+  to: number;
   total: number;
-  totalPages: number;
 }
 
 export interface PaginatedApiResponse<T> extends ApiResponse<T> {

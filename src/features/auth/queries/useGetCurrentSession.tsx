@@ -16,7 +16,7 @@ export type CurrentSession = {
   name: string;
   username: string;
   avatar: string | null;
-  role: "USER" | "ADMIN";
+  role: "SUPER_ADMIN" | "ADMIN";
 };
 
 /**

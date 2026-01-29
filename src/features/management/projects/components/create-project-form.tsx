@@ -224,7 +224,7 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
         />
         <Button
           type="submit"
-          className="w-full"
+          size="sm"
           disabled={isPending}
         >
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

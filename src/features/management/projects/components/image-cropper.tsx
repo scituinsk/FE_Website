@@ -86,7 +86,7 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
       0,
       0,
       canvas.width,
-      canvas.height
+      canvas.height,
     );
 
     return new Promise((resolve) => {
@@ -100,7 +100,7 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
           resolve({ blob, url });
         },
         "image/jpeg",
-        0.95
+        0.95,
       );
     });
   };
@@ -121,7 +121,7 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
       open={isOpen && !!imageSrc}
       onOpenChange={(open) => !open && onClose()}
     >
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
+      <DialogContent className="max-w-3xl max-h-[85vh] overflow-auto">
         <DialogHeader>
           <DialogTitle>Crop Image</DialogTitle>
           <DialogDescription>Adjust the crop area to fit your image. The aspect ratio is locked to 16:9.</DialogDescription>
@@ -141,7 +141,7 @@ export function ImageCropper({ imageSrc, isOpen, onClose, onCropComplete, aspect
                 src={imageSrc}
                 alt="Crop preview"
                 onLoad={onImageLoad}
-                className="max-w-full h-auto"
+                className="max-w-full max-h-[60vh] h-auto"
               />
             </ReactCrop>
           </div>

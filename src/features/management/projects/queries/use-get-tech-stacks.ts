@@ -11,7 +11,7 @@ export interface GetTechStacksParams {
 export const getTechStacks = async (params: GetTechStacksParams = {}) => {
   const { search } = params;
 
-  const response = await apiClient.get<TechStackApiResponse>("/projects/tech-stacks/lists", {
+  const response = await apiClient.get<TechStackApiResponse>("/technologies", {
     params: {
       search: search?.trim() == "" ? undefined : search,
     },

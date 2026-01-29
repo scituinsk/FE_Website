@@ -8,7 +8,9 @@ import { Project } from "@/types/project";
 export interface GetProjectsParams {
   page?: number;
   search?: string;
-  per_page?: number;
+  per_page?: string;
+  sort_by?: string;
+  sort_dir?: string;
 }
 
 export const getProjects = async (params: GetProjectsParams = {}) => {

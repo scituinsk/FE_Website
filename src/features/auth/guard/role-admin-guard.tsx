@@ -20,8 +20,8 @@ export const RoleAdminGuard = ({ children }: RoleAdminGuardProps) => {
     );
   }
 
-  // Redirect jika user bukan admin
-  if (user && user.role !== "ADMIN") {
+  // Redirect jika user bukan SUPER_ADMIN
+  if (user && user.role !== "SUPER_ADMIN") {
     return (
       <Redirect
         to="/"

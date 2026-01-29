@@ -20,7 +20,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
       <Card className="group hover:shadow-xl w-full h-full transition-all duration-300 overflow-hidden flex flex-col cursor-pointer">
         <div className="relative w-full aspect-video flex-shrink-0">
           <Image
-            src={project.images[0]?.imageUrl || "https://placehold.co/600x400"}
+            src={project.thumbnail?.url || "https://placehold.co/600x400"}
             alt={project.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

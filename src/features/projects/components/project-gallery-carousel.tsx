@@ -17,6 +17,8 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
 
+  console.log(images);
+
   // Gunakan useRef untuk plugin agar tidak memicu re-render saat inisialisasi
   const plugin = React.useRef(Autoplay({ delay: autoplayDelay, playOnInit: true, stopOnInteraction: true, stopOnMouseEnter: true }));
 
@@ -49,8 +51,8 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
             <CarouselItem key={index}>
               <div className="relative w-full aspect-video rounded-lg overflow-hidden">
                 <Image
-                  src={image.imageUrl}
-                  alt={image.fileName}
+                  src={image.url}
+                  alt={image.originalFileName}
                   fill
                   className="object-cover"
                 />
@@ -69,7 +71,7 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
             onClick={() => api?.scrollTo(index)}
             className={cn(
               "h-2 rounded-full transition-all duration-300",
-              current === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50"
+              current === index ? "w-8 bg-primary" : "w-2 bg-muted-foreground/30 hover:bg-muted-foreground/50",
             )}
             aria-label={`Go to slide ${index + 1}`}
           />

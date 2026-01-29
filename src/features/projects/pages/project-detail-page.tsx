@@ -45,20 +45,13 @@ export async function generateMetadata({ params }: ProjectDetailPageProps): Prom
       description: post.description || `Detail proyek ${post.title} dari komunitas SCIT UIN Sunan Kalijaga.`,
       type: "article",
       url,
-      images: post.images
-        ? [
-            {
-              url: post.images[0]?.imageUrl,
-              alt: post.title,
-            },
-          ]
-        : [],
+      images: post.thumbnail ? [{ url: post.thumbnail.url }] : [],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description || `Detail proyek ${post.title} dari komunitas SCIT.`,
-      images: post.images ? [{ url: post.images[0]?.imageUrl }] : [],
+      images: post.thumbnail ? [post.thumbnail.url] : [],
     },
   };
 }
@@ -75,8 +68,6 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
     }
     throw new Error("Failed to fetch project details");
   }
-
-  const primaryImage = project.images.find((img) => img.isPrimary) || project.images[0];
 
   return (
     <>
@@ -137,7 +128,7 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
               <div className="relative w-full aspect-video">
                 <ImageWrapper
                   alt={project?.title}
-                  src={primaryImage?.imageUrl}
+                  src={project.thumbnail?.url || "https://placehold.co/600x400"}
                 />
               </div>
             </Card>

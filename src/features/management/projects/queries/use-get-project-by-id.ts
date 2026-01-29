@@ -32,8 +32,11 @@ export interface DetailProject {
 
 interface Image {
   id: number;
-  projectId: number;
-  imageUrl: string;
+  path: string;
+  url: string;
+  originalFileName: string;
+  fileType: string;
+  fileSize: number;
   isPrimary: boolean;
   isUsed: boolean;
   createdAt: string;

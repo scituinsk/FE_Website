@@ -1,6 +1,9 @@
 export type ProjectMinimalInfo = {
   id: number;
   title: string;
+  thumbnail: {
+    url: string;
+  } | null;
   description: string;
   about: string;
   slug: string;
@@ -44,14 +47,16 @@ export type ProjectFullInformation = {
   status: string;
   createdAt: string;
   updatedAt: string;
+  thumbnail: {
+    url: string;
+  } | null;
   images: {
     id: number;
-    key: string;
-    fileName: string;
+    path: string;
+    url: string;
+    originalFileName: string;
     fileType: string;
     fileSize: number;
-    projectId: number;
-    imageUrl: string;
     isPrimary: boolean;
     isUsed: boolean;
     createdAt: string;

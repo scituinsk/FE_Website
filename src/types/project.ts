@@ -36,6 +36,9 @@ export interface Project {
   updatedAt: string;
   technologies: Technology[];
   images: ProjectImage[];
+  thumbnail: {
+    url: string;
+  } | null;
 }
 
 export interface ProjectFormData {
