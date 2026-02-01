@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { Activity } from "react";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
-import { ChevronLeft, ExternalLink, Calendar, Clock } from "lucide-react";
+import { ExternalLink, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/empty-state";
@@ -73,15 +73,12 @@ const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
     <>
       <div className="border-b border-border bg-card">
         <div className="container py-8">
-          <Link href="/projects">
-            <Button
-              variant="outline"
-              size="sm"
-              className="mb-6"
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Back to Projects
-            </Button>
+          <Link
+            href="/projects"
+            className="flex text-sky-600 dark:text-sky-500 items-center text-sm underline mb-5"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali ke list proyek
           </Link>
 
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">

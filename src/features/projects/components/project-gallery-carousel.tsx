@@ -35,10 +35,10 @@ export function ProjectGalleryCarousel({ images, autoplayDelay = 3000 }: Project
   return (
     <div
       className="relative w-full"
-      onMouseLeave={() => plugin.current.play()}
+      onMouseLeave={() => (plugin.current ? plugin.current.reset() : null)}
     >
       <Carousel
-        plugins={[plugin.current]}
+        plugins={plugin.current ? [plugin.current] : []}
         opts={{
           align: "center",
           loop: false,
