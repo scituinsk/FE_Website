@@ -17,6 +17,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { LIMITS, useProjectsFilters } from "../hooks/use-projects-filters";
+import { useUpdateVisibility } from "../mutations/use-update-visibility";
 
 interface PopoverUpdateVisibilityProps {
   projectId?: number;
@@ -26,9 +27,19 @@ interface PopoverUpdateVisibilityProps {
   isOpen: boolean;
   children: React.ReactNode;
   onOpenChange: (open: boolean) => void;
+  isLoading?: boolean;
 }
 
-const PopoverUpdateVisibility = ({ projectId, currentStatus, onSave, onCancel, isOpen, children, onOpenChange }: PopoverUpdateVisibilityProps) => {
+const PopoverUpdateVisibility = ({
+  projectId,
+  currentStatus,
+  onSave,
+  onCancel,
+  isOpen,
+  children,
+  onOpenChange,
+  isLoading,
+}: PopoverUpdateVisibilityProps) => {
   const [selectedStatus, setSelectedStatus] = useState<"PUBLIC" | "PRIVATE">(currentStatus);
 
   useEffect(() => {
@@ -93,14 +104,16 @@ const PopoverUpdateVisibility = ({ projectId, currentStatus, onSave, onCancel, i
               size="sm"
               variant="outline"
               onClick={onCancel}
+              disabled={isLoading}
             >
               Batal
             </Button>
             <Button
               size="sm"
               onClick={handleSave}
+              disabled={isLoading}
             >
-              Simpan
+              {isLoading ? "Menyimpan..." : "Simpan"}
             </Button>
           </div>
         </div>
@@ -134,6 +147,15 @@ export const ManagementProjectsPage = () => {
 
   // Multi-select state
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
+
+  const { mutate, isPending } = useUpdateVisibility({
+    mutationConfig: {
+      onSuccess: () => {
+        // Invalidate queries to refetch projects data
+        setSelectedIds(new Set());
+      },
+    },
+  });
 
   // Debounce effect - update URL search param after delay
   useEffect(() => {
@@ -268,11 +290,20 @@ export const ManagementProjectsPage = () => {
                   isOpen={isBulkVisibilityPopoverOpen}
                   onOpenChange={setIsBulkVisibilityPopoverOpen}
                   onSave={(newStatus) => {
-                    // TODO: Save bulk visibility changes
-                    console.log("Bulk update visibility:", Array.from(selectedIds), "to", newStatus);
-                    setIsBulkVisibilityPopoverOpen(false);
+                    mutate(
+                      {
+                        project_ids: Array.from(selectedIds),
+                        visibility: newStatus,
+                      },
+                      {
+                        onSuccess: () => {
+                          setIsBulkVisibilityPopoverOpen(false);
+                        },
+                      },
+                    );
                   }}
                   onCancel={() => setIsBulkVisibilityPopoverOpen(false)}
+                  isLoading={isPending}
                 >
                   <button className="underline">
                     <span>Edit visibilitas</span>
@@ -424,11 +455,20 @@ export const ManagementProjectsPage = () => {
                     isOpen={visibilityPopoverId === project.id}
                     onOpenChange={(open) => setVisibilityPopoverId(open ? project.id : null)}
                     onSave={(newStatus) => {
-                      // TODO: Save visibility changes
-                      console.log("Project ID:", project.id, "New visibility:", newStatus);
-                      setVisibilityPopoverId(null);
+                      mutate(
+                        {
+                          project_ids: [project.id],
+                          visibility: newStatus,
+                        },
+                        {
+                          onSuccess: () => {
+                            setVisibilityPopoverId(null);
+                          },
+                        },
+                      );
                     }}
                     onCancel={() => setVisibilityPopoverId(null)}
+                    isLoading={isPending}
                   >
                     {project.status === "PRIVATE" ? (
                       <button className="flex items-center gap-1 hover:bg-muted/80 rounded px-2 py-1 -mx-2 transition-colors group">

@@ -59,7 +59,7 @@ export const LandingPageHeader = () => {
     const isActive = isActiveRoute(href, exact);
     return cn(
       "block py-2 transition-colors rounded-md px-2",
-      isActive && mounted ? "text-primary bg-primary/5 font-medium" : "text-muted-foreground hover:text-primary hover:bg-muted"
+      isActive && mounted ? "text-primary bg-primary/5 font-medium" : "text-muted-foreground hover:text-primary hover:bg-muted",
     );
   };
 
@@ -105,63 +105,65 @@ export const LandingPageHeader = () => {
         <div className="lg:hidden flex items-center space-x-2">
           <ThemeToggle />
           {/* Mobile Menu Sheet */}
-          <Sheet
-            open={isMenuOpen}
-            onOpenChange={setIsMenuOpen}
-          >
-            <SheetTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="[&_svg]:size-5 cursor-pointer"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-[300px] sm:w-[400px]"
+          {mounted && (
+            <Sheet
+              open={isMenuOpen}
+              onOpenChange={setIsMenuOpen}
             >
-              <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <div className="flex flex-col space-y-4 mt-6 px-5">
-                {/* Navigation Links */}
-                <div className="space-y-2">
-                  {navigationItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className={getMobileLinkClasses(item.href, item.exact)}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="pt-4 space-y-3 border-t border-border">
-                  {ctaButtons.map((button) => (
-                    <Button
-                      key={button.href}
-                      variant={button.variant}
-                      className="w-full"
-                      asChild
-                    >
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="[&_svg]:size-5 cursor-pointer"
+                >
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Toggle menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent
+                side="right"
+                className="w-[300px] sm:w-[400px]"
+              >
+                <SheetHeader>
+                  <SheetTitle>Menu</SheetTitle>
+                </SheetHeader>
+                <div className="flex flex-col space-y-4 mt-6 px-5">
+                  {/* Navigation Links */}
+                  <div className="space-y-2">
+                    {navigationItems.map((item) => (
                       <Link
-                        href={button.href}
+                        key={item.href}
+                        href={item.href}
+                        className={getMobileLinkClasses(item.href, item.exact)}
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        {button.label}
+                        {item.label}
                       </Link>
-                    </Button>
-                  ))}
+                    ))}
+                  </div>
+
+                  {/* CTA Buttons */}
+                  <div className="pt-4 space-y-3 border-t border-border">
+                    {ctaButtons.map((button) => (
+                      <Button
+                        key={button.href}
+                        variant={button.variant}
+                        className="w-full"
+                        asChild
+                      >
+                        <Link
+                          href={button.href}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          {button.label}
+                        </Link>
+                      </Button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
       </div>
     </header>
