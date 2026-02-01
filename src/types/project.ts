@@ -20,7 +20,7 @@ export interface ProjectImage {
   updatedAt: string;
 }
 
-export type ProjectStatus = "PLANNING" | "IN_PROGRESS" | "BETA_LAUNCH" | "PRODUCTION" | "COMPLETED" | "ARCHIVED";
+export type ProjectStatus = "PUBLIC" | "PRIVATE";
 
 export interface Project {
   id: number;

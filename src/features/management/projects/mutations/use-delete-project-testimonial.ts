@@ -15,7 +15,9 @@ type DeleteProjectTestimonialResponse = {
 };
 
 export const deleteProjectTestimonial = async ({ projectId, testimonialId }: DeleteProjectTestimonialParams) => {
-  const response = await apiClient.delete<ApiResponse<DeleteProjectTestimonialResponse>>(`/projects/${projectId}/testimonials/${testimonialId}`);
+  const response = await apiClient.delete<ApiResponse<DeleteProjectTestimonialResponse>>(
+    `/admin/projects/${projectId}/testimonials/${testimonialId}`,
+  );
   return response.data.data;
 };
 

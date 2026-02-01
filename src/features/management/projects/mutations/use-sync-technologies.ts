@@ -44,7 +44,7 @@ export type SyncTechnologiesParams = {
 };
 
 export const syncTechnologies = async ({ projectId, data }: SyncTechnologiesParams) => {
-  const response = await apiClient.post<ApiResponse<SyncTechnologiesResponse>>(`/projects/${projectId}/technologies`, data);
+  const response = await apiClient.post<ApiResponse<SyncTechnologiesResponse>>(`/admin/projects/${projectId}/technologies`, data);
   return response.data.data;
 };
 
@@ -81,7 +81,7 @@ export const useSyncTechnologies = (params: UseSyncTechnologiesParams = {}) => {
                   ...project,
                   technologies: data.technologies,
                 }
-              : project
+              : project,
           ),
         };
       });

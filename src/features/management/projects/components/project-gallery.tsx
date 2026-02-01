@@ -128,7 +128,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
     formData.append("image", file);
 
-    await apiClient.post(`/projects/${project.id}/images/upload`, formData, {
+    await apiClient.post(`/admin/projects/${project.id}/images/upload`, formData, {
       headers: {
         "Content-Type": file.type,
       },

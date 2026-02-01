@@ -15,7 +15,7 @@ export type CreateProjectPayload = {
 };
 
 export const createProject = async (data: CreateProjectPayload) => {
-  const response = await apiClient.post<ApiResponse<Project>>("/projects", data);
+  const response = await apiClient.post<ApiResponse<Project>>("/admin/projects", data);
   return response.data.data;
 };
 

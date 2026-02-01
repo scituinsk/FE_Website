@@ -12,7 +12,7 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
     <ProtectedGuard>
       <SidebarProvider>
         <SidebarAdmin />
-        <main className="flex-1">
+        <main className="flex-1 overflow-auto ">
           <NavbarAdmin />
           {children}
         </main>

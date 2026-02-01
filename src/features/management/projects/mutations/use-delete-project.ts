@@ -5,7 +5,7 @@ import { MutationConfig } from "@/lib/query-client";
 import { ApiResponse } from "@/types/api-response";
 
 export const deleteProject = async (projectId: string) => {
-  const response = await apiClient.delete<ApiResponse<void>>(`/projects/${projectId}`);
+  const response = await apiClient.delete<ApiResponse<void>>(`/admin/projects/${projectId}`);
   return response.data;
 };
 

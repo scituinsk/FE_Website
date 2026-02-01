@@ -89,7 +89,7 @@ interface Testimonial {
 
 export const getProjectById = async (params: GetProjectByIdParams) => {
   try {
-    const response = await apiClient.get<ApiResponse<DetailProject>>(`/projects/${params.projectId}`);
+    const response = await apiClient.get<ApiResponse<DetailProject>>(`/admin/projects/${params.projectId}`);
     return response.data.data;
   } catch (error: any) {
     if (error.response?.status === 404 || error.response?.status === 400) {

@@ -15,7 +15,7 @@ type DeleteProjectImageResponse = {
 };
 
 export const deleteProjectImage = async ({ projectId, imageId }: DeleteProjectImageParams) => {
-  const response = await apiClient.delete<ApiResponse<DeleteProjectImageResponse>>(`/projects/${projectId}/images/${imageId}`);
+  const response = await apiClient.delete<ApiResponse<DeleteProjectImageResponse>>(`/admin/projects/${projectId}/images/${imageId}`);
   return response.data.data;
 };
 

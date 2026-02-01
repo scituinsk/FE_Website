@@ -15,7 +15,7 @@ export type UpdateSlugParams = {
 };
 
 export const updateSlug = async ({ projectId, data }: UpdateSlugParams) => {
-  const response = await apiClient.patch<ApiResponse<Project>>(`/projects/change-slug/${projectId}`, data);
+  const response = await apiClient.patch<ApiResponse<Project>>(`/admin/projects/change-slug/${projectId}`, data);
   return response.data.data;
 };
 

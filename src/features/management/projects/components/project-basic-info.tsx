@@ -14,8 +14,8 @@ import { DetailProject } from "../queries/use-get-project-by-id";
 import { UpdateBasicInfoPayload, useUpdateBasicInfo } from "../mutations/use-update-basic-info";
 
 const STATUS_OPTIONS = [
-  { value: "PRODUCTION", label: "Production" },
-  { value: "BETA_LAUNCH", label: "Beta Launch" },
+  { value: "PUBLIC", label: "Publik" },
+  { value: "PRIVATE", label: "Pribadi" },
 ];
 
 interface ProjectData {
@@ -74,7 +74,7 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
         onSettled: () => {
           setIsEditing(false);
         },
-      }
+      },
     );
   };
 

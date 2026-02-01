@@ -36,7 +36,7 @@ export type UpdateBasicInfoParams = {
 };
 
 export const updateBasicInfo = async ({ projectId, data }: UpdateBasicInfoParams) => {
-  const response = await apiClient.patch<ApiResponse<UpdateBasicInfoResponse>>(`projects/${projectId}/basic-info`, data);
+  const response = await apiClient.patch<ApiResponse<UpdateBasicInfoResponse>>(`/admin/projects/${projectId}/basic-info`, data);
   return response.data.data;
 };
 
@@ -85,7 +85,7 @@ export const useUpdateBasicInfo = (params: UseUpdateBasicInfoParams = {}) => {
                   launchYear: data.launchYear,
                   slug: data.slug,
                 }
-              : project
+              : project,
           ),
         };
       });

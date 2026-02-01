@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 import { ProjectGallery } from "@/features/management/projects/components/project-gallery";
 import { ProjectDetails } from "@/features/management/projects/components/project-details";
@@ -11,7 +11,6 @@ import { ProjectTechStack } from "@/features/management/projects/components/proj
 import { ProjectTestimonials } from "@/features/management/projects/components/project-testimonials";
 import { ProjectBasicInfoSkeleton, ProjectCardSkeleton } from "@/features/management/projects/components/project-loading-skeleton";
 
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetProjectById } from "../queries/use-get-project-by-id";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -29,24 +28,14 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
     <div className="min-h-screen bg-background">
       <div className=" top-0 z-10 border-b border-border bg-card">
         <div className="container py-6">
-          <Link href="/admin/manage-projects">
-            <Button
-              variant="outline"
-              size="sm"
-              className="mb-4"
-            >
-              <ChevronLeft className="mr-2 h-4 w-4" />
-              Back to Projects
-            </Button>
+          <Link
+            href="/admin/manage-projects"
+            className="flex text-sky-600 dark:text-sky-500 items-center text-sm underline mb-5"
+          >
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Kembali ke list proyek
           </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Manage Project</h1>
-            {isLoading ? (
-              <Skeleton className="w-1/3 h-7 mt-2" />
-            ) : (
-              <p className="mt-1 text-muted-foreground">Edit project details, gallery, and testimonials</p>
-            )}
-          </div>
+          <div>{isLoading ? <Skeleton className="w-1/3 h-7 mt-2" /> : <h1 className="text-3xl font-bold text-foreground">{project?.title}</h1>}</div>
         </div>
       </div>
 

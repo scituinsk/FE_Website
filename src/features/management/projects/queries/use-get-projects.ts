@@ -14,13 +14,15 @@ export interface GetProjectsParams {
 }
 
 export const getProjects = async (params: GetProjectsParams = {}) => {
-  const { page = 1, search = "", per_page = 10 } = params;
+  const { page = 1, search = "", per_page = 10, sort_by, sort_dir } = params;
 
-  const response = await apiClient.get<PaginatedData<Project>>("/projects", {
+  const response = await apiClient.get<PaginatedData<Project>>("/admin/projects", {
     params: {
       page,
       search,
       per_page,
+      sort_by,
+      sort_dir,
     },
   });
 

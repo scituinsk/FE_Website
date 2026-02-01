@@ -32,7 +32,10 @@ type UpdateProjectTestimonialResponse = {
 };
 
 export const updateProjectTestimonial = async ({ projectId, testimonialId, data }: UpdateProjectTestimonialParams) => {
-  const response = await apiClient.patch<ApiResponse<UpdateProjectTestimonialResponse>>(`/projects/${projectId}/testimonials/${testimonialId}`, data);
+  const response = await apiClient.patch<ApiResponse<UpdateProjectTestimonialResponse>>(
+    `/admin/projects/${projectId}/testimonials/${testimonialId}`,
+    data,
+  );
   return response.data.data;
 };
 

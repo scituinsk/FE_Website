@@ -73,7 +73,7 @@ export type SyncProjectDetailsParams = {
 };
 
 export const syncProjectDetail = async ({ projectId, data }: SyncProjectDetailsParams) => {
-  const response = await apiClient.post<ApiResponse<SyncProjectDetailsResponse>>(`/projects/${projectId}/details`, data);
+  const response = await apiClient.post<ApiResponse<SyncProjectDetailsResponse>>(`/admin/projects/${projectId}/details`, data);
   return response.data.data;
 };
 
@@ -113,7 +113,7 @@ export const useSyncProjectDetails = (params: UseSyncProjectDetailsParams = {}) 
                   ...project,
                   about: data.about,
                 }
-              : project
+              : project,
           ),
         };
       });

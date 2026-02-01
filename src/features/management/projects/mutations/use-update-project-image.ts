@@ -25,7 +25,7 @@ type UpdateProjectImageResponse = {
 };
 
 export const updateProjectImage = async ({ projectId, imageId, data }: UpdateProjectImageParams) => {
-  const response = await apiClient.patch<ApiResponse<UpdateProjectImageResponse>>(`/projects/${projectId}/images/${imageId}`, data);
+  const response = await apiClient.patch<ApiResponse<UpdateProjectImageResponse>>(`/admin/projects/${projectId}/images/${imageId}`, data);
   return response.data.data;
 };
 
@@ -49,7 +49,7 @@ export const useUpdateProjectImage = (params: UseUpdateProjectImageParams = {}) 
         // If setting as primary, remove primary from other images
         const updatedImages = oldData.images.map((img) => {
           if (img.id === data.id) {
-            return data;
+            return { ...img, isPrimary: data.isPrimary, isUsed: data.isUsed };
           } else if (data.isPrimary && img.isPrimary) {
             return { ...img, isPrimary: false };
           }

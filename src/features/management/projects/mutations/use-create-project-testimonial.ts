@@ -31,7 +31,7 @@ type CreateProjectTestimonialResponse = {
 };
 
 export const createProjectTestimonial = async ({ projectId, data }: CreateProjectTestimonialParams) => {
-  const response = await apiClient.post<ApiResponse<CreateProjectTestimonialResponse>>(`/projects/${projectId}/testimonials`, data);
+  const response = await apiClient.post<ApiResponse<CreateProjectTestimonialResponse>>(`/admin/projects/${projectId}/testimonials`, data);
   return response.data.data;
 };
 

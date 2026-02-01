@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { toast } from "sonner";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { User, Settings, ClipboardList, Users, Images, UserIcon } from "lucide-react";
+import { ClipboardList, Users, Images, UserIcon, SettingsIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -17,16 +16,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { useAuth } from "@/features/auth/contexts/auth-context";
 
 const items = [
@@ -90,6 +79,7 @@ export const SidebarAdmin = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
+                    className="h-10"
                     isActive={isActive(item.url)}
                   >
                     <Link href={item.url}>
@@ -104,6 +94,7 @@ export const SidebarAdmin = () => {
                   <SidebarMenuButton
                     asChild
                     isActive={isActive("/admin/manage-users-login")}
+                    className="h-10"
                   >
                     <Link href="/admin/manage-users-login">
                       <UserIcon />
@@ -117,47 +108,10 @@ export const SidebarAdmin = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="border-t p-4 overflow-hidden">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              className="w-full justify-start gap-3 h-12 px-3"
-            >
-              <Avatar className="h-8 w-8 flex-shrink-0">
-                <AvatarImage
-                  src={user?.avatar as string}
-                  alt="User"
-                />
-                <AvatarFallback>U</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col items-start text-left overflow-hidden min-w-0 flex-1">
-                <span className="text-sm font-medium truncate w-full">{user?.name}</span>
-                <span className="text-xs text-muted-foreground truncate w-full">{user?.username}</span>
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-56"
-            align="end"
-            forceMount
-          >
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none truncate">{user?.name}</p>
-                <p className="text-xs leading-none text-muted-foreground truncate">{user?.username}</p>
-              </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => toast.info("Fitur belum tersedia!")}>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => toast.info("Fitur belum tersedia!")}>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SidebarMenuButton className="h-10">
+          <SettingsIcon />
+          <span>Settings</span>
+        </SidebarMenuButton>
       </SidebarFooter>
     </Sidebar>
   );
