@@ -33,7 +33,7 @@ export const SettingsDialog = () => {
       trigger={
         <SidebarMenuButton className="h-10">
           <SettingsIcon />
-          <span>Settings</span>
+          <span>Setelan</span>
         </SidebarMenuButton>
       }
       dialogContentProps={{

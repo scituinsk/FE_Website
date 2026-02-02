@@ -6,29 +6,40 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
-import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
 import { getProjectsQueryKey } from "../queries/use-get-projects";
 import { useCreateProject } from "../mutations/use-create-project";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group";
+
+const LENGTH_CONSTRAINTS = {
+  title: { min: 1, max: 100 },
+  description: { min: 1, max: 2000 },
+  slug: { min: 1, max: 255 },
+};
+
 const createProjectFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  title: z.string().min(LENGTH_CONSTRAINTS.title.min, "Judul wajib diisi").max(LENGTH_CONSTRAINTS.title.max, "Judul terlalu panjang"),
+  description: z
+    .string()
+    .min(LENGTH_CONSTRAINTS.description.min, "Deskripsi wajib diisi")
+    .max(LENGTH_CONSTRAINTS.description.max, "Deskripsi terlalu panjang"),
   slug: z
     .string()
-    .min(1, "Slug is required")
+    .min(LENGTH_CONSTRAINTS.slug.min, "Slug wajib diisi")
+    .max(LENGTH_CONSTRAINTS.slug.max, "Slug terlalu panjang")
     .regex(/^[a-z-]+$/, "Slug hanya boleh berisi huruf kecil dan dash (-)")
     .regex(/^[^-].*[^-]$|^[^-]$/, "Slug tidak boleh dimulai atau diakhiri dengan dash")
     .refine((val) => !/\d/.test(val), "Slug tidak boleh mengandung angka")
     .refine((val) => !val.includes("--"), "Slug tidak boleh memiliki dash berturut-turut"),
   launchYear: z
     .string()
-    .min(1, "Launch Year is required")
-    .regex(/^\d{4}$/, "Launch Year must be a valid 4-digit year"),
-  duration: z.string().min(1, "Duration is required"),
-  linkDemo: z.string().url("Demo URL must be a valid URL").optional().or(z.literal("")),
+    .min(1, "Tahun perilisan wajib diisi")
+    .regex(/^\d{4}$/, "Tahun perilisan harus berupa tahun yang valid (4 digit)"),
+  duration: z.string().min(1, "Durasi proyek wajib diisi"),
+  linkDemo: z.url("Url produksi harus berupa url yang valid").optional().or(z.literal("")),
 });
 
 type CreateProjectFormValues = z.infer<typeof createProjectFormSchema>;
@@ -45,8 +56,8 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
       title: "",
       description: "",
       slug: "",
-      launchYear: "2024",
-      duration: "6 months",
+      launchYear: new Date().getFullYear().toString(),
+      duration: "",
       linkDemo: "",
     },
   });
@@ -107,27 +118,50 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
     });
   }
 
+  const handlePreventEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
+  const titleValue = form.watch("title");
+  const descriptionValue = form.watch("description");
+  const slugValue = form.watch("slug");
+
   return (
     <form
       id="createProjectForm"
       onSubmit={form.handleSubmit(onSubmit)}
     >
-      <FieldGroup>
+      <FieldGroup className="gap-3">
         <Controller
           name="title"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-title">Title</FieldLabel>
-              <Input
-                {...field}
-                onChange={(e) => handleTitleChange(e.target.value, field.onChange)}
-                id="createProjectForm-title"
-                aria-invalid={fieldState.invalid}
-                placeholder="Project Title"
-                autoComplete="off"
-                disabled={isPending}
-              />
+              <InputGroup className="h-auto group">
+                <InputGroupTextarea
+                  id={field.name}
+                  placeholder="Beritahu judul proyek yang ingin anda upload"
+                  className="min-h-[50px]"
+                  onChange={(e) => handleTitleChange(e.target.value, field.onChange)}
+                  onKeyDown={handlePreventEnter}
+                  aria-invalid={fieldState.invalid || titleValue.length > LENGTH_CONSTRAINTS.title.max}
+                  autoComplete="off"
+                  disabled={isPending}
+                />
+                <InputGroupAddon align="block-start">
+                  <InputGroupText>Judul</InputGroupText>
+                </InputGroupAddon>
+                <InputGroupAddon
+                  align="block-end"
+                  className="opacity-0 group-focus-within:opacity-100 transition-opacity"
+                >
+                  <InputGroupText className={`ms-auto ${titleValue.length > LENGTH_CONSTRAINTS.title.max ? "text-red-500 font-semibold" : ""}`}>
+                    {titleValue.length}/{LENGTH_CONSTRAINTS.title.max}
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -137,15 +171,29 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-description">Description</FieldLabel>
-              <Input
-                {...field}
-                id="createProjectForm-description"
-                aria-invalid={fieldState.invalid}
-                placeholder="Project Description"
-                autoComplete="off"
-                disabled={isPending}
-              />
+              <InputGroup className="h-auto group">
+                <InputGroupTextarea
+                  {...field}
+                  id={field.name}
+                  placeholder="Beritahu pengunjung tentang proyek ini"
+                  aria-invalid={fieldState.invalid || descriptionValue.length > LENGTH_CONSTRAINTS.description.max}
+                  autoComplete="off"
+                  disabled={isPending}
+                />
+                <InputGroupAddon align="block-start">
+                  <InputGroupText>Deskripsi</InputGroupText>
+                </InputGroupAddon>
+                <InputGroupAddon
+                  align="block-end"
+                  className="opacity-0 group-focus-within:opacity-100 transition-opacity"
+                >
+                  <InputGroupText
+                    className={`ms-auto ${descriptionValue.length > LENGTH_CONSTRAINTS.description.max ? "text-red-500 font-semibold" : ""}`}
+                  >
+                    {descriptionValue.length}/{LENGTH_CONSTRAINTS.description.max}
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -155,69 +203,97 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-slug">Slug</FieldLabel>
-              <Input
-                {...field}
-                id="createProjectForm-slug"
-                aria-invalid={fieldState.invalid}
-                placeholder="project-slug"
-                autoComplete="off"
-                disabled={isPending}
-              />
+              <InputGroup className="h-auto group">
+                <InputGroupTextarea
+                  {...field}
+                  id={field.name}
+                  className="min-h-[24px]"
+                  aria-invalid={fieldState.invalid || slugValue.length > LENGTH_CONSTRAINTS.slug.max}
+                  onKeyDown={handlePreventEnter}
+                  autoComplete="off"
+                  placeholder="Url ini akan menjadi hal yang unik dalam proyek anda"
+                  disabled={isPending}
+                />
+                <InputGroupAddon align="block-start">
+                  <InputGroupText>Url unik</InputGroupText>
+                </InputGroupAddon>
+                <InputGroupAddon
+                  align="block-end"
+                  className="opacity-0 group-focus-within:opacity-100 transition-opacity"
+                >
+                  <InputGroupText className={`ms-auto ${slugValue.length > LENGTH_CONSTRAINTS.slug.max ? "text-red-500 font-semibold" : ""}`}>
+                    {slugValue.length}/{LENGTH_CONSTRAINTS.slug.max}
+                  </InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
         />
-        <Controller
-          name="launchYear"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-launchYear">Launch Year</FieldLabel>
-              <Input
-                {...field}
-                id="createProjectForm-launchYear"
-                aria-invalid={fieldState.invalid}
-                placeholder="2024"
-                autoComplete="off"
-                disabled={isPending}
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-        <Controller
-          name="duration"
-          control={form.control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-duration">Duration</FieldLabel>
-              <Input
-                {...field}
-                id="createProjectForm-duration"
-                aria-invalid={fieldState.invalid}
-                placeholder="6 months"
-                autoComplete="off"
-                disabled={isPending}
-              />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <Controller
+            name="launchYear"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                    placeholder="Tahun perilisan, misal: 2024"
+                    disabled={isPending}
+                  />
+                  <InputGroupAddon align="inline-start">
+                    <InputGroupText>Tahun perilisan</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+          <Controller
+            name="duration"
+            control={form.control}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <InputGroup>
+                  <InputGroupInput
+                    {...field}
+                    id={field.name}
+                    aria-invalid={fieldState.invalid}
+                    autoComplete="off"
+                    placeholder="Misal: 6 bulan atau 1 tahun atau 2 hari"
+                    disabled={isPending}
+                  />
+                  <InputGroupAddon align="inline-start">
+                    <InputGroupText>Durasi proyek</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
+                {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+              </Field>
+            )}
+          />
+        </div>
         <Controller
           name="linkDemo"
           control={form.control}
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="createProjectForm-linkDemo">Demo URL (Optional)</FieldLabel>
-              <Input
-                {...field}
-                id="createProjectForm-linkDemo"
-                aria-invalid={fieldState.invalid}
-                placeholder="https://demo.example.com"
-                autoComplete="off"
-                disabled={isPending}
-              />
+              <InputGroup>
+                <InputGroupInput
+                  {...field}
+                  id={field.name}
+                  aria-invalid={fieldState.invalid}
+                  autoComplete="off"
+                  placeholder="https://example.com"
+                  disabled={isPending}
+                />
+                <InputGroupAddon align="inline-start">
+                  <InputGroupText>URL produksi</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -228,7 +304,7 @@ export const CreateProjectForm = ({ onSuccess }: CreateProjectFormProps) => {
           disabled={isPending}
         >
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? "Creating..." : "Create Project"}
+          Upload Proyek
         </Button>
       </FieldGroup>
     </form>
