@@ -1,5 +1,6 @@
 "use client";
 
+import { EmptyState } from "@/components/empty-state";
 import { getRecentProjectsQueryOptions } from "@/features/projects/api/get-projects";
 import { ProjectCard } from "@/features/projects/components/project-card";
 import { animationConfig, staggerContainer } from "@/utils/animations";
@@ -10,6 +11,9 @@ export const FeaturedProject = () => {
   const { data: response } = useSuspenseQuery(getRecentProjectsQueryOptions);
 
   const projects = response.data;
+  if (projects.length === 0) {
+    return <EmptyState title="Tidak ada proyek saat ini" />;
+  }
 
   return (
     <motion.div
