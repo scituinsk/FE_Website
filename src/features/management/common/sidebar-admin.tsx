@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { ClipboardList, Users, Images, UserIcon, SettingsIcon } from "lucide-react";
+import { ClipboardList, Users, Images, UserIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -17,6 +17,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/features/auth/contexts/auth-context";
+
+import { SettingsDialog } from "./settings-dialog";
 
 const items = [
   {
@@ -108,10 +110,7 @@ export const SidebarAdmin = () => {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="border-t p-4 overflow-hidden">
-        <SidebarMenuButton className="h-10">
-          <SettingsIcon />
-          <span>Settings</span>
-        </SidebarMenuButton>
+        <SettingsDialog />
       </SidebarFooter>
     </Sidebar>
   );

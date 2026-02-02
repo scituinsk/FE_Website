@@ -6,8 +6,8 @@ import { IoClose, IoFilterSharp } from "react-icons/io5";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CustomDialog } from "@/components/custom-dialog";
 
 import { FiSkipBack, FiSkipForward } from "react-icons/fi";
 
@@ -225,36 +225,20 @@ export const ManagementProjectsPage = () => {
       <div className="flex flex-col">
         <div className="flex py-4 px-6 gap-2 justify-between">
           <h1 className="text-2xl font-semibold tracking-tight">Kelola proyek portofolio</h1>
-          <Dialog
+          <CustomDialog
             open={isDialogOpen}
             onOpenChange={setIsDialogOpen}
-          >
-            <DialogTrigger asChild>
+            title="Tambah proyek"
+            maxWidth="4xl"
+            trigger={
               <Button size="sm">
                 <Plus className="mr-2 h-4 w-4" />
                 Tambah proyek
               </Button>
-            </DialogTrigger>
-            <DialogContent
-              showCloseButton={false}
-              className="p-0 max-w-4xl max-h-[85vh] rounded-3xl overflow-hidden flex flex-col gap-0"
-            >
-              <DialogHeader className="flex flex-row items-center justify-between px-5 py-2.5 shrink-0">
-                <DialogTitle>Tambah proyek</DialogTitle>
-                <Button
-                  variant="close"
-                  size="icon"
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  <IoClose />
-                </Button>
-              </DialogHeader>
-              <Separator className="shrink-0" />
-              <div className="overflow-y-auto p-5 flex-1">
-                <CreateProjectForm onSuccess={() => setIsDialogOpen(false)} />
-              </div>
-            </DialogContent>
-          </Dialog>
+            }
+          >
+            <CreateProjectForm onSuccess={() => setIsDialogOpen(false)} />
+          </CustomDialog>
         </div>
         <Separator />
 
