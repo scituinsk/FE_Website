@@ -3,6 +3,7 @@ interface ManagementLayoutProps {
 }
 
 import { AuthProvider } from "@/features/auth/contexts/auth-context";
+import { LoadingBarProvider } from "@/contexts/loading-bar-context";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 };
 
 const ManagementLayout = ({ children }: ManagementLayoutProps) => {
-  return <AuthProvider>{children}</AuthProvider>;
+  return (
+    <AuthProvider>
+      <LoadingBarProvider enableTanstackSupport={true}>{children}</LoadingBarProvider>
+    </AuthProvider>
+  );
 };
 
 export default ManagementLayout;

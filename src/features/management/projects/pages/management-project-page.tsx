@@ -52,7 +52,7 @@ export const ManagementProjectsPage = () => {
   }, [filters.search]);
 
   // Fetch projects with pagination and search
-  const { data, isLoading, isRefetching } = useGetProjects({
+  const { data, isLoading, isRefetching, isFetching } = useGetProjects({
     params: {
       page: filters.page,
       search: filters.search,
@@ -121,7 +121,12 @@ export const ManagementProjectsPage = () => {
         <Separator />
 
         {/* Filter and Header */}
-        <div className="sticky top-0 z-10 bg-background">
+        <div
+          style={{
+            pointerEvents: isFetching ? "none" : "auto",
+          }}
+          className="sticky top-0 z-10 bg-background"
+        >
           {/* Filter */}
           <FilterBar
             value={searchInput}
