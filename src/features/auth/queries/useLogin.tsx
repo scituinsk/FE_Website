@@ -17,11 +17,11 @@ type LoginResponse = {
 
 /**
  * @typedef {object} LoginRequest
- * @property {string} username - Username atau email pengguna untuk login.
+ * @property {string} email - email pengguna untuk login.
  * @property {string} password - Kata sandi pengguna.
  */
 type LoginRequest = {
-  username: string;
+  email: string;
   password: string;
 };
 

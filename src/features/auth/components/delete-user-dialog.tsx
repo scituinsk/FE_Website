@@ -37,7 +37,7 @@ export function DeleteUserDialog({ open, onOpenChange, onConfirm, isLoading, use
 
         <div className="py-4">
           <p className="text-sm text-muted-foreground">
-            Apakah Anda yakin ingin menghapus pengguna <span className="font-semibold text-foreground">{user.name}</span> ({user.username})?
+            Apakah Anda yakin ingin menghapus pengguna <span className="font-semibold text-foreground">{user.name}</span> ({user.email})?
           </p>
           <p className="text-sm text-muted-foreground mt-2">Semua data terkait pengguna ini akan dihapus secara permanen.</p>
         </div>

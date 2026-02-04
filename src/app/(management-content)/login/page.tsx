@@ -18,8 +18,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { LoginPageGuard } from "@/features/auth/guard/login-page-guard";
 
 const loginFormSchema = z.object({
-  username: z.string().min(1, "Username is required"),
-  password: z.string().min(1, "Password is required").min(8, "Password must be at least 8 characters."),
+  email: z.email("Invalid email address").min(1, "Email wajib diisi"),
+  password: z.string().min(1, "Password wajib diisi").min(8, "Password harus terdiri dari minimal 8 karakter"),
 });
 
 // Custom Error Component
@@ -44,7 +44,7 @@ const LoginForm = () => {
   const { mutate: loginMutation, isPending: loginMutationIsPending } = useLogin({
     mutationConfig: {
       onError: (error: any) => {
-        const errorMessage = error.status == 401 ? "Invalid username or password" : "Internal server error";
+        const errorMessage = error.status == 401 ? "Email atau password salah" : "Internal server error";
         toast.error(errorMessage);
         console.error("Login error:", error);
       },
@@ -57,13 +57,13 @@ const LoginForm = () => {
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
 
-  async function onSubmit({ username, password }: z.infer<typeof loginFormSchema>) {
-    loginMutation({ username, password });
+  async function onSubmit({ email, password }: z.infer<typeof loginFormSchema>) {
+    loginMutation({ email, password });
   }
 
   return (
@@ -74,7 +74,7 @@ const LoginForm = () => {
     >
       <div className="space-y-5">
         <Controller
-          name="username"
+          name="email"
           control={form.control}
           render={({ field, fieldState }) => (
             <div className="space-y-2">
@@ -82,7 +82,7 @@ const LoginForm = () => {
                 htmlFor="login-form-email"
                 className="text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Username
+                Email
               </FieldLabel>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />

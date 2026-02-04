@@ -15,9 +15,9 @@ import { User } from "@/types/user";
 
 const userFormSchema = z.object({
   name: z.string().min(3, "Nama minimal 3 karakter").max(100, "Nama maksimal 100 karakter"),
-  username: z.string().email("Format email tidak valid"),
+  email: z.email("Format email tidak valid"),
   password: z.string().min(8, "Password minimal 8 karakter").optional().or(z.literal("")),
-  role: z.enum(["USER", "ADMIN"]).optional(),
+  role: z.enum(["SUPER_ADMIN", "ADMIN"]).optional(),
 });
 
 type UserFormValues = z.infer<typeof userFormSchema>;
@@ -43,9 +43,9 @@ export function UserFormDialog({ open, onOpenChange, onSubmit, isLoading, user, 
     resolver: zodResolver(userFormSchema),
     defaultValues: {
       name: "",
-      username: "",
+      email: "",
       password: "",
-      role: "USER",
+      role: "ADMIN",
     },
   });
 
@@ -54,15 +54,15 @@ export function UserFormDialog({ open, onOpenChange, onSubmit, isLoading, user, 
   useEffect(() => {
     if (user && mode === "edit") {
       setValue("name", user.name);
-      setValue("username", user.username);
+      setValue("email", user.email);
       setValue("role", user.role);
       setValue("password", "");
     } else {
       reset({
         name: "",
-        username: "",
+        email: "",
         password: "",
-        role: "USER",
+        role: "ADMIN",
       });
     }
   }, [user, mode, setValue, reset]);
@@ -109,17 +109,17 @@ export function UserFormDialog({ open, onOpenChange, onSubmit, isLoading, user, 
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="username">
-              Email/Username <span className="text-destructive">*</span>
+            <Label htmlFor="email">
+              Email <span className="text-destructive">*</span>
             </Label>
             <Input
-              id="username"
+              id="email"
               type="email"
               placeholder="user@example.com"
-              {...register("username")}
+              {...register("email")}
               disabled={isLoading}
             />
-            {errors.username && <p className="text-sm text-destructive">{errors.username.message}</p>}
+            {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -142,7 +142,7 @@ export function UserFormDialog({ open, onOpenChange, onSubmit, isLoading, user, 
               <Label htmlFor="role">Role</Label>
               <Select
                 value={selectedRole}
-                onValueChange={(value) => setValue("role", value as "USER" | "ADMIN")}
+                onValueChange={(value) => setValue("role", value as "SUPER_ADMIN" | "ADMIN")}
                 disabled={isLoading}
               >
                 <SelectTrigger>

@@ -53,7 +53,7 @@ export function LogoutButton() {
             </Avatar>
             <div className="flex flex-col">
               <span className="ml-2">{user?.name}</span>
-              <span className="ml-2 text-sm text-muted-foreground">{user?.username}</span>
+              <span className="ml-2 text-sm text-muted-foreground">{user?.email}</span>
             </div>
           </div>
         </DropdownMenuGroup>

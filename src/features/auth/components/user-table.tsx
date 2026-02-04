@@ -24,7 +24,7 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredUsers = users.filter(
-    (user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.username.toLowerCase().includes(searchQuery.toLowerCase())
+    (user) => user.name.toLowerCase().includes(searchQuery.toLowerCase()) || user.email.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   if (isLoading) {
@@ -54,7 +54,6 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <CardTitle>Daftar Pengguna</CardTitle>
-            <CardDescription>Total {users.length} pengguna terdaftar</CardDescription>
           </div>
           <div className="relative w-full sm:w-72">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -75,7 +74,7 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
               <TableRow>
                 <TableHead className="w-[50px]">No</TableHead>
                 <TableHead>Nama</TableHead>
-                <TableHead>Username</TableHead>
+                <TableHead>Email</TableHead>
                 <TableHead>Role</TableHead>
                 <TableHead className="hidden lg:table-cell">Tanggal Dibuat</TableHead>
                 <TableHead className="text-right">Aksi</TableHead>
@@ -98,7 +97,7 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
                     <TableCell>
                       <div className="font-medium">{user.name}</div>
                     </TableCell>
-                    <TableCell>{user.username}</TableCell>
+                    <TableCell>{user.email}</TableCell>
                     <TableCell>
                       <Badge variant={user.role === "ADMIN" ? "default" : "secondary"}>{user.role}</Badge>
                     </TableCell>
@@ -167,7 +166,7 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
                             {user.role}
                           </Badge>
                         </div>
-                        <p className="text-xs text-muted-foreground truncate">{user.username}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                         <p className="text-xs text-muted-foreground mt-1">{format(new Date(user.createdAt), "dd MMM yyyy", { locale: id })}</p>
                       </div>
                     </div>
@@ -189,6 +188,7 @@ export function UserTable({ users, isLoading, onEdit, onDelete }: UserTableProps
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => onDelete(user)}
+                          disabled={user.role === "SUPER_ADMIN"}
                           className="text-destructive focus:text-destructive"
                         >
                           <Trash2 className="mr-2 h-4 w-4" />
