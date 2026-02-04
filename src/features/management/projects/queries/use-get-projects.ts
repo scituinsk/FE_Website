@@ -1,4 +1,4 @@
-import { queryOptions, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, queryOptions, useQuery } from "@tanstack/react-query";
 
 import apiClient from "@/lib/axios";
 import { QueryConfig } from "@/lib/query-client";
@@ -51,5 +51,6 @@ export const useGetProjects = (config: UseGetProjectsParams = {}) => {
   return useQuery({
     ...getProjectsQueryOptions(params),
     ...queryOptions,
+    placeholderData: keepPreviousData,
   });
 };

@@ -53,7 +53,7 @@ export function DangerousSettings({ projectId, currentSlug }: DangerousSettingsP
         queryClient.invalidateQueries({ queryKey: ["projects"] });
         setIsDeleteDialogOpen(false);
         setDeleteConfirmation("");
-        router.push("/admin/manage-projects");
+        router.push("/admin/projects");
       },
       onError: (error: any) => {
         toast.error(error.response?.data?.message || "Gagal menghapus project");

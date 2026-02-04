@@ -11,11 +11,20 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
   return (
     <ProtectedGuard>
       <SidebarProvider>
-        <SidebarAdmin />
-        <main className="flex-1 overflow-auto ">
+        <div className="w-full h-screen flex flex-col overflow-hidden">
           <NavbarAdmin />
-          {children}
-        </main>
+          <div className="flex flex-1 overflow-hidden">
+            <SidebarAdmin />
+            <main
+              style={{
+                scrollbarGutter: "stable",
+              }}
+              className="flex-1 overflow-auto"
+            >
+              {children}
+            </main>
+          </div>
+        </div>
       </SidebarProvider>
     </ProtectedGuard>
   );

@@ -29,7 +29,7 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
       <div className=" top-0 z-10 border-b border-border bg-card">
         <div className="container py-6">
           <Link
-            href="/admin/manage-projects"
+            href="/admin/projects"
             className="flex text-sky-600 dark:text-sky-500 items-center text-sm underline mb-5"
           >
             <ArrowLeft className="mr-2 h-4 w-4" />

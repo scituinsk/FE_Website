@@ -121,12 +121,6 @@ export const SettingsDialog = () => {
     }, 1500);
   };
 
-  const handlePreventEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-    }
-  };
-
   const handleSave = () => {
     if (activeTab === "profile") {
       profileForm.handleSubmit(handleProfileSubmit)();

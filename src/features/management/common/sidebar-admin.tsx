@@ -23,17 +23,17 @@ import { SettingsDialog } from "./settings-dialog";
 const items = [
   {
     title: "Projects",
-    url: "/admin/manage-projects",
+    url: "/admin/projects",
     icon: ClipboardList,
   },
   {
     title: "Teams",
-    url: "/admin/manage-teams",
+    url: "/admin/teams",
     icon: Users,
   },
   {
     title: "Galleries",
-    url: "/admin/manage-galleries",
+    url: "/admin/galleries",
     icon: Images,
   },
 ];
@@ -95,10 +95,10 @@ export const SidebarAdmin = () => {
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
-                    isActive={isActive("/admin/manage-users-login")}
+                    isActive={isActive("/admin/users")}
                     className="h-10"
                   >
-                    <Link href="/admin/manage-users-login">
+                    <Link href="/admin/users">
                       <UserIcon />
                       <span>Accounts</span>
                     </Link>

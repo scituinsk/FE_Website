@@ -13,8 +13,8 @@ function makeQueryClient() {
         // Dengan SSR (Server-Side Rendering), kita mengatur staleTime > 0 (60 detik)
         // untuk mencegah refetching segera di sisi klien setelah hidrasi.
         staleTime: 60 * 1000,
-        // Menonaktifkan retry secara default, dapat ditimpa di setiap query.
         retry: false,
+        refetchOnWindowFocus: false,
       },
     },
   });
