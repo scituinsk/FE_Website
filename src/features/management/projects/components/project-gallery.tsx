@@ -351,7 +351,7 @@ export function ProjectGallery({ project }: ProjectGalleryProps) {
 
           {images.length === 0 && !isAdding && (
             <div className="text-center py-12 text-muted-foreground">
-              <p>No images yet. Click "Add Image" to get started.</p>
+              <p>Tidak ada gambar yang terkait pada proyek ini.</p>
             </div>
           )}
         </CardContent>

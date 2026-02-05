@@ -9,8 +9,8 @@ import { getProjectsQueryOptions } from "../api/get-projects";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 import { loadSearchParams } from "../params";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircleIcon } from "lucide-react";
+
+import ErrorStateUi from "@/components/error-state-ui";
 
 interface ProjectPageProps {
   searchParams: Promise<{
@@ -76,17 +76,7 @@ const ProjectPage = async ({ searchParams }: ProjectPageProps) => {
             <ProjectFilterSection />
             <HydrationBoundary state={dehydrate(queryClient)}>
               <Suspense fallback={<ProjectGridSkeleton />}>
-                <ErrorBoundary
-                  fallback={
-                    <Alert variant="destructive">
-                      <AlertCircleIcon />
-                      <AlertTitle>Gagal mengambil data proyek kami..</AlertTitle>
-                      <AlertDescription>
-                        <p>Coba lagi nanti.</p>
-                      </AlertDescription>
-                    </Alert>
-                  }
-                >
+                <ErrorBoundary fallback={<ErrorStateUi />}>
                   <ProjectGridSection />
                 </ErrorBoundary>
               </Suspense>

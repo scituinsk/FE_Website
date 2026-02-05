@@ -4,22 +4,10 @@ import { getRecentProjectsQueryOptions } from "@/features/projects/api/get-proje
 import { FeaturedProject } from "./projects-section";
 import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertCircleIcon } from "lucide-react";
+
 import { ProjectCardSkeleton } from "@/features/projects/components/project-card-skeleton";
 import { connection } from "next/server";
-
-const ErrorUi = () => {
-  return (
-    <Alert variant="destructive">
-      <AlertCircleIcon />
-      <AlertTitle>Gagal mengambil data proyek terbaru kami..</AlertTitle>
-      <AlertDescription>
-        <p>Coba lagi nanti.</p>
-      </AlertDescription>
-    </Alert>
-  );
-};
+import ErrorStateUi from "@/components/error-state-ui";
 
 const ProjectsSectionSkeleton = () => {
   return (
@@ -38,7 +26,7 @@ export const ProjectsSectionWrapper = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ErrorBoundary fallback={<ErrorUi />}>
+      <ErrorBoundary fallback={<ErrorStateUi />}>
         <Suspense fallback={<ProjectsSectionSkeleton />}>
           <FeaturedProject />
         </Suspense>

@@ -1,5 +1,4 @@
 import React from "react";
-import { PackageOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface EmptyStateProps {
@@ -14,7 +13,6 @@ interface EmptyStateProps {
 export const EmptyState = ({
   title = "Data Kosong",
   description = "Belum ada data yang bisa ditampilkan saat ini.",
-  icon: Icon = PackageOpen,
   action,
   className,
   variant = "default",
@@ -38,16 +36,11 @@ export const EmptyState = ({
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center">
-        {/* Icon with gradient background */}
-        <div className="relative mb-6 group">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-primary/5 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
-          <div className="relative flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/10 to-primary/5 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
-            <Icon
-              className="w-10 h-10 text-primary/60"
-              strokeWidth={1.5}
-            />
-          </div>
-        </div>
+        <img
+          className="w-48 "
+          src="/assets/no_match_illustration.svg"
+          alt="Empty State Icon"
+        />
 
         {/* Text content */}
         <h3 className="text-2xl font-bold text-foreground mb-2 tracking-tight">{title}</h3>

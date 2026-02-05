@@ -77,7 +77,7 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
           onError: () => {
             toast.error("Failed to update testimonial");
           },
-        }
+        },
       );
     }
   };
@@ -97,7 +97,7 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
         onError: () => {
           toast.error("Failed to delete testimonial");
         },
-      }
+      },
     );
   };
 
@@ -126,7 +126,7 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
           onError: () => {
             toast.error("Failed to add testimonial");
           },
-        }
+        },
       );
     }
   };
@@ -362,7 +362,7 @@ export function ProjectTestimonials({ project }: ProjectTestimonialsProps) {
 
         {testimonials.length === 0 && !isAdding && (
           <div className="text-center py-12 text-muted-foreground">
-            <p>No testimonials yet. Click "Add Testimonial" to get started.</p>
+            <p>Tidak ada testimoni yang terkait dengan proyek ini.</p>
           </div>
         )}
       </CardContent>

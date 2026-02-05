@@ -222,7 +222,7 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
 
               <div className="md:col-span-2">
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Short Description</h4>
-                <p className="text-base">{projectData.description}</p>
+                <p className="text-base">{projectData.description || "-"}</p>
               </div>
 
               <div>
@@ -232,24 +232,28 @@ export function ProjectBasicInfo({ project }: ProjectBasicInfoProps) {
 
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Duration</h4>
-                <p className="text-base font-medium">{projectData.duration}</p>
+                <p className="text-base font-medium">{projectData.duration || "-"}</p>
               </div>
 
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Launch Year</h4>
-                <p className="text-base font-medium">{projectData.launchYear}</p>
+                <p className="text-base font-medium">{projectData.launchYear || "-"}</p>
               </div>
 
               <div>
                 <h4 className="text-sm font-medium text-muted-foreground mb-1">Demo URL</h4>
-                <a
-                  href={projectData.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-base font-medium text-primary hover:underline truncate block"
-                >
-                  {projectData.demoUrl}
-                </a>
+                {projectData.demoUrl ? (
+                  <a
+                    href={projectData.demoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-base font-medium text-primary hover:underline truncate block"
+                  >
+                    {projectData.demoUrl}
+                  </a>
+                ) : (
+                  <p className="text-base font-medium">-</p>
+                )}
               </div>
             </div>
           )}

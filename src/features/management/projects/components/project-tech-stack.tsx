@@ -95,7 +95,7 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
           setSearchQuery("");
           setCurrentPage(1);
         },
-      }
+      },
     );
   };
 
@@ -177,7 +177,7 @@ export function ProjectTechStack({ project }: ProjectTechStackProps) {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground text-sm">No technologies selected yet. Click "Manage Tech Stack" to add.</p>
+            <p className="text-muted-foreground text-sm">Belum ada teknologi yang ditambahkan ke proyek ini.</p>
           )}
         </div>
 

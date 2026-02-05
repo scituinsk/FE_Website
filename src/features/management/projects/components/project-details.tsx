@@ -63,7 +63,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
         onSettled: () => {
           setIsEditing(false);
         },
-      }
+      },
     );
   };
 
@@ -75,7 +75,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
     setEditedDetail((prev) => ({
       ...prev,
       [type]: prev[type].map((item) =>
-        item.id === id ? { ...item, [type === "features" ? "feature" : type === "challenges" ? "challenge" : "result"]: value } : item
+        item.id === id ? { ...item, [type === "features" ? "feature" : type === "challenges" ? "challenge" : "result"]: value } : item,
       ),
     }));
   };
@@ -156,7 +156,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
               placeholder="Enter project description..."
             />
           ) : (
-            <p className="text-muted-foreground leading-relaxed">{projectDetail.aboutProject}</p>
+            <p className="text-muted-foreground leading-relaxed">{projectDetail.aboutProject || "-"}</p>
           )}
         </div>
 
@@ -208,6 +208,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                   <span>{feature.feature}</span>
                 </li>
               ))}
+              {projectDetail.features.length === 0 && <p className="text-sm text-muted-foreground">-</p>}
             </ul>
           )}
         </div>
@@ -261,6 +262,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                     <span>{challenge.challenge}</span>
                   </li>
                 ))}
+                {projectDetail.challenges.length === 0 && <p className="text-sm text-muted-foreground">-</p>}
               </ul>
             )}
           </div>
@@ -312,6 +314,7 @@ export function ProjectDetails({ project }: ProjectDetailsProps) {
                     <span>{result.result}</span>
                   </li>
                 ))}
+                {projectDetail.results.length === 0 && <p className="text-sm text-muted-foreground">-</p>}
               </ul>
             )}
           </div>

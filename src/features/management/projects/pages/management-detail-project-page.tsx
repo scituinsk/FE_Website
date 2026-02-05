@@ -14,12 +14,14 @@ import { ProjectBasicInfoSkeleton, ProjectCardSkeleton } from "@/features/manage
 import { Separator } from "@/components/ui/separator";
 import { useGetProjectById } from "../queries/use-get-project-by-id";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorStateUi from "@/components/error-state-ui";
 
 interface ManagementDetailProjectsPageProps {
   projectId: string;
 }
 
-export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProjectsPageProps) => {
+const ProjectDetail = ({ projectId }: ManagementDetailProjectsPageProps) => {
   const { data: project, isLoading } = useGetProjectById({
     params: { projectId },
   });
@@ -57,5 +59,21 @@ export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProj
         )}
       </div>
     </div>
+  );
+};
+
+export const ManagementDetailProjectsPage = ({ projectId }: ManagementDetailProjectsPageProps) => {
+  return (
+    <ErrorBoundary
+      fallbackRender={() => (
+        <ErrorStateUi
+          onRetry={() => {
+            window.location.reload();
+          }}
+        />
+      )}
+    >
+      <ProjectDetail projectId={projectId} />
+    </ErrorBoundary>
   );
 };
