@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SidebarAdminSkeleton } from "@/features/management/common/sidebar-admin-skeleton";
 
-import { CurrentSession, useGetCurrentSession } from "../queries/useGetCurrentSession";
+import { CurrentSession, useGetCurrentSession } from "../queries/use-get-current-session";
 
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       },
       (error: AxiosError) => {
         return Promise.reject(error);
-      }
+      },
     );
 
     // Response Interceptor
@@ -153,7 +153,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         }
 
         return Promise.reject(error);
-      }
+      },
     );
 
     return () => {

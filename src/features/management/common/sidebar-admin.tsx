@@ -19,20 +19,22 @@ import {
 import { useAuth } from "@/features/auth/contexts/auth-context";
 
 import { SettingsDialog } from "./settings-dialog";
+import { can } from "@/utils/permissions";
+import { Activity } from "react";
 
 const items = [
   {
-    title: "Projects",
+    title: "Proyek",
     url: "/admin/projects",
     icon: ClipboardList,
   },
   {
-    title: "Teams",
+    title: "Team",
     url: "/admin/teams",
     icon: Users,
   },
   {
-    title: "Galleries",
+    title: "Galeri",
     url: "/admin/galleries",
     icon: Images,
   },
@@ -42,7 +44,6 @@ export const SidebarAdmin = () => {
   const pathname = usePathname();
   const { user } = useAuth();
 
-  // Function to check if a menu item is active
   const isActive = (url: string) => {
     // Remove trailing slashes for comparison
     const currentPath = pathname.replace(/\/$/, "");
@@ -51,6 +52,8 @@ export const SidebarAdmin = () => {
     // Exact match or starts with the path (for nested routes)
     return currentPath === itemPath || currentPath.startsWith(itemPath + "/");
   };
+
+  const canViewAccounts = can(user, "view_users");
 
   return (
     <Sidebar>
@@ -91,7 +94,8 @@ export const SidebarAdmin = () => {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {user?.role === "SUPER_ADMIN" && (
+
+              <Activity mode={canViewAccounts ? "visible" : "hidden"}>
                 <SidebarMenuItem>
                   <SidebarMenuButton
                     asChild
@@ -100,11 +104,11 @@ export const SidebarAdmin = () => {
                   >
                     <Link href="/admin/users">
                       <UserIcon />
-                      <span>Accounts</span>
+                      <span>Pengelola</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-              )}
+              </Activity>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

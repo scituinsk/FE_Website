@@ -8,7 +8,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Eye, EyeOff, Lock, AlertCircle, User } from "lucide-react";
 
-import { useLogin } from "@/features/auth/queries/useLogin";
+import { useLogin } from "@/features/auth/queries/use-login";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";

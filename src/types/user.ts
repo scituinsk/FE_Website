@@ -2,6 +2,7 @@ export type User = {
   id: number;
   name: string;
   email: string;
+  avatar: string | null;
   role: "SUPER_ADMIN" | "ADMIN";
   createdAt: string;
   updatedAt: string;

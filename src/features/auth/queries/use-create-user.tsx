@@ -4,10 +4,10 @@ import apiClient from "@/lib/axios";
 import { MutationConfig } from "@/lib/query-client";
 import { ApiResponse } from "@/types/api-response";
 import { CreateUserRequest, User } from "@/types/user";
-import { getUsersQueryKey } from "./useGetUsers";
+import { getUsersQueryKey } from "./use-get-users";
 
 export const createUser = async (data: CreateUserRequest) => {
-  const response = await apiClient.post<ApiResponse<User>>("/users", data);
+  const response = await apiClient.post<ApiResponse<User>>("/admin/users", data);
   return response.data.data;
 };
 

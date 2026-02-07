@@ -13,12 +13,7 @@ import { useCreateProject } from "../mutations/use-create-project";
 import { useQueryClient } from "@tanstack/react-query";
 
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group";
-
-const LENGTH_CONSTRAINTS = {
-  title: { min: 1, max: 100 },
-  description: { min: 1, max: 2000 },
-  slug: { min: 1, max: 255 },
-};
+import { LENGTH_CONSTRAINTS } from "@/constants/length-constraints";
 
 const createProjectFormSchema = z.object({
   title: z.string().min(LENGTH_CONSTRAINTS.title.min, "Judul wajib diisi").max(LENGTH_CONSTRAINTS.title.max, "Judul terlalu panjang"),

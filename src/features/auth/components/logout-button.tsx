@@ -3,7 +3,7 @@
 import { toast } from "sonner";
 import { LogOut } from "lucide-react";
 
-import { useLogout } from "@/features/auth/queries/useLogout";
+import { useLogout } from "@/features/auth/queries/use-logout";
 import {
   DropdownMenu,
   DropdownMenuContent,
